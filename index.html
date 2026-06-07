@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreelanceTrack</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;font-size:14px;line-height:1.5;background:#f8f7f5;color:#1a1a18}
+:root{--bg:#f8f7f5;--sur:#fff;--s2:#f1efe8;--bd:#e0ddd4;--fg:#1a1a18;--fg2:#6b6b65;--fg3:#9a9a93;--acc:#5349b7;--abg:#eeedfe;--afg:#3c3489;--ok:#1d9e75;--okb:#e1f5ee;--wa:#ba7517;--wab:#faeeda;--er:#d85a30;--erb:#faece7;--r:8px;--rl:12px}
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:20px}
+.login-box{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--rl);padding:36px 32px;width:360px;max-width:100%}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px;justify-content:center}
+.login-logo i{color:var(--acc);font-size:28px}
+.login-logo span{font-size:20px;font-weight:600;color:var(--fg)}
+.login-title{font-size:15px;font-weight:500;color:var(--fg);margin-bottom:20px;text-align:center}
+.login-err{background:var(--erb);color:var(--er);border-radius:var(--r);padding:8px 12px;font-size:13px;margin-bottom:14px;display:none}
+.login-ok{background:var(--okb);color:var(--ok);border-radius:var(--r);padding:8px 12px;font-size:13px;margin-bottom:14px;display:none}
+/* APP */
+.app{display:flex;height:100vh;overflow:hidden}
+.sb{width:196px;background:var(--sur);border-right:0.5px solid var(--bd);display:flex;flex-direction:column;padding:10px 8px;gap:1px;flex-shrink:0}
+.logo{padding:8px 10px 14px;font-size:15px;font-weight:600;color:var(--fg);display:flex;align-items:center;gap:8px}
+.logo i{color:var(--acc);font-size:20px}
+.nb{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);cursor:pointer;color:var(--fg2);font-size:13px;border:none;background:none;width:100%;text-align:left;transition:all .12s}
+.nb:hover{background:var(--s2);color:var(--fg)}
+.nb.on{background:var(--abg);color:var(--afg);font-weight:500}
+.nb i{font-size:16px;width:18px}
+.sb-bottom{margin-top:auto;padding-top:10px;border-top:0.5px solid var(--bd)}
+.sb-user{padding:8px 10px;font-size:12px;color:var(--fg3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.main{flex:1;overflow-y:auto;padding:22px 26px;background:var(--bg)}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.pt{font-size:18px;font-weight:500;color:var(--fg)}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--r);border:0.5px solid var(--bd);background:var(--sur);color:var(--fg);cursor:pointer;font-size:13px;font-weight:500;transition:background .12s}
+.btn:hover{background:var(--s2)}
+.btnp{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btnp:hover{opacity:.88}
+.btne{color:var(--er);border-color:transparent;background:transparent}
+.btns{padding:3px 9px;font-size:12px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.sc{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--r);padding:12px 14px}
+.sl{font-size:11px;color:var(--fg3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.sv{font-size:22px;font-weight:500;color:var(--fg)}
+.sv span{font-size:13px;font-weight:400}
+.card{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--rl);padding:14px 16px;margin-bottom:12px}
+.ct{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--rl);overflow:hidden;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{font-size:11px;color:var(--fg3);font-weight:500;text-align:left;padding:8px 12px;border-bottom:0.5px solid var(--bd);text-transform:uppercase;letter-spacing:.04em}
+td{padding:9px 12px;border-bottom:0.5px solid var(--bd);color:var(--fg);font-size:13px;vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--s2)}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:500;white-space:nowrap}
+.bok{background:var(--okb);color:var(--ok)}
+.bwa{background:var(--wab);color:var(--wa)}
+.ber{background:var(--erb);color:var(--er)}
+.bac{background:var(--abg);color:var(--afg)}
+.bgr{background:var(--s2);color:var(--fg2)}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;align-items:flex-start;justify-content:center;padding-top:50px;overflow-y:auto}
+.ov.show{display:flex}
+.modal{background:var(--sur);border-radius:var(--rl);padding:24px;width:500px;max-width:96vw;border:0.5px solid var(--bd);margin-bottom:40px}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:14px;color:var(--fg)}
+.fi{margin-bottom:11px}
+.fi label{display:block;font-size:12px;color:var(--fg2);margin-bottom:3px}
+.fi input,.fi select,.fi textarea{width:100%;padding:7px 10px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--sur);color:var(--fg);font-size:13px;font-family:inherit;outline:none}
+.fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--acc)}
+.fi textarea{resize:vertical;min-height:60px}
+.fi-row{display:flex;gap:8px}
+.fi-row .fi{flex:1}
+.ma{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+/* Timer */
+.tz{background:var(--abg);border:0.5px solid var(--bd);border-radius:var(--rl);padding:20px 22px;margin-bottom:18px}
+.tdsp{font-size:40px;font-weight:500;color:var(--afg);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.tmeta{font-size:12px;color:var(--afg);opacity:.75;margin-top:3px}
+.trow{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.trow select,.trow input{padding:7px 10px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--sur);color:var(--fg);font-size:13px;outline:none}
+.tbtn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r);border:none;cursor:pointer;font-size:13px;font-weight:500}
+.tst{background:var(--ok);color:#fff}
+.tsp{background:var(--er);color:#fff}
+.tpa{background:var(--sur);color:var(--fg);border:0.5px solid var(--bd)}
+.ttab{display:flex;gap:4px;margin-bottom:14px}
+.ttab-btn{padding:6px 14px;border-radius:var(--r);border:0.5px solid var(--bd);background:var(--sur);color:var(--fg2);cursor:pointer;font-size:13px;transition:all .12s}
+.ttab-btn.on{background:var(--abg);color:var(--afg);border-color:var(--acc);font-weight:500}
+.erow{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:0.5px solid var(--bd)}
+.erow:last-child{border-bottom:none}
+.et{font-size:13px;font-weight:500;color:var(--fg);min-width:68px;font-variant-numeric:tabular-nums}
+.em{flex:1;font-size:12px;color:var(--fg2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ed{font-size:11px;color:var(--fg3);white-space:nowrap}
+.pb{width:100%;height:5px;background:var(--s2);border-radius:100px;overflow:hidden;margin-top:4px}
+.pf{height:100%;background:var(--acc);border-radius:100px}
+.empty{text-align:center;padding:36px 16px;color:var(--fg3)}
+.empty i{font-size:32px;display:block;margin-bottom:8px;opacity:.3}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0}
+.tkrow{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:0.5px solid var(--bd)}
+.tkrow:last-child{border-bottom:none}
+.dash-task{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
+.dash-task:hover{border-color:var(--acc);background:var(--abg)}
+.deadline-warn{color:var(--er);font-size:11px;font-weight:500}
+.deadline-ok{color:var(--fg3);font-size:11px}
+.frow{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.frow select,.frow input{padding:6px 10px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--sur);color:var(--fg);font-size:13px;outline:none}
+.s-discutii{background:#f0f9ff;color:#0369a1}
+.s-initiat{background:#f0fdf4;color:#15803d}
+.s-lucru{background:var(--wab);color:var(--wa)}
+.s-finalizat{background:var(--okb);color:var(--ok)}
+.s-facturat{background:#f3e8ff;color:#7c3aed}
+.s-incasat{background:#dcfce7;color:#166534}
+.s-defacturat{background:#ffedd5;color:#c2410c}
+/* Calendar */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
+.cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
+.cal-dname{text-align:center;font-size:11px;font-weight:500;color:var(--fg3);padding:4px 0;text-transform:uppercase;letter-spacing:.04em}
+.cal-day{min-height:72px;background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--r);padding:6px;cursor:pointer;transition:border-color .12s}
+.cal-day:hover{border-color:var(--acc)}
+.cal-day.today{border-color:var(--acc);border-width:1.5px;background:var(--abg)}
+.cal-day.other-month{background:var(--s2);opacity:.55}
+.cal-day.selected{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 2px var(--abg)}
+.cal-dnum{font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:3px}
+.cal-day.today .cal-dnum{color:var(--acc);font-weight:700}
+.cal-dot{width:6px;height:6px;border-radius:50%;background:var(--acc);display:inline-block;margin:1px}
+.cal-dots{display:flex;flex-wrap:wrap;gap:2px;margin-top:3px}
+.cal-task-chip{font-size:10px;padding:1px 5px;border-radius:3px;background:var(--abg);color:var(--afg);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;display:block}
+.cal-task-chip.urgent{background:var(--erb);color:var(--er)}
+.cal-nav{display:flex;align-items:center;gap:8px}
+.cal-nav button{background:none;border:0.5px solid var(--bd);border-radius:var(--r);padding:5px 10px;cursor:pointer;color:var(--fg);font-size:13px;transition:background .12s}
+.cal-nav button:hover{background:var(--s2)}
+.cal-month-title{font-size:15px;font-weight:500;color:var(--fg);min-width:160px;text-align:center}
+.cal-detail{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--rl);padding:0;margin-top:14px;overflow:hidden}
+.cal-detail-hdr{padding:12px 16px;border-bottom:0.5px solid var(--bd);display:flex;align-items:center;gap:8px;background:var(--abg)}
+.cal-detail-date{font-size:14px;font-weight:500;color:var(--afg)}
+.cal-task-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;padding:11px 16px;border-bottom:0.5px solid var(--bd);align-items:center;cursor:pointer}
+.cal-task-row:last-child{border-bottom:none}
+.cal-task-row:hover{background:var(--s2)}
+.cal-task-cell{font-size:13px;color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cal-col-hdr{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;padding:6px 16px;background:var(--s2);border-bottom:0.5px solid var(--bd)}
+.cal-col-hdr span{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:.04em}
+/* Loading overlay */
+.loading{position:fixed;inset:0;background:rgba(255,255,255,.8);z-index:200;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.loading-spinner{width:32px;height:32px;border:3px solid var(--bd);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:var(--fg2)}
+/* Mobile topbar */
+.topbar{display:none;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--sur);border-bottom:0.5px solid var(--bd);position:sticky;top:0;z-index:40}
+.topbar-logo{font-size:15px;font-weight:600;color:var(--fg);display:flex;align-items:center;gap:7px}
+.topbar-logo i{color:var(--acc);font-size:18px}
+.hbtn{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--r);color:var(--fg);display:flex;align-items:center;justify-content:center}
+.hbtn:hover{background:var(--s2)}
+.hbtn i{font-size:22px}
+.drawer{position:fixed;inset:0;z-index:80;display:none}
+.drawer.open{display:block}
+.drawer-bg{position:absolute;inset:0;background:rgba(0,0,0,.4)}
+.drawer-panel{position:absolute;left:0;top:0;bottom:0;width:220px;background:var(--sur);padding:16px 8px;display:flex;flex-direction:column;gap:1px;transform:translateX(-100%);transition:transform .22s cubic-bezier(.4,0,.2,1)}
+.drawer.open .drawer-panel{transform:translateX(0)}
+.drawer-logo{padding:8px 10px 16px;font-size:16px;font-weight:600;color:var(--fg);display:flex;align-items:center;justify-content:space-between}
+.drawer-logo-left{display:flex;align-items:center;gap:8px}
+.drawer-logo-left i{color:var(--acc);font-size:20px}
+.db-projects-col{}
+#pg-clients,#pg-projects,#pg-tasks,#pg-timer,#pg-reports,#pg-dashboard,#pg-calendar{display:none}
+@media(max-width:640px){
+  .app{flex-direction:column}
+  .sb{display:none}
+  .topbar{display:flex}
+  .main{padding:14px;overflow-y:auto;flex:1}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .g2{grid-template-columns:1fr}
+  .fi-row{flex-direction:column;gap:0}
+  .ph{flex-direction:column;align-items:flex-start}
+  table{display:block;overflow-x:auto}
+  .frow{flex-wrap:wrap}
+  .frow select{flex:1;min-width:140px}
+  .ttab{flex-wrap:wrap}
+  .trow{flex-direction:column;align-items:stretch}
+  .trow select,.trow input{width:100%}
+  .db-projects-col{display:none}
+  .cal-day{min-height:44px;padding:4px}
+  .cal-task-chip{display:none}
+  .cal-task-row{grid-template-columns:1fr;gap:3px;padding:10px 14px}
+  .cal-col-hdr{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Se încarcă...</div>
+</div>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-wrap" style="display:none">
+  <div class="login-box">
+    <div class="login-logo"><i class="ti ti-bolt"></i><span>FreelanceTrack</span></div>
+    <div id="login-err" class="login-err"></div>
+    <div id="login-ok" class="login-ok"></div>
+    <div id="login-form">
+      <p class="login-title">Autentificare</p>
+      <div class="fi"><label>Email</label><input id="l-email" type="email" placeholder="email@tau.ro" autocomplete="email"></div>
+      <div class="fi"><label>Parolă</label><input id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="btn btnp" style="width:100%;justify-content:center;margin-top:4px" onclick="doLogin()"><i class="ti ti-login"></i>Intră în cont</button>
+      <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--fg3)">
+        Nu ai cont? <a href="#" onclick="showRegister()" style="color:var(--acc)">Creează cont</a>
+      </div>
+    </div>
+    <div id="register-form" style="display:none">
+      <p class="login-title">Cont nou</p>
+      <div class="fi"><label>Email</label><input id="r-email" type="email" placeholder="email@tau.ro"></div>
+      <div class="fi"><label>Parolă</label><input id="r-pass" type="password" placeholder="minim 6 caractere"></div>
+      <button class="btn btnp" style="width:100%;justify-content:center;margin-top:4px" onclick="doRegister()"><i class="ti ti-user-plus"></i>Creează cont</button>
+      <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--fg3)">
+        Ai deja cont? <a href="#" onclick="showLogin()" style="color:var(--acc)">Autentifică-te</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo"><i class="ti ti-bolt"></i>FreelanceTrack</div>
+  <button class="hbtn" onclick="openDrawer()"><i class="ti ti-menu-2"></i></button>
+</div>
+
+<!-- MOBILE DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-bg" onclick="closeDrawer()"></div>
+  <div class="drawer-panel">
+    <div class="drawer-logo">
+      <div class="drawer-logo-left"><i class="ti ti-bolt"></i>FreelanceTrack</div>
+      <button class="hbtn" onclick="closeDrawer()"><i class="ti ti-x"></i></button>
+    </div>
+    <button class="nb" onclick="goM('dashboard')"><i class="ti ti-layout-dashboard"></i>Dashboard</button>
+    <button class="nb" onclick="goM('clients')"><i class="ti ti-users"></i>Clienți</button>
+    <button class="nb" onclick="goM('projects')"><i class="ti ti-folder"></i>Proiecte</button>
+    <button class="nb" onclick="goM('tasks')"><i class="ti ti-checkbox"></i>Taskuri</button>
+    <button class="nb" onclick="goM('timer')"><i class="ti ti-clock"></i>Timer</button>
+    <button class="nb" onclick="goM('reports')"><i class="ti ti-chart-bar"></i>Rapoarte</button>
+    <button class="nb" onclick="goM('calendar')"><i class="ti ti-calendar"></i>Calendar</button>
+    <div style="margin-top:auto;padding-top:10px;border-top:0.5px solid var(--bd)">
+      <button class="nb" onclick="doLogout()"><i class="ti ti-logout"></i>Ieși din cont</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="main-app" style="display:none">
+<nav class="sb">
+  <div class="logo"><i class="ti ti-bolt"></i>FreelanceTrack</div>
+  <button class="nb" onclick="go('dashboard')"><i class="ti ti-layout-dashboard"></i>Dashboard</button>
+  <button class="nb" onclick="go('clients')"><i class="ti ti-users"></i>Clienți</button>
+  <button class="nb" onclick="go('projects')"><i class="ti ti-folder"></i>Proiecte</button>
+  <button class="nb" onclick="go('tasks')"><i class="ti ti-checkbox"></i>Taskuri</button>
+  <button class="nb" onclick="go('timer')"><i class="ti ti-clock"></i>Timer</button>
+  <button class="nb" onclick="go('reports')"><i class="ti ti-chart-bar"></i>Rapoarte</button>
+  <button class="nb" onclick="go('calendar')"><i class="ti ti-calendar"></i>Calendar</button>
+  <div class="sb-bottom">
+    <div class="sb-user" id="sb-user-email"></div>
+    <button class="nb" onclick="doLogout()"><i class="ti ti-logout"></i>Ieși din cont</button>
+  </div>
+</nav>
+<main class="main">
+
+<!-- DASHBOARD -->
+<div id="pg-dashboard">
+  <div class="ph"><h1 class="pt">Dashboard</h1></div>
+  <div class="g4" id="db-stats"></div>
+  <div class="frow">
+    <select id="db-f-client" onchange="rDash()"><option value="">Toți clienții</option></select>
+    <select id="db-f-project" onchange="rDash()"><option value="">Toate proiectele</option></select>
+    <select id="db-f-status" onchange="rDash()">
+      <option value="">Toate statusurile</option>
+      <option value="in discutii">În discuții</option>
+      <option value="initiat">Inițiat</option>
+      <option value="in lucru">În lucru</option>
+      <option value="finalizat">Finalizat</option>
+      <option value="de facturat">De facturat</option>
+      <option value="facturat">Facturat</option>
+      <option value="incasat">Încasat</option>
+    </select>
+    <select id="db-f-sort" onchange="rDash()">
+      <option value="deadline">Sortare: Deadline</option>
+      <option value="client">Sortare: Client</option>
+      <option value="project">Sortare: Proiect</option>
+      <option value="status">Sortare: Status</option>
+      <option value="prio">Sortare: Prioritate</option>
+    </select>
+  </div>
+  <div class="g2">
+    <div>
+      <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:5px"><i class="ti ti-checkbox"></i>Taskuri active</div>
+      <div id="db-tasks"></div>
+    </div>
+    <div class="db-projects-col">
+      <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:5px"><i class="ti ti-folder"></i>Proiecte active</div>
+      <div id="db-projects"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENȚI -->
+<div id="pg-clients">
+  <div class="ph"><h1 class="pt">Clienți</h1><button class="btn btnp" onclick="oM('client')"><i class="ti ti-plus"></i>Client nou</button></div>
+  <div class="g4" id="sc-cl"></div>
+  <div class="ct"><table><thead><tr><th style="width:18px"></th><th>Nume</th><th>Contact</th><th style="width:64px">Proj.</th><th style="width:90px">Ore</th><th style="width:72px">Status</th><th style="width:80px"></th></tr></thead><tbody id="tb-cl"></tbody></table></div>
+</div>
+
+<!-- PROIECTE -->
+<div id="pg-projects">
+  <div class="ph"><h1 class="pt">Proiecte</h1><button class="btn btnp" onclick="oM('project')"><i class="ti ti-plus"></i>Proiect nou</button></div>
+  <div class="g4" id="sc-pr"></div>
+  <div class="ct"><table><thead><tr><th style="width:18px"></th><th>Client</th><th>Proiect</th><th style="width:130px">Ore / Buget</th><th style="width:72px">Status</th><th style="width:80px"></th></tr></thead><tbody id="tb-pr"></tbody></table></div>
+</div>
+
+<!-- TASKURI -->
+<div id="pg-tasks">
+  <div class="ph"><h1 class="pt">Taskuri</h1><button class="btn btnp" onclick="oM('task')"><i class="ti ti-plus"></i>Task nou</button></div>
+  <div class="g4" id="sc-tk"></div>
+  <div class="frow">
+    <select id="ftk-c" onchange="filterTaskClient()"><option value="">Toți clienții</option></select>
+    <select id="ftk-p" onchange="rTasks()"><option value="">Toate proiectele</option></select>
+    <select id="ftk-s" onchange="rTasks()">
+      <option value="">Toate statusurile</option>
+      <option value="in discutii">În discuții</option>
+      <option value="initiat">Inițiat</option>
+      <option value="in lucru">În lucru</option>
+      <option value="finalizat">Finalizat</option>
+      <option value="de facturat">De facturat</option>
+      <option value="facturat">Facturat</option>
+      <option value="incasat">Încasat</option>
+    </select>
+    <select id="ftk-sort" onchange="rTasks()">
+      <option value="created">Sortare: Adăugat</option>
+      <option value="deadline">Sortare: Deadline</option>
+      <option value="prio">Sortare: Prioritate</option>
+      <option value="status">Sortare: Status</option>
+    </select>
+  </div>
+  <div class="ct"><div id="tk-list"></div></div>
+</div>
+
+<!-- TIMER -->
+<div id="pg-timer">
+  <div class="ph"><h1 class="pt">Timer</h1></div>
+  <div class="ttab">
+    <button class="ttab-btn on" id="tab-live" onclick="switchTimerTab('live')"><i class="ti ti-player-play"></i> Timer live</button>
+    <button class="ttab-btn" id="tab-manual" onclick="switchTimerTab('manual')"><i class="ti ti-pencil-plus"></i> Intrare manuală</button>
+  </div>
+  <div id="timer-live">
+    <div class="tz">
+      <div class="tdsp" id="t-disp">00:00:00</div>
+      <div class="tmeta" id="t-meta">Selectează proiect și apasă Start</div>
+      <div class="trow">
+        <select id="t-proj" onchange="syncTkSel()" style="flex:1;min-width:120px"><option value="">— Proiect —</option></select>
+        <select id="t-task" style="flex:1;min-width:120px"><option value="">— Task (opțional) —</option></select>
+      </div>
+      <div class="trow"><input type="text" id="t-desc" placeholder="Descriere (opțional)" style="flex:1"></div>
+      <div class="trow" id="t-ctrl"><button class="tbtn tst" onclick="startT()"><i class="ti ti-player-play"></i>Start</button></div>
+    </div>
+  </div>
+  <div id="timer-manual" style="display:none">
+    <div class="card">
+      <div class="fi"><label>Client</label><select id="me-cl" onchange="syncMePr()"><option value="">— Selectează client —</option></select></div>
+      <div class="fi"><label>Proiect *</label><select id="me-p" onchange="syncMeTk()"><option value="">— Selectează proiect —</option></select></div>
+      <div class="fi"><label>Task (opțional)</label><select id="me-tk"><option value="">— fără task —</option></select></div>
+      <div class="fi-row">
+        <div class="fi"><label>Data</label><input id="me-d" type="date"></div>
+        <div class="fi"><label>Ora start</label><input id="me-ts" type="time" value="09:00"></div>
+        <div class="fi"><label>Ora stop</label><input id="me-te" type="time" value="10:00"></div>
+      </div>
+      <div class="fi"><label>Descriere</label><input id="me-desc" placeholder="Opțional"></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:4px">
+        <button class="btn btnp" onclick="savME()"><i class="ti ti-plus"></i>Adaugă intrare</button>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:8px;display:flex;align-items:center;gap:5px;text-transform:uppercase;letter-spacing:.04em"><i class="ti ti-history"></i>Intrări recente</div>
+  <div class="ct"><div id="t-entries"></div></div>
+</div>
+
+<!-- RAPOARTE -->
+<div id="pg-reports">
+  <div class="ph">
+    <h1 class="pt">Rapoarte</h1>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <select id="r-per" onchange="rReports()" style="padding:6px 10px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--sur);color:var(--fg);font-size:13px;outline:none">
+        <option value="7">Ultima săptămână</option>
+        <option value="30" selected>Ultima lună</option>
+        <option value="90">Ultimele 3 luni</option>
+        <option value="365">Ultimul an</option>
+        <option value="0">Tot timpul</option>
+      </select>
+      <button class="btn" onclick="expCSV()"><i class="ti ti-download"></i>Export CSV</button>
+    </div>
+  </div>
+  <div class="g4" id="sc-rp"></div>
+  <div class="g2">
+    <div class="card"><div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em">Ore pe client</div><div id="ch-cl"></div></div>
+    <div class="card"><div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em">Ore pe proiect</div><div id="ch-pr"></div></div>
+  </div>
+  <div class="ct"><table><thead><tr><th>Data</th><th>Client</th><th>Proiect</th><th>Task</th><th>Descriere</th><th style="width:90px">Durată</th></tr></thead><tbody id="tb-en"></tbody></table></div>
+</div>
+
+<!-- CALENDAR -->
+<div id="pg-calendar">
+  <div class="ph">
+    <h1 class="pt">Calendar</h1>
+    <div class="cal-nav">
+      <button onclick="calPrev()"><i class="ti ti-chevron-left"></i></button>
+      <span class="cal-month-title" id="cal-title"></span>
+      <button onclick="calNext()"><i class="ti ti-chevron-right"></i></button>
+      <button onclick="calToday()" style="margin-left:4px">Azi</button>
+    </div>
+  </div>
+  <div class="cal-header" id="cal-hdr"></div>
+  <div class="cal-grid" id="cal-grid"></div>
+  <div class="cal-detail" id="cal-detail" style="display:none">
+    <div class="cal-detail-hdr">
+      <i class="ti ti-calendar-event" style="color:var(--afg)"></i>
+      <span class="cal-detail-date" id="cal-detail-date"></span>
+      <span id="cal-detail-count" style="font-size:12px;color:var(--afg);opacity:.75;margin-left:4px"></span>
+    </div>
+    <div class="cal-col-hdr"><span>Client</span><span>Proiect</span><span>Task</span><span>Status</span></div>
+    <div id="cal-task-list"></div>
+  </div>
+  <div id="cal-empty" style="display:none;margin-top:16px" class="empty"><i class="ti ti-calendar-off"></i>Niciun task cu deadline în această zi</div>
+</div>
+
+</main>
+</div>
+
+<!-- MODALS -->
+<div id="m-client" class="ov"><div class="modal">
+  <h3 id="mc-t">Client nou</h3>
+  <div class="fi"><label>Nume *</label><input id="c-n" placeholder="Ex: TaxiCornisa"></div>
+  <div class="fi-row">
+    <div class="fi"><label>Persoană contact</label><input id="c-c"></div>
+    <div class="fi"><label>Email</label><input id="c-e" type="email"></div>
+  </div>
+  <div class="fi-row">
+    <div class="fi"><label>Telefon</label><input id="c-p"></div>
+    <div class="fi"><label>Status</label><select id="c-s"><option value="activ">Activ</option><option value="inactiv">Inactiv</option><option value="lead">Lead</option></select></div>
+  </div>
+  <div class="fi"><label>Note interne</label><textarea id="c-no" placeholder="Observații..."></textarea></div>
+  <div class="ma"><button class="btn" onclick="cM('client')">Anulează</button><button class="btn btnp" onclick="savCl()">Salvează</button></div>
+</div></div>
+
+<div id="m-project" class="ov"><div class="modal">
+  <h3 id="mp-t">Proiect nou</h3>
+  <div class="fi"><label>Nume *</label><input id="p-n"></div>
+  <div class="fi"><label>Client</label><select id="p-c"></select></div>
+  <div class="fi-row">
+    <div class="fi"><label>Buget ore</label><input id="p-b" type="number" min="0" placeholder="Ex: 40"></div>
+    <div class="fi"><label>Rată orară (RON)</label><input id="p-r" type="number" min="0" placeholder="Ex: 150"></div>
+  </div>
+  <div class="fi"><label>Status</label><select id="p-s"><option value="activ">Activ</option><option value="pauza">Pauză</option><option value="finalizat">Finalizat</option></select></div>
+  <div class="fi"><label>Descriere</label><textarea id="p-d"></textarea></div>
+  <div class="ma"><button class="btn" onclick="cM('project')">Anulează</button><button class="btn btnp" onclick="savPr()">Salvează</button></div>
+</div></div>
+
+<div id="m-task" class="ov"><div class="modal">
+  <h3 id="mt-t">Task nou</h3>
+  <div class="fi"><label>Titlu *</label><input id="tk-n"></div>
+  <div class="fi"><label>Client</label><select id="tk-cl" onchange="syncTkPr()"><option value="">— Selectează client —</option></select></div>
+  <div class="fi"><label>Proiect</label><select id="tk-p"><option value="">— Selectează proiect —</option></select></div>
+  <div class="fi-row">
+    <div class="fi"><label>Status</label><select id="tk-st">
+      <option value="in discutii">În discuții</option><option value="initiat">Inițiat</option>
+      <option value="in lucru">În lucru</option><option value="finalizat">Finalizat</option>
+      <option value="de facturat">De facturat</option><option value="facturat">Facturat</option>
+      <option value="incasat">Încasat</option>
+    </select></div>
+    <div class="fi"><label>Prioritate</label><select id="tk-pr"><option value="normal">Normală</option><option value="high">Ridicată</option><option value="low">Scăzută</option></select></div>
+  </div>
+  <div class="fi-row">
+    <div class="fi"><label>Deadline</label><input id="tk-dl" type="date"></div>
+    <div class="fi"><label>Estimare ore</label><input id="tk-e" type="number" min="0" placeholder="Ex: 3"></div>
+  </div>
+  <div class="fi"><label>Note</label><textarea id="tk-no"></textarea></div>
+  <div class="ma"><button class="btn" onclick="cM('task')">Anulează</button><button class="btn btnp" onclick="savTk()">Salvează</button></div>
+</div></div>
+
+<script>
+// ── SUPABASE ──────────────────────────────────────────────────────────────────
+const SB_URL = 'https://syddjiwnwjhqqrrnsbfy.supabase.co';
+const SB_KEY = 'sb_publishable_GC2EUoA2PXBOKT_Oicd3xA_v3qqBYDP';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+let currentUser = null;
+let D = { clients:[], projects:[], tasks:[], entries:[] };
+let EID = { client:null, project:null, task:null };
+let TI = { running:false, start:null, paused:0, iv:null };
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+const uid = () => crypto.randomUUID();
+const C = ['#5349b7','#1d9e75','#d85a30','#ba7517','#185fa5','#993556','#3b6d11','#854f0b'];
+const cc = id => { const i = D.clients.findIndex(c => c.id === id); return C[i >= 0 ? i % C.length : 0]; };
+const fH = s => { const h=Math.floor(s/3600),m=Math.floor((s%3600)/60); return h>0?`${h}h ${String(m).padStart(2,'0')}m`:`${m}m ${String(s%60).padStart(2,'0')}s`; };
+const fHMS = s => [Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(v=>String(v).padStart(2,'0')).join(':');
+const fD = ts => new Date(ts).toLocaleDateString('ro-RO',{day:'2-digit',month:'2-digit',year:'numeric'});
+const pH = pid => D.entries.filter(e=>e.project_id===pid).reduce((s,e)=>s+e.duration,0);
+const tkH = tid => D.entries.filter(e=>e.task_id===tid).reduce((s,e)=>s+e.duration,0);
+const clH = cid => { const pp=D.projects.filter(p=>p.client_id===cid).map(p=>p.id); return D.entries.filter(e=>pp.includes(e.project_id)).reduce((s,e)=>s+e.duration,0); };
+
+const STATUS_LABELS = {'in discutii':'În discuții','initiat':'Inițiat','in lucru':'În lucru','finalizat':'Finalizat','de facturat':'De facturat','facturat':'Facturat','incasat':'Încasat'};
+const STATUS_CSS = {'in discutii':'s-discutii','initiat':'s-initiat','in lucru':'s-lucru','finalizat':'s-finalizat','de facturat':'s-defacturat','facturat':'s-facturat','incasat':'s-incasat'};
+const PRIO_ORDER = {high:0,normal:1,low:2};
+
+function deadlineInfo(dlStr) {
+  if (!dlStr) return null;
+  const dl = new Date(dlStr), now = new Date();
+  const diff = Math.ceil((dl - now) / 86400000);
+  if (diff < 0) return {label:`Expirat ${Math.abs(diff)}z`,cls:'deadline-warn',urgent:true};
+  if (diff === 0) return {label:'Azi!',cls:'deadline-warn',urgent:true};
+  if (diff <= 3) return {label:`${diff}z`,cls:'deadline-warn',urgent:true};
+  return {label:`${diff}z`,cls:'deadline-ok',urgent:false};
+}
+
+function showLoading(on) { document.getElementById('loading').style.display = on ? 'flex' : 'none'; }
+function showErr(msg) { const e=document.getElementById('login-err'); e.textContent=msg; e.style.display='block'; }
+function hideErr() { document.getElementById('login-err').style.display='none'; document.getElementById('login-ok').style.display='none'; }
+function showOk(msg) { const e=document.getElementById('login-ok'); e.textContent=msg; e.style.display='block'; }
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+function showLogin() { document.getElementById('login-form').style.display='block'; document.getElementById('register-form').style.display='none'; hideErr(); }
+function showRegister() { document.getElementById('login-form').style.display='none'; document.getElementById('register-form').style.display='block'; hideErr(); }
+
+async function doLogin() {
+  hideErr();
+  const email = document.getElementById('l-email').value.trim();
+  const pass = document.getElementById('l-pass').value;
+  if (!email || !pass) { showErr('Completează email și parolă'); return; }
+  showLoading(true);
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  showLoading(false);
+  if (error) { showErr(error.message); return; }
+}
+
+async function doRegister() {
+  hideErr();
+  const email = document.getElementById('r-email').value.trim();
+  const pass = document.getElementById('r-pass').value;
+  if (!email || !pass) { showErr('Completează email și parolă'); return; }
+  if (pass.length < 6) { showErr('Parola trebuie să aibă minim 6 caractere'); return; }
+  showLoading(true);
+  const { error } = await sb.auth.signUp({ email, password: pass });
+  showLoading(false);
+  if (error) { showErr(error.message); return; }
+  showOk('Cont creat! Verifică emailul pentru confirmare, apoi loghează-te.');
+  showLogin();
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  D = {clients:[],projects:[],tasks:[],entries:[]};
+  currentUser = null;
+  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('login-wrap').style.display = 'flex';
+}
+
+// ── DATA LOADING ──────────────────────────────────────────────────────────────
+async function loadAllData() {
+  showLoading(true);
+  const [cl, pr, tk, en] = await Promise.all([
+    sb.from('clients').select('*').order('name'),
+    sb.from('projects').select('*').order('name'),
+    sb.from('tasks').select('*').order('created_at'),
+    sb.from('time_entries').select('*').order('start_time')
+  ]);
+  D.clients = cl.data || [];
+  D.projects = pr.data || [];
+  D.tasks = tk.data || [];
+  D.entries = en.data || [];
+  showLoading(false);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+sb.auth.onAuthStateChange(async (event, session) => {
+  if (session) {
+    currentUser = session.user;
+    document.getElementById('login-wrap').style.display = 'none';
+    await loadAllData();
+    document.getElementById('main-app').style.display = 'flex';
+    document.getElementById('sb-user-email').textContent = currentUser.email;
+    go('dashboard');
+  } else {
+    showLoading(false);
+    document.getElementById('main-app').style.display = 'none';
+    document.getElementById('login-wrap').style.display = 'flex';
+  }
+});
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function go(page) {
+  const pages = ['dashboard','clients','projects','tasks','timer','reports','calendar'];
+  pages.forEach(p => { document.getElementById('pg-'+p).style.display='none'; });
+  document.getElementById('pg-'+page).style.display = 'block';
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  const idx = pages.indexOf(page);
+  document.querySelectorAll('.nb')[idx].classList.add('on');
+  if (document.querySelectorAll('.nb')[idx + pages.length]) document.querySelectorAll('.nb')[idx + pages.length].classList.add('on');
+  ({dashboard:rDash,clients:rCl,projects:rPr,tasks:rTasks,timer:rTimer,reports:rReports,calendar:rCal})[page]();
+}
+function openDrawer() { document.getElementById('drawer').classList.add('open'); }
+function closeDrawer() { document.getElementById('drawer').classList.remove('open'); }
+function goM(page) { closeDrawer(); go(page); }
+
+function oM(type) {
+  if (type === 'client') {
+    EID.client=null; document.getElementById('mc-t').textContent='Client nou';
+    ['c-n','c-c','c-e','c-p','c-no'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('c-s').value='activ';
+  }
+  if (type === 'project') {
+    EID.project=null; document.getElementById('mp-t').textContent='Proiect nou';
+    ['p-n','p-b','p-r','p-d'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('p-s').value='activ';
+    const s=document.getElementById('p-c');
+    s.innerHTML='<option value="">— fără client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  }
+  if (type === 'task') {
+    EID.task=null; document.getElementById('mt-t').textContent='Task nou';
+    ['tk-n','tk-e','tk-no','tk-dl'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('tk-pr').value='normal'; document.getElementById('tk-st').value='in discutii';
+    const scl=document.getElementById('tk-cl');
+    scl.innerHTML='<option value="">— Selectează client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+    document.getElementById('tk-p').innerHTML='<option value="">— Selectează proiect —</option>';
+  }
+  document.getElementById('m-'+type).classList.add('show');
+}
+function cM(type) { document.getElementById('m-'+type).classList.remove('show'); }
+function syncTkPr() {
+  const cid=document.getElementById('tk-cl').value;
+  const sp=document.getElementById('tk-p');
+  const projs=cid?D.projects.filter(p=>p.client_id===cid):D.projects;
+  sp.innerHTML='<option value="">— Selectează proiect —</option>'+projs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+}
+
+// ── CLIENTS ───────────────────────────────────────────────────────────────────
+function rCl() {
+  const tot=D.clients.length, act=D.clients.filter(c=>c.status==='activ').length;
+  const totH=D.clients.reduce((s,c)=>s+clH(c.id),0);
+  document.getElementById('sc-cl').innerHTML=`
+    <div class="sc"><div class="sl">Total clienți</div><div class="sv">${tot}</div></div>
+    <div class="sc"><div class="sl">Activi</div><div class="sv">${act}</div></div>
+    <div class="sc"><div class="sl">Ore totale</div><div class="sv">${Math.floor(totH/3600)}<span>h</span></div></div>
+    <div class="sc"><div class="sl">Proiecte</div><div class="sv">${D.projects.length}</div></div>`;
+  const tb=document.getElementById('tb-cl');
+  if (!D.clients.length) { tb.innerHTML=`<tr><td colspan="7"><div class="empty"><i class="ti ti-users"></i>Niciun client. Adaugă primul!</div></td></tr>`; return; }
+  tb.innerHTML=D.clients.map(c=>{
+    const pc=D.projects.filter(p=>p.client_id===c.id).length;
+    const h=clH(c.id);
+    const b=c.status==='activ'?'bok':c.status==='lead'?'bwa':'bgr';
+    return`<tr>
+      <td style="padding:9px 8px"><span class="dot" style="background:${cc(c.id)}"></span></td>
+      <td><strong>${c.name}</strong>${c.notes?`<br><span style="color:var(--fg3);font-size:11px;white-space:normal">${c.notes.slice(0,55)}</span>`:''}</td>
+      <td>${c.contact||''}${c.email?`<br><span style="color:var(--fg3);font-size:11px">${c.email}</span>`:''}</td>
+      <td>${pc}</td><td>${Math.floor(h/3600)}h ${Math.floor((h%3600)/60)}m</td>
+      <td><span class="badge ${b}">${c.status}</span></td>
+      <td style="text-align:right;white-space:nowrap">
+        <button class="btn btns" onclick="edCl('${c.id}')"><i class="ti ti-edit"></i></button>
+        <button class="btn btns btne" onclick="delCl('${c.id}')"><i class="ti ti-trash"></i></button>
+      </td></tr>`;
+  }).join('');
+}
+async function savCl() {
+  const n=document.getElementById('c-n').value.trim(); if(!n){alert('Numele e obligatoriu');return;}
+  const d={name:n,contact:document.getElementById('c-c').value.trim(),email:document.getElementById('c-e').value.trim(),phone:document.getElementById('c-p').value.trim(),status:document.getElementById('c-s').value,notes:document.getElementById('c-no').value.trim(),user_id:currentUser.id};
+  showLoading(true);
+  if (EID.client) { await sb.from('clients').update(d).eq('id',EID.client); }
+  else { await sb.from('clients').insert(d); }
+  await loadAllData(); showLoading(false); cM('client'); rCl();
+}
+function edCl(id) {
+  const c=D.clients.find(x=>x.id===id); if(!c)return;
+  EID.client=id; document.getElementById('mc-t').textContent='Editează client';
+  document.getElementById('c-n').value=c.name; document.getElementById('c-c').value=c.contact||'';
+  document.getElementById('c-e').value=c.email||''; document.getElementById('c-p').value=c.phone||'';
+  document.getElementById('c-s').value=c.status; document.getElementById('c-no').value=c.notes||'';
+  document.getElementById('m-client').classList.add('show');
+}
+async function delCl(id) {
+  if(!confirm('Ștergi clientul?'))return;
+  showLoading(true); await sb.from('clients').delete().eq('id',id);
+  await loadAllData(); showLoading(false); rCl();
+}
+
+// ── PROJECTS ──────────────────────────────────────────────────────────────────
+function rPr() {
+  const tot=D.projects.length,act=D.projects.filter(p=>p.status==='activ').length;
+  const totH=D.projects.reduce((s,p)=>s+pH(p.id),0);
+  document.getElementById('sc-pr').innerHTML=`
+    <div class="sc"><div class="sl">Total proiecte</div><div class="sv">${tot}</div></div>
+    <div class="sc"><div class="sl">Active</div><div class="sv">${act}</div></div>
+    <div class="sc"><div class="sl">Ore totale</div><div class="sv">${Math.floor(totH/3600)}<span>h</span></div></div>
+    <div class="sc"><div class="sl">Finalizate</div><div class="sv">${D.projects.filter(p=>p.status==='finalizat').length}</div></div>`;
+  const tb=document.getElementById('tb-pr');
+  if (!D.projects.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><i class="ti ti-folder"></i>Niciun proiect!</div></td></tr>`;return;}
+  tb.innerHTML=D.projects.map(p=>{
+    const cl=D.clients.find(c=>c.id===p.client_id);
+    const h=pH(p.id),hh=h/3600;
+    const pct=p.budget?Math.min(100,Math.round(hh/p.budget*100)):null;
+    const tc=D.tasks.filter(t=>t.project_id===p.id).length;
+    const b=p.status==='activ'?'bok':p.status==='pauza'?'bwa':'bac';
+    return`<tr>
+      <td style="padding:9px 8px"><span class="dot" style="background:${cc(p.client_id)}"></span></td>
+      <td>${cl?`<span style="color:${cc(p.client_id)};font-weight:500">${cl.name}</span>`:'—'}</td>
+      <td><strong>${p.name}</strong><br><span style="color:var(--fg3);font-size:11px">${tc} task${tc!==1?'uri':''}</span></td>
+      <td>${Math.floor(hh)}h ${Math.floor((h%3600)/60)}m${p.budget?`<div class="pb"><div class="pf" style="width:${pct}%"></div></div><span style="font-size:11px;color:var(--fg3)">${pct}% din ${p.budget}h</span>`:''}${p.rate?`<br><span style="font-size:11px;color:var(--ok)">${Math.round(hh*p.rate).toLocaleString()} RON</span>`:''}</td>
+      <td><span class="badge ${b}">${p.status}</span></td>
+      <td style="text-align:right;white-space:nowrap">
+        <button class="btn btns" onclick="edPr('${p.id}')"><i class="ti ti-edit"></i></button>
+        <button class="btn btns btne" onclick="delPr('${p.id}')"><i class="ti ti-trash"></i></button>
+      </td></tr>`;
+  }).join('');
+}
+async function savPr() {
+  const n=document.getElementById('p-n').value.trim(); if(!n){alert('Numele e obligatoriu');return;}
+  const d={name:n,client_id:document.getElementById('p-c').value||null,budget:parseFloat(document.getElementById('p-b').value)||null,rate:parseFloat(document.getElementById('p-r').value)||null,status:document.getElementById('p-s').value,description:document.getElementById('p-d').value.trim(),user_id:currentUser.id};
+  showLoading(true);
+  if(EID.project){await sb.from('projects').update(d).eq('id',EID.project);}
+  else{await sb.from('projects').insert(d);}
+  await loadAllData(); showLoading(false); cM('project'); rPr();
+}
+function edPr(id) {
+  const p=D.projects.find(x=>x.id===id); if(!p)return;
+  EID.project=id; document.getElementById('mp-t').textContent='Editează proiect';
+  document.getElementById('p-n').value=p.name; document.getElementById('p-b').value=p.budget||'';
+  document.getElementById('p-r').value=p.rate||''; document.getElementById('p-d').value=p.description||'';
+  document.getElementById('p-s').value=p.status;
+  const s=document.getElementById('p-c');
+  s.innerHTML='<option value="">— fără client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  s.value=p.client_id||'';
+  document.getElementById('m-project').classList.add('show');
+}
+async function delPr(id) {
+  if(!confirm('Ștergi proiectul?'))return;
+  showLoading(true); await sb.from('projects').delete().eq('id',id);
+  await loadAllData(); showLoading(false); rPr();
+}
+
+// ── TASKS ─────────────────────────────────────────────────────────────────────
+function filterTaskClient() {
+  const cid=document.getElementById('ftk-c').value;
+  const sp=document.getElementById('ftk-p');
+  const projs=cid?D.projects.filter(p=>p.client_id===cid):D.projects;
+  sp.innerHTML='<option value="">Toate proiectele</option>'+projs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  rTasks();
+}
+function rTasks() {
+  const selC=document.getElementById('ftk-c');
+  const curC=selC.value;
+  selC.innerHTML='<option value="">Toți clienții</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  selC.value=curC;
+  const fc=document.getElementById('ftk-c').value;
+  const fp=document.getElementById('ftk-p').value;
+  const fs=document.getElementById('ftk-s').value;
+  const sort=document.getElementById('ftk-sort').value;
+  let tks=[...D.tasks];
+  if(fc) tks=tks.filter(t=>{const p=D.projects.find(x=>x.id===t.project_id);return p&&p.client_id===fc;});
+  if(fp) tks=tks.filter(t=>t.project_id===fp);
+  if(fs) tks=tks.filter(t=>t.status===fs);
+  tks.sort((a,b)=>{
+    if(sort==='deadline'){if(!a.deadline&&!b.deadline)return 0;if(!a.deadline)return 1;if(!b.deadline)return -1;return new Date(a.deadline)-new Date(b.deadline);}
+    if(sort==='prio')return(PRIO_ORDER[a.priority]||1)-(PRIO_ORDER[b.priority]||1);
+    if(sort==='status')return(a.status||'').localeCompare(b.status||'');
+    return 0;
+  });
+  const tot=D.tasks.length;
+  const byStatus={};
+  D.tasks.forEach(t=>{byStatus[t.status]=(byStatus[t.status]||0)+1;});
+  document.getElementById('sc-tk').innerHTML=`
+    <div class="sc"><div class="sl">Total taskuri</div><div class="sv">${tot}</div></div>
+    <div class="sc"><div class="sl">În lucru</div><div class="sv">${byStatus['in lucru']||0}</div></div>
+    <div class="sc"><div class="sl">De facturat</div><div class="sv" style="${(byStatus['de facturat']||0)>0?'color:var(--er)':''}">${byStatus['de facturat']||0}</div></div>
+    <div class="sc"><div class="sl">Încasate</div><div class="sv">${byStatus['incasat']||0}</div></div>`;
+  const el=document.getElementById('tk-list');
+  if(!tks.length){el.innerHTML=`<div class="empty"><i class="ti ti-checkbox"></i>Niciun task${fc||fp||fs?' pentru acest filtru':'. Adaugă primul!'}</div>`;return;}
+  const grouped={};
+  tks.forEach(t=>{
+    const p=D.projects.find(x=>x.id===t.project_id);
+    const cl=p?D.clients.find(c=>c.id===p.client_id):null;
+    const cKey=cl?cl.id:'__no_client__';
+    const pKey=p?p.id:'__no_project__';
+    if(!grouped[cKey])grouped[cKey]={cl,projects:{}};
+    if(!grouped[cKey].projects[pKey])grouped[cKey].projects[pKey]={p,tasks:[]};
+    grouped[cKey].projects[pKey].tasks.push(t);
+  });
+  let html='';
+  Object.values(grouped).forEach(({cl,projects})=>{
+    const clColor=cl?cc(cl.id):'var(--fg3)';
+    const clName=cl?cl.name.toUpperCase():'FĂRĂ CLIENT';
+    html+=`<div style="padding:14px 14px 6px;border-bottom:0.5px solid var(--bd);display:flex;align-items:center;gap:8px;background:var(--s2)">
+      <span class="dot" style="background:${clColor};width:10px;height:10px"></span>
+      <span style="font-size:13px;font-weight:700;color:${clColor};letter-spacing:.06em">${clName}</span>
+    </div>`;
+    Object.values(projects).forEach(({p,tasks})=>{
+      const pName=p?p.name:'Fără proiect';
+      html+=`<div style="padding:9px 14px 6px 28px;background:var(--sur);border-bottom:0.5px solid var(--bd);display:flex;align-items:center;gap:6px">
+        <i class="ti ti-folder" style="font-size:13px;color:var(--fg3)"></i>
+        <span style="font-size:11px;color:var(--fg3)">Proiect:</span>
+        <span style="font-size:13px;font-weight:500;color:var(--fg2)">${pName}</span>
+        <span style="font-size:11px;color:var(--fg3);margin-left:4px">${tasks.length} task${tasks.length!==1?'uri':''}</span>
+      </div>`;
+      tasks.forEach(t=>{
+        const h=tkH(t.id);
+        const pb=t.priority==='high'?'ber':t.priority==='low'?'bgr':'bac';
+        const scls=STATUS_CSS[t.status]||'bgr';
+        const dl=deadlineInfo(t.deadline);
+        html+=`<div class="tkrow" style="padding-left:42px">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700;color:var(--fg)"><span style="font-size:11px;font-weight:400;color:var(--fg3)">Task:</span> ${t.name}</div>
+            <div style="font-size:11px;color:var(--fg3);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              ${t.notes?`<span>${t.notes.slice(0,50)}</span>`:''}
+              ${h?`<span>· ${fH(h)}</span>`:''}
+              ${t.estimated_hours?`<span>/ ${t.estimated_hours}h est.</span>`:''}
+            </div>
+          </div>
+          ${dl?`<span class="${dl.cls}" style="white-space:nowrap;font-size:11px;margin-right:6px"><i class="ti ti-calendar-event"></i> ${dl.label}</span>`:''}
+          <span class="badge ${scls}" style="margin-right:4px">${STATUS_LABELS[t.status]||t.status}</span>
+          <span class="badge ${pb}" style="margin-right:4px">${t.priority==='high'?'urgent':t.priority==='low'?'low':'normal'}</span>
+          <div style="display:flex;gap:4px">
+            <button class="btn btns" onclick="goTimer('${t.id}')" title="Start timer"><i class="ti ti-player-play"></i></button>
+            <button class="btn btns" onclick="edTk('${t.id}')"><i class="ti ti-edit"></i></button>
+            <button class="btn btns btne" onclick="delTk('${t.id}')"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>`;
+      });
+    });
+  });
+  el.innerHTML=html;
+}
+async function savTk() {
+  const n=document.getElementById('tk-n').value.trim(); if(!n){alert('Titlul e obligatoriu');return;}
+  const d={name:n,project_id:document.getElementById('tk-p').value||null,client_id:document.getElementById('tk-cl').value||null,status:document.getElementById('tk-st').value,estimated_hours:parseFloat(document.getElementById('tk-e').value)||null,priority:document.getElementById('tk-pr').value,deadline:document.getElementById('tk-dl').value||null,notes:document.getElementById('tk-no').value.trim(),user_id:currentUser.id};
+  showLoading(true);
+  if(EID.task){await sb.from('tasks').update(d).eq('id',EID.task);}
+  else{await sb.from('tasks').insert(d);}
+  await loadAllData(); showLoading(false); cM('task'); rTasks();
+}
+function edTk(id) {
+  const t=D.tasks.find(x=>x.id===id); if(!t)return;
+  EID.task=id; document.getElementById('mt-t').textContent='Editează task';
+  document.getElementById('tk-n').value=t.name;
+  document.getElementById('tk-e').value=t.estimated_hours||'';
+  document.getElementById('tk-pr').value=t.priority||'normal';
+  document.getElementById('tk-no').value=t.notes||'';
+  document.getElementById('tk-dl').value=t.deadline||'';
+  document.getElementById('tk-st').value=t.status||'in discutii';
+  const scl=document.getElementById('tk-cl');
+  scl.innerHTML='<option value="">— Selectează client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  const proj=D.projects.find(p=>p.id===t.project_id);
+  const cid=t.client_id||(proj?proj.client_id:'');
+  scl.value=cid;
+  syncTkPr();
+  setTimeout(()=>{document.getElementById('tk-p').value=t.project_id||'';},50);
+  document.getElementById('m-task').classList.add('show');
+}
+function editTaskDirect(id){edTk(id);}
+async function delTk(id) {
+  if(!confirm('Ștergi taskul?'))return;
+  showLoading(true); await sb.from('tasks').delete().eq('id',id);
+  await loadAllData(); showLoading(false); rTasks();
+}
+function goTimer(tid) {
+  const t=D.tasks.find(x=>x.id===tid); if(!t)return;
+  go('timer');
+  setTimeout(()=>{
+    switchTimerTab('live');
+    if(t.project_id){document.getElementById('t-proj').value=t.project_id;syncTkSel();}
+    setTimeout(()=>{document.getElementById('t-task').value=tid;},60);
+  },100);
+}
+
+// ── TIMER ─────────────────────────────────────────────────────────────────────
+function switchTimerTab(tab) {
+  document.getElementById('timer-live').style.display=tab==='live'?'block':'none';
+  document.getElementById('timer-manual').style.display=tab==='manual'?'block':'none';
+  document.getElementById('tab-live').classList.toggle('on',tab==='live');
+  document.getElementById('tab-manual').classList.toggle('on',tab==='manual');
+}
+function rTimer() {
+  const s=document.getElementById('t-proj'),cur=s.value;
+  s.innerHTML='<option value="">— Proiect —</option>'+D.projects.filter(p=>p.status==='activ').map(p=>{
+    const c=D.clients.find(x=>x.id===p.client_id);
+    return`<option value="${p.id}">${p.name}${c?' ('+c.name+')':''}</option>`;
+  }).join('');
+  if(cur)s.value=cur;
+  syncTkSel();
+  const scl=document.getElementById('me-cl');
+  scl.innerHTML='<option value="">— Selectează client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  syncMePr();
+  document.getElementById('me-d').value=new Date().toISOString().split('T')[0];
+  rEntries();
+}
+function syncTkSel() {
+  const pid=document.getElementById('t-proj').value;
+  const s=document.getElementById('t-task');
+  s.innerHTML='<option value="">— Task (opțional) —</option>'+D.tasks.filter(t=>t.project_id===pid).map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
+}
+function syncMePr() {
+  const cid=document.getElementById('me-cl').value;
+  const sp=document.getElementById('me-p');
+  const projs=cid?D.projects.filter(p=>p.client_id===cid):D.projects;
+  sp.innerHTML='<option value="">— Selectează proiect —</option>'+projs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  syncMeTk();
+}
+function syncMeTk() {
+  const pid=document.getElementById('me-p').value;
+  const s=document.getElementById('me-tk');
+  s.innerHTML='<option value="">— fără task —</option>'+D.tasks.filter(t=>t.project_id===pid).map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
+}
+function rEntries() {
+  const el=document.getElementById('t-entries');
+  const rc=[...D.entries].reverse().slice(0,20);
+  if(!rc.length){el.innerHTML=`<div class="empty" style="padding:20px"><i class="ti ti-clock"></i>Nicio intrare</div>`;return;}
+  el.innerHTML=rc.map(e=>{
+    const p=D.projects.find(x=>x.id===e.project_id);
+    const c=p?D.clients.find(x=>x.id===p.client_id):null;
+    const t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
+    return`<div class="erow">
+      <div class="et">${fH(e.duration)}</div>
+      <div class="em"><strong>${p?p.name:'?'}</strong>${c?' · '+c.name:''}${t?' · '+t.name:''}${e.description?' · '+e.description:''}</div>
+      <div class="ed">${fD(e.start_time)}${e.manual?' <span class="badge bgr" style="font-size:10px">manual</span>':''}</div>
+      <button class="btn btns btne" onclick="delEn('${e.id}')"><i class="ti ti-trash"></i></button>
+    </div>`;
+  }).join('');
+}
+function startT() {
+  const pid=document.getElementById('t-proj').value; if(!pid){alert('Selectează un proiect!');return;}
+  if(TI.iv)clearInterval(TI.iv);
+  TI.running=true; TI.start=Date.now()-TI.paused;
+  const p=D.projects.find(x=>x.id===pid);
+  const t=D.tasks.find(x=>x.id===document.getElementById('t-task').value);
+  document.getElementById('t-meta').textContent='Tracking: '+(p?p.name:'')+(t?' → '+t.name:'');
+  document.getElementById('t-ctrl').innerHTML=`<button class="tbtn tpa" onclick="pauseT()"><i class="ti ti-player-pause"></i>Pauză</button><button class="tbtn tsp" onclick="stopT()"><i class="ti ti-player-stop"></i>Stop & Salvează</button>`;
+  TI.iv=setInterval(()=>{document.getElementById('t-disp').textContent=fHMS(Math.floor((Date.now()-TI.start)/1000));},1000);
+}
+function pauseT() {
+  clearInterval(TI.iv); TI.paused=Date.now()-TI.start; TI.running=false;
+  document.getElementById('t-ctrl').innerHTML=`<button class="tbtn tst" onclick="startT()"><i class="ti ti-player-play"></i>Continuă</button><button class="tbtn tsp" onclick="stopT()"><i class="ti ti-player-stop"></i>Stop & Salvează</button>`;
+}
+async function stopT() {
+  clearInterval(TI.iv);
+  const dur=Math.floor((Date.now()-TI.start)/1000);
+  if(dur>=5){
+    showLoading(true);
+    await sb.from('time_entries').insert({project_id:document.getElementById('t-proj').value,task_id:document.getElementById('t-task').value||null,start_time:new Date(TI.start).toISOString(),duration:dur,description:document.getElementById('t-desc').value.trim(),manual:false,user_id:currentUser.id});
+    await loadAllData(); showLoading(false);
+  }
+  TI={running:false,start:null,paused:0,iv:null};
+  document.getElementById('t-disp').textContent='00:00:00';
+  document.getElementById('t-meta').textContent='Selectează proiect și apasă Start';
+  document.getElementById('t-ctrl').innerHTML=`<button class="tbtn tst" onclick="startT()"><i class="ti ti-player-play"></i>Start</button>`;
+  document.getElementById('t-desc').value='';
+  rEntries();
+}
+async function delEn(id) {
+  showLoading(true); await sb.from('time_entries').delete().eq('id',id);
+  await loadAllData(); showLoading(false); rEntries();
+}
+async function savME() {
+  const pid=document.getElementById('me-p').value; if(!pid){alert('Selectează un proiect!');return;}
+  const ds=document.getElementById('me-d').value; if(!ds){alert('Selectează o dată!');return;}
+  const ts=document.getElementById('me-ts').value, te=document.getElementById('me-te').value;
+  if(!ts||!te){alert('Completează ora start și stop!');return;}
+  const startDt=new Date(ds+'T'+ts), endDt=new Date(ds+'T'+te);
+  const dur=Math.floor((endDt-startDt)/1000);
+  if(dur<=0){alert('Ora stop trebuie să fie după ora start!');return;}
+  showLoading(true);
+  await sb.from('time_entries').insert({project_id:pid,task_id:document.getElementById('me-tk').value||null,start_time:startDt.toISOString(),duration:dur,description:document.getElementById('me-desc').value.trim(),manual:true,user_id:currentUser.id});
+  await loadAllData(); showLoading(false);
+  document.getElementById('me-desc').value='';
+  document.getElementById('me-ts').value='09:00';
+  document.getElementById('me-te').value='10:00';
+  rEntries();
+  alert('Intrare adăugată!');
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+function rDash() {
+  const fc=document.getElementById('db-f-client').value;
+  const fp=document.getElementById('db-f-project').value;
+  const fs=document.getElementById('db-f-status').value;
+  const sort=document.getElementById('db-f-sort').value;
+  const selCl=document.getElementById('db-f-client'); const curCl=selCl.value;
+  selCl.innerHTML='<option value="">Toți clienții</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  selCl.value=curCl;
+  const selPr=document.getElementById('db-f-project'); const curPr=selPr.value;
+  const prList=fc?D.projects.filter(p=>p.client_id===fc):D.projects;
+  selPr.innerHTML='<option value="">Toate proiectele</option>'+prList.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  selPr.value=curPr;
+  const totH=D.entries.reduce((s,e)=>s+e.duration,0);
+  const activePr=D.projects.filter(p=>p.status==='activ').length;
+  const activeTk=D.tasks.filter(t=>t.status!=='incasat'&&t.status!=='finalizat').length;
+  const urgentTk=D.tasks.filter(t=>{if(!t.deadline)return false;const diff=Math.ceil((new Date(t.deadline)-new Date())/86400000);return diff<=3&&t.status!=='incasat'&&t.status!=='finalizat';}).length;
+  document.getElementById('db-stats').innerHTML=`
+    <div class="sc"><div class="sl">Clienți activi</div><div class="sv">${D.clients.filter(c=>c.status==='activ').length}</div></div>
+    <div class="sc"><div class="sl">Proiecte active</div><div class="sv">${activePr}</div></div>
+    <div class="sc"><div class="sl">Taskuri active</div><div class="sv">${activeTk}</div></div>
+    <div class="sc" style="${urgentTk>0?'background:var(--erb)':''}"><div class="sl">Deadline urgent</div><div class="sv" style="${urgentTk>0?'color:var(--er)':''}">${urgentTk}</div></div>`;
+  let tasks=[...D.tasks];
+  if(fc)tasks=tasks.filter(t=>{const p=D.projects.find(x=>x.id===t.project_id);return p&&p.client_id===fc;});
+  if(fp)tasks=tasks.filter(t=>t.project_id===fp);
+  if(fs)tasks=tasks.filter(t=>t.status===fs);
+  tasks.sort((a,b)=>{
+    if(sort==='deadline'){if(!a.deadline&&!b.deadline)return 0;if(!a.deadline)return 1;if(!b.deadline)return -1;return new Date(a.deadline)-new Date(b.deadline);}
+    if(sort==='prio')return(PRIO_ORDER[a.priority]||1)-(PRIO_ORDER[b.priority]||1);
+    if(sort==='status')return(a.status||'').localeCompare(b.status||'');
+    if(sort==='client'){const pa=D.projects.find(x=>x.id===a.project_id),pb2=D.projects.find(x=>x.id===b.project_id);const ca=pa?D.clients.find(x=>x.id===pa.client_id):null;const cb=pb2?D.clients.find(x=>x.id===pb2.client_id):null;return(ca?ca.name:'').localeCompare(cb?cb.name:'');}
+    if(sort==='project'){const pa=D.projects.find(x=>x.id===a.project_id),pb2=D.projects.find(x=>x.id===b.project_id);return(pa?pa.name:'').localeCompare(pb2?pb2.name:'');}
+    return 0;
+  });
+  const tkEl=document.getElementById('db-tasks');
+  const activeTasks=tasks.filter(t=>t.status!=='incasat'&&t.status!=='finalizat');
+  if(!activeTasks.length){tkEl.innerHTML=`<div class="empty"><i class="ti ti-checkbox"></i>Niciun task activ</div>`;}
+  else{
+    const grouped={};
+    activeTasks.forEach(t=>{
+      const p=D.projects.find(x=>x.id===t.project_id);
+      const cl=p?D.clients.find(x=>x.id===p.client_id):null;
+      const cKey=cl?cl.id:'__no_client__';
+      const pKey=p?p.id:'__no_project__';
+      if(!grouped[cKey])grouped[cKey]={cl,p_map:{}};
+      if(!grouped[cKey].p_map[pKey])grouped[cKey].p_map[pKey]={p,tasks:[]};
+      grouped[cKey].p_map[pKey].tasks.push(t);
+    });
+    let dbHtml='';
+    Object.values(grouped).forEach(({cl,p_map})=>{
+      const clColor=cl?cc(cl.id):'var(--fg3)';
+      const clName=cl?cl.name.toUpperCase():'FĂRĂ CLIENT';
+      dbHtml+=`<div style="padding:10px 14px 5px;background:var(--s2);border:0.5px solid var(--bd);border-radius:var(--r) var(--r) 0 0;margin-top:10px;display:flex;align-items:center;gap:7px">
+        <span class="dot" style="background:${clColor}"></span>
+        <span style="font-size:12px;font-weight:700;color:${clColor};letter-spacing:.06em">${clName}</span>
+      </div>`;
+      Object.values(p_map).forEach(({p,tasks:ptasks})=>{
+        const pName=p?p.name:'Fără proiect';
+        dbHtml+=`<div style="padding:6px 14px 4px 26px;background:var(--sur);border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);display:flex;align-items:center;gap:5px">
+          <i class="ti ti-folder" style="font-size:12px;color:var(--fg3)"></i>
+          <span style="font-size:11px;color:var(--fg3)">Proiect:</span>
+          <span style="font-size:12px;font-weight:500;color:var(--fg2)">${pName}</span>
+        </div>`;
+        ptasks.forEach(t=>{
+          const dl=deadlineInfo(t.deadline);
+          const scls=STATUS_CSS[t.status]||'bgr';
+          dbHtml+=`<div class="dash-task" style="border-radius:0;border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);border-top:none;margin-bottom:0;padding-left:38px" onclick="editTaskDirect('${t.id}')">
+            <div style="flex:1;min-width:0"><div style="font-size:13px;color:var(--fg)"><span style="font-size:11px;font-weight:400;color:var(--fg3)">Task:</span> <strong>${t.name}</strong></div></div>
+            ${dl?`<span class="${dl.cls}" style="white-space:nowrap;font-size:11px;margin-right:6px"><i class="ti ti-calendar-event"></i> Deadline: ${new Date(t.deadline).toLocaleDateString('ro-RO',{day:'2-digit',month:'2-digit',year:'numeric'})}${dl.urgent?' ('+dl.label+')':''}</span>`:''}
+            <span class="badge ${scls}">${STATUS_LABELS[t.status]||t.status}</span>
+          </div>`;
+        });
+      });
+      dbHtml+=`<div style="height:0;border-bottom:0.5px solid var(--bd);border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);border-radius:0 0 var(--r) var(--r);margin-bottom:4px"></div>`;
+    });
+    tkEl.innerHTML=dbHtml;
+  }
+  let projs=D.projects.filter(p=>p.status==='activ');
+  if(fc)projs=projs.filter(p=>p.client_id===fc);
+  if(fp)projs=projs.filter(p=>p.id===fp);
+  const prEl=document.getElementById('db-projects');
+  if(!projs.length){prEl.innerHTML=`<div class="empty"><i class="ti ti-folder"></i>Niciun proiect activ</div>`;}
+  else prEl.innerHTML=projs.map(p=>{
+    const cl=D.clients.find(x=>x.id===p.client_id);
+    const h=pH(p.id),hh=h/3600;
+    const pct=p.budget?Math.min(100,Math.round(hh/p.budget*100)):null;
+    const tks=D.tasks.filter(t=>t.project_id===p.id);
+    const doneTks=tks.filter(t=>t.status==='finalizat'||t.status==='incasat').length;
+    return`<div class="dash-task">
+      <span class="dot" style="background:${cc(p.client_id)};margin-top:4px"></span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500;color:var(--fg)">${p.name}</div>
+        <div style="font-size:11px;color:var(--fg3);margin-top:2px">${cl?cl.name:''} · ${tks.length} taskuri (${doneTks} gata)${p.rate?` · <span style="color:var(--ok)">${Math.round(hh*p.rate).toLocaleString()} RON</span>`:''}</div>
+        ${pct!==null?`<div class="pb" style="margin-top:6px"><div class="pf" style="width:${pct}%"></div></div><span style="font-size:11px;color:var(--fg3)">${Math.floor(hh)}h din ${p.budget}h (${pct}%)</span>`:`<div style="font-size:11px;color:var(--fg3);margin-top:2px">${Math.floor(hh)}h ${Math.floor((h%3600)/60)}m logate</div>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── REPORTS ───────────────────────────────────────────────────────────────────
+function rReports() {
+  const days=parseInt(document.getElementById('r-per').value);
+  const cut=days>0?Date.now()-days*86400000:0;
+  const fl=D.entries.filter(e=>new Date(e.start_time).getTime()>=cut);
+  const totS=fl.reduce((s,e)=>s+e.duration,0);
+  const aD=new Set(fl.map(e=>fD(e.start_time))).size;
+  const ven=fl.reduce((s,e)=>{const p=D.projects.find(x=>x.id===e.project_id);return s+(p&&p.rate?e.duration/3600*p.rate:0);},0);
+  document.getElementById('sc-rp').innerHTML=`
+    <div class="sc"><div class="sl">Ore totale</div><div class="sv">${Math.floor(totS/3600)}<span>h ${Math.floor((totS%3600)/60)}m</span></div></div>
+    <div class="sc"><div class="sl">Intrări</div><div class="sv">${fl.length}</div></div>
+    <div class="sc"><div class="sl">Zile active</div><div class="sv">${aD}</div></div>
+    <div class="sc"><div class="sl">Venit estimat</div><div class="sv">${Math.round(ven).toLocaleString()}<span> RON</span></div></div>`;
+  const bC={},bP={};
+  fl.forEach(e=>{
+    const p=D.projects.find(x=>x.id===e.project_id);if(!p)return;
+    const c=D.clients.find(x=>x.id===p.client_id);
+    const cn=c?c.name:'Fără client';
+    bC[cn]=(bC[cn]||0)+e.duration; bP[p.name]=(bP[p.name]||0)+e.duration;
+  });
+  rBar('ch-cl',bC); rBar('ch-pr',bP);
+  const tb=document.getElementById('tb-en');
+  if(!fl.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty">Nicio intrare</div></td></tr>`;return;}
+  tb.innerHTML=[...fl].reverse().map(e=>{
+    const p=D.projects.find(x=>x.id===e.project_id);
+    const c=p?D.clients.find(x=>x.id===p.client_id):null;
+    const t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
+    return`<tr><td>${fD(e.start_time)}</td><td>${c?c.name:'—'}</td><td>${p?p.name:'—'}</td><td>${t?t.name:'—'}</td><td style="color:var(--fg2)">${e.description||'—'}</td><td><strong>${fH(e.duration)}</strong>${e.manual?' <span class="badge bgr" style="font-size:10px">m</span>':''}</td></tr>`;
+  }).join('');
+}
+function rBar(id,data) {
+  const el=document.getElementById(id);
+  const en=Object.entries(data).sort((a,b)=>b[1]-a[1]).slice(0,7);
+  if(!en.length){el.innerHTML=`<div style="color:var(--fg3);font-size:13px;padding:4px 0">Nicio dată</div>`;return;}
+  const mx=en[0][1];
+  el.innerHTML=en.map(([n,s],i)=>{
+    const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);
+    return`<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:62%">${n}</span><span style="font-variant-numeric:tabular-nums;flex-shrink:0;color:var(--fg2)">${h}h ${String(m).padStart(2,'0')}m</span></div><div style="height:5px;background:var(--s2);border-radius:100px;overflow:hidden"><div style="height:100%;width:${Math.round(s/mx*100)}%;background:${C[i%C.length]};border-radius:100px"></div></div></div>`;
+  }).join('');
+}
+function expCSV() {
+  const days=parseInt(document.getElementById('r-per').value);
+  const cut=days>0?Date.now()-days*86400000:0;
+  const fl=D.entries.filter(e=>new Date(e.start_time).getTime()>=cut);
+  const rows=[['Client','Proiect','Task','Descriere','Data','Ore','Minute','Valoare_RON']];
+  fl.forEach(e=>{
+    const p=D.projects.find(x=>x.id===e.project_id);
+    const c=p?D.clients.find(x=>x.id===p.client_id):null;
+    const t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
+    rows.push([c?c.name:'',p?p.name:'',t?t.name:'',e.description||'',fD(e.start_time),Math.floor(e.duration/3600),Math.floor((e.duration%3600)/60),p&&p.rate?Math.round(e.duration/3600*p.rate):0]);
+  });
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download=`freelancetrack_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+}
+
+// ── CALENDAR ──────────────────────────────────────────────────────────────────
+let calDate=new Date(), calSelected=null;
+const CAL_DAYS=['Lun','Mar','Mie','Joi','Vin','Sâm','Dum'];
+const CAL_MONTHS=['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie'];
+function calDStr(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+function calTasksForDay(dStr){
+  return D.tasks.filter(t=>t.deadline===dStr).sort((a,b)=>{
+    const pa=D.projects.find(x=>x.id===a.project_id),pb2=D.projects.find(x=>x.id===b.project_id);
+    const ca=pa?D.clients.find(x=>x.id===pa.client_id):null;
+    const cb=pb2?D.clients.find(x=>x.id===pb2.client_id):null;
+    return(ca?ca.name:'').localeCompare(cb?cb.name:'');
+  });
+}
+function rCal() {
+  const today=new Date();
+  const todayStr=calDStr(today.getFullYear(),today.getMonth(),today.getDate());
+  if(!calSelected)calSelected=todayStr;
+  const y=calDate.getFullYear(),m=calDate.getMonth();
+  document.getElementById('cal-title').textContent=`${CAL_MONTHS[m]} ${y}`;
+  document.getElementById('cal-hdr').innerHTML=CAL_DAYS.map(d=>`<div class="cal-dname">${d}</div>`).join('');
+  const firstDow=(new Date(y,m,1).getDay()+6)%7;
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const daysInPrev=new Date(y,m,0).getDate();
+  let cells='';
+  const totalCells=Math.ceil((firstDow+daysInMonth)/7)*7;
+  for(let i=0;i<totalCells;i++){
+    let dayNum,dayMonth,dayYear,otherMonth=false;
+    if(i<firstDow){dayNum=daysInPrev-firstDow+i+1;dayMonth=m-1;dayYear=y;if(dayMonth<0){dayMonth=11;dayYear=y-1;}otherMonth=true;}
+    else if(i>=firstDow+daysInMonth){dayNum=i-firstDow-daysInMonth+1;dayMonth=m+1;dayYear=y;if(dayMonth>11){dayMonth=0;dayYear=y+1;}otherMonth=true;}
+    else{dayNum=i-firstDow+1;dayMonth=m;dayYear=y;}
+    const dStr=calDStr(dayYear,dayMonth,dayNum);
+    const isToday=dStr===todayStr, isSel=dStr===calSelected;
+    const tasks=calTasksForDay(dStr);
+    let cls='cal-day';
+    if(otherMonth)cls+=' other-month';
+    if(isToday)cls+=' today';
+    if(isSel)cls+=' selected';
+    const chips=tasks.slice(0,2).map(t=>{const dl=deadlineInfo(t.deadline);return`<span class="cal-task-chip${dl&&dl.urgent?' urgent':''}">${t.name}</span>`;}).join('');
+    const dots=tasks.length>0?`<div class="cal-dots">${tasks.slice(0,5).map(()=>`<span class="cal-dot"></span>`).join('')}</div>`:'';
+    cells+=`<div class="${cls}" onclick="calSelectDay('${dStr}')"><div class="cal-dnum">${dayNum}</div>${chips}${dots}</div>`;
+  }
+  document.getElementById('cal-grid').innerHTML=cells;
+  calShowDetail(calSelected);
+}
+function calSelectDay(dStr){calSelected=dStr;rCal();}
+function calShowDetail(dStr) {
+  if(!dStr)return;
+  const tasks=calTasksForDay(dStr);
+  const detailEl=document.getElementById('cal-detail');
+  const emptyEl=document.getElementById('cal-empty');
+  const [y,mo,d]=dStr.split('-');
+  const dateObj=new Date(parseInt(y),parseInt(mo)-1,parseInt(d));
+  const dateLabel=dateObj.toLocaleDateString('ro-RO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('cal-detail-date').textContent=dateLabel.charAt(0).toUpperCase()+dateLabel.slice(1);
+  document.getElementById('cal-detail-count').textContent=tasks.length>0?`(${tasks.length} task${tasks.length!==1?'uri':''})`: '';
+  if(!tasks.length){detailEl.style.display='none';emptyEl.style.display='block';return;}
+  detailEl.style.display='block'; emptyEl.style.display='none';
+  document.getElementById('cal-task-list').innerHTML=tasks.map(t=>{
+    const p=D.projects.find(x=>x.id===t.project_id);
+    const cl=p?D.clients.find(x=>x.id===p.client_id):null;
+    const scls=STATUS_CSS[t.status]||'bgr';
+    const clColor=cl?cc(cl.id):'var(--fg3)';
+    return`<div class="cal-task-row" onclick="edTk('${t.id}')">
+      <div class="cal-task-cell" style="font-weight:600;color:${clColor}">${cl?cl.name:'—'}</div>
+      <div class="cal-task-cell">${p?p.name:'—'}</div>
+      <div class="cal-task-cell" style="font-weight:600">${t.name}</div>
+      <div><span class="badge ${scls}">${STATUS_LABELS[t.status]||t.status}</span></div>
+    </div>`;
+  }).join('');
+}
+function calPrev(){calDate=new Date(calDate.getFullYear(),calDate.getMonth()-1,1);rCal();}
+function calNext(){calDate=new Date(calDate.getFullYear(),calDate.getMonth()+1,1);rCal();}
+function calToday(){const today=new Date();calDate=new Date(today.getFullYear(),today.getMonth(),1);calSelected=calDStr(today.getFullYear(),today.getMonth(),today.getDate());rCal();}
+
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){const lf=document.getElementById('login-form');if(lf&&lf.style.display!=='none')doLogin();}});
+</script>
+</body>
+</html>
