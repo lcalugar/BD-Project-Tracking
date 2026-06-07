@@ -3,43 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FreelanceTrack</title>
+<title>BD Project Track</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;font-size:14px;line-height:1.5;background:#f8f7f5;color:#1a1a18}
-:root{--bg:#f8f7f5;--sur:#fff;--s2:#f1efe8;--bd:#e0ddd4;--fg:#1a1a18;--fg2:#6b6b65;--fg3:#9a9a93;--acc:#5349b7;--abg:#eeedfe;--afg:#3c3489;--ok:#1d9e75;--okb:#e1f5ee;--wa:#ba7517;--wab:#faeeda;--er:#d85a30;--erb:#faece7;--r:8px;--rl:12px}
+body{font-family:system-ui,sans-serif;font-size:14px;line-height:1.5}
+:root{
+  --bg:#f8f7f5;--sur:#fff;--s2:#f1efe8;--bd:#e0ddd4;
+  --fg:#1a1a18;--fg2:#6b6b65;--fg3:#9a9a93;
+  --acc:#5349b7;--abg:#eeedfe;--afg:#3c3489;
+  --ok:#1d9e75;--okb:#e1f5ee;--wa:#ba7517;--wab:#faeeda;
+  --er:#d85a30;--erb:#faece7;--r:8px;--rl:12px
+}
+body.dark{
+  --bg:#1c1c1a;--sur:#272725;--s2:#2e2e2b;--bd:#3a3a36;
+  --fg:#f0ede6;--fg2:#9a9a93;--fg3:#6b6b65;
+  --acc:#7f77dd;--abg:#26215c;--afg:#afa9ec;
+  --ok:#1d9e75;--okb:#04342c;--wa:#ba7517;--wab:#412402;
+  --er:#d85a30;--erb:#4a1b0c
+}
+body{background:var(--bg);color:var(--fg)}
 /* LOGIN */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:20px}
-.login-box{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--rl);padding:36px 32px;width:360px;max-width:100%}
-.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px;justify-content:center}
-.login-logo i{color:var(--acc);font-size:28px}
-.login-logo span{font-size:20px;font-weight:600;color:var(--fg)}
-.login-title{font-size:15px;font-weight:500;color:var(--fg);margin-bottom:20px;text-align:center}
-.login-err{background:var(--erb);color:var(--er);border-radius:var(--r);padding:8px 12px;font-size:13px;margin-bottom:14px;display:none}
-.login-ok{background:var(--okb);color:var(--ok);border-radius:var(--r);padding:8px 12px;font-size:13px;margin-bottom:14px;display:none}
-/* APP */
+.login-box{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--rl);padding:36px 32px;width:380px;max-width:100%}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px;justify-content:center}
+.login-logo img{height:40px;object-fit:contain;filter:var(--logo-filter,none)}
+.login-app-name{font-size:13px;font-weight:500;color:var(--fg2);text-align:center;margin-bottom:20px}
+.login-title{font-size:15px;font-weight:500;color:var(--fg);margin-bottom:16px;text-align:center}
+.login-err{background:var(--erb);color:var(--er);border-radius:var(--r);padding:8px 12px;font-size:13px;margin-bottom:12px;display:none}
+.login-ok{background:var(--okb);color:var(--ok);border-radius:var(--r);padding:8px 12px;font-size:13px;margin-bottom:12px;display:none}
+/* APP SHELL */
 .app{display:flex;height:100vh;overflow:hidden}
-.sb{width:196px;background:var(--sur);border-right:0.5px solid var(--bd);display:flex;flex-direction:column;padding:10px 8px;gap:1px;flex-shrink:0}
-.logo{padding:8px 10px 14px;font-size:15px;font-weight:600;color:var(--fg);display:flex;align-items:center;gap:8px}
-.logo i{color:var(--acc);font-size:20px}
+.sb{width:210px;background:var(--sur);border-right:0.5px solid var(--bd);display:flex;flex-direction:column;padding:10px 8px;gap:1px;flex-shrink:0}
+.logo-area{padding:8px 10px 14px;display:flex;align-items:center;gap:8px}
+.logo-area img{height:28px;object-fit:contain}
+.logo-area span{font-size:11px;font-weight:600;color:var(--fg2);letter-spacing:.02em}
 .nb{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);cursor:pointer;color:var(--fg2);font-size:13px;border:none;background:none;width:100%;text-align:left;transition:all .12s}
 .nb:hover{background:var(--s2);color:var(--fg)}
 .nb.on{background:var(--abg);color:var(--afg);font-weight:500}
-.nb i{font-size:16px;width:18px}
-.sb-bottom{margin-top:auto;padding-top:10px;border-top:0.5px solid var(--bd)}
-.sb-user{padding:8px 10px;font-size:12px;color:var(--fg3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.main{flex:1;overflow-y:auto;padding:22px 26px;background:var(--bg)}
-.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.nb i{font-size:16px;width:18px;flex-shrink:0}
+.sb-bottom{margin-top:auto;padding-top:8px;border-top:0.5px solid var(--bd)}
+.sb-user{padding:6px 10px;font-size:11px;color:var(--fg3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Timer pill in sidebar */
+.timer-pill{display:none;margin:4px 8px;padding:7px 10px;background:var(--abg);border-radius:var(--r);align-items:center;gap:8px;cursor:pointer}
+.timer-pill.running{display:flex}
+.timer-pill-time{font-size:13px;font-weight:600;color:var(--afg);font-variant-numeric:tabular-nums;flex:1}
+.timer-pill-stop{background:var(--er);color:#fff;border:none;border-radius:5px;padding:2px 8px;font-size:11px;cursor:pointer}
+/* Main */
+.main{flex:1;overflow-y:auto;padding:20px 24px;background:var(--bg)}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
 .pt{font-size:18px;font-weight:500;color:var(--fg)}
+/* Search bar */
+.search-wrap{position:relative;margin:0 8px 10px}
+.search-wrap input{width:100%;padding:7px 10px 7px 32px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--s2);color:var(--fg);font-size:13px;outline:none;font-family:inherit}
+.search-wrap input:focus{border-color:var(--acc);background:var(--sur)}
+.search-wrap i{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--fg3);pointer-events:none}
+.search-results{position:absolute;left:8px;right:8px;top:calc(100% + 2px);background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--r);z-index:50;max-height:320px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.sr-item{padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid var(--bd)}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover{background:var(--s2)}
+.sr-type{font-size:10px;padding:1px 6px;border-radius:100px;background:var(--abg);color:var(--afg);white-space:nowrap}
+.sr-name{font-size:13px;color:var(--fg);flex:1}
+.sr-sub{font-size:11px;color:var(--fg3)}
+/* Buttons */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--r);border:0.5px solid var(--bd);background:var(--sur);color:var(--fg);cursor:pointer;font-size:13px;font-weight:500;transition:background .12s}
 .btn:hover{background:var(--s2)}
 .btnp{background:var(--acc);color:#fff;border-color:var(--acc)}
 .btnp:hover{opacity:.88}
 .btne{color:var(--er);border-color:transparent;background:transparent}
 .btns{padding:3px 9px;font-size:12px}
-.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+/* Grids */
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
 .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}
 .sc{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--r);padding:12px 14px}
 .sl{font-size:11px;color:var(--fg3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
@@ -52,15 +87,21 @@ th{font-size:11px;color:var(--fg3);font-weight:500;text-align:left;padding:8px 1
 td{padding:9px 12px;border-bottom:0.5px solid var(--bd);color:var(--fg);font-size:13px;vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--s2)}
-.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:500;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:500;white-space:nowrap;cursor:pointer;position:relative}
 .bok{background:var(--okb);color:var(--ok)}
 .bwa{background:var(--wab);color:var(--wa)}
 .ber{background:var(--erb);color:var(--er)}
 .bac{background:var(--abg);color:var(--afg)}
 .bgr{background:var(--s2);color:var(--fg2)}
-.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;align-items:flex-start;justify-content:center;padding-top:50px;overflow-y:auto}
+/* Status dropdown inline */
+.status-dd{position:absolute;top:100%;left:0;background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--r);z-index:60;min-width:140px;box-shadow:0 4px 16px rgba(0,0,0,.12);display:none}
+.status-dd.open{display:block}
+.status-dd-item{padding:7px 12px;font-size:12px;cursor:pointer;color:var(--fg)}
+.status-dd-item:hover{background:var(--s2)}
+/* Modal */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;align-items:flex-start;justify-content:center;padding-top:40px;overflow-y:auto}
 .ov.show{display:flex}
-.modal{background:var(--sur);border-radius:var(--rl);padding:24px;width:500px;max-width:96vw;border:0.5px solid var(--bd);margin-bottom:40px}
+.modal{background:var(--sur);border-radius:var(--rl);padding:24px;width:520px;max-width:96vw;border:0.5px solid var(--bd);margin-bottom:40px}
 .modal h3{font-size:15px;font-weight:500;margin-bottom:14px;color:var(--fg)}
 .fi{margin-bottom:11px}
 .fi label{display:block;font-size:12px;color:var(--fg2);margin-bottom:3px}
@@ -83,11 +124,13 @@ tr:hover td{background:var(--s2)}
 .ttab{display:flex;gap:4px;margin-bottom:14px}
 .ttab-btn{padding:6px 14px;border-radius:var(--r);border:0.5px solid var(--bd);background:var(--sur);color:var(--fg2);cursor:pointer;font-size:13px;transition:all .12s}
 .ttab-btn.on{background:var(--abg);color:var(--afg);border-color:var(--acc);font-weight:500}
+/* Entries */
 .erow{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:0.5px solid var(--bd)}
 .erow:last-child{border-bottom:none}
 .et{font-size:13px;font-weight:500;color:var(--fg);min-width:68px;font-variant-numeric:tabular-nums}
 .em{flex:1;font-size:12px;color:var(--fg2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ed{font-size:11px;color:var(--fg3);white-space:nowrap}
+/* Misc */
 .pb{width:100%;height:5px;background:var(--s2);border-radius:100px;overflow:hidden;margin-top:4px}
 .pf{height:100%;background:var(--acc);border-radius:100px}
 .empty{text-align:center;padding:36px 16px;color:var(--fg3)}
@@ -101,6 +144,7 @@ tr:hover td{background:var(--s2)}
 .deadline-ok{color:var(--fg3);font-size:11px}
 .frow{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .frow select,.frow input{padding:6px 10px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--sur);color:var(--fg);font-size:13px;outline:none}
+/* Status badges */
 .s-discutii{background:#f0f9ff;color:#0369a1}
 .s-initiat{background:#f0fdf4;color:#15803d}
 .s-lucru{background:var(--wab);color:var(--wa)}
@@ -108,56 +152,106 @@ tr:hover td{background:var(--s2)}
 .s-facturat{background:#f3e8ff;color:#7c3aed}
 .s-incasat{background:#dcfce7;color:#166534}
 .s-defacturat{background:#ffedd5;color:#c2410c}
+/* Subtasks */
+.subtask-list{padding:6px 14px 8px 52px;background:var(--s2);border-top:0.5px solid var(--bd)}
+.subtask-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--bd)}
+.subtask-item:last-child{border-bottom:none}
+.stck{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--bd);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .12s}
+.stck.done{background:var(--ok);border-color:var(--ok);color:#fff}
+/* Project notes */
+.note-item{padding:10px 12px;border-bottom:0.5px solid var(--bd);font-size:13px;color:var(--fg)}
+.note-item:last-child{border-bottom:none}
+.note-ts{font-size:10px;color:var(--fg3);margin-bottom:3px}
+/* Goal progress */
+.goal-bar-wrap{background:var(--s2);border-radius:100px;overflow:hidden;height:8px;margin-top:6px}
+.goal-bar{height:100%;border-radius:100px;transition:width .4s}
+/* Client card */
+.client-card{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--rl);padding:16px;margin-bottom:10px}
+/* Loading */
+.loading{position:fixed;inset:0;background:rgba(255,255,255,.8);z-index:200;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+body.dark .loading{background:rgba(28,28,26,.8)}
+.loading-spinner{width:32px;height:32px;border:3px solid var(--bd);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:var(--fg2)}
+/* Mobile topbar */
+.topbar{display:none;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--sur);border-bottom:0.5px solid var(--bd);position:sticky;top:0;z-index:40;gap:8px}
+.topbar-logo img{height:24px;object-fit:contain}
+.hbtn{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--r);color:var(--fg);display:flex;align-items:center}
+.hbtn i{font-size:22px}
+/* Timer pill mobile */
+.topbar-timer{font-size:12px;font-weight:600;color:var(--afg);background:var(--abg);padding:4px 10px;border-radius:100px;display:none;font-variant-numeric:tabular-nums}
+.topbar-timer.running{display:block}
+/* Drawer */
+.drawer{position:fixed;inset:0;z-index:80;display:none}
+.drawer.open{display:block}
+.drawer-bg{position:absolute;inset:0;background:rgba(0,0,0,.4)}
+.drawer-panel{position:absolute;left:0;top:0;bottom:0;width:230px;background:var(--sur);padding:14px 8px;display:flex;flex-direction:column;gap:1px;transform:translateX(-100%);transition:transform .22s cubic-bezier(.4,0,.2,1)}
+.drawer.open .drawer-panel{transform:translateX(0)}
+.drawer-logo{padding:8px 10px 14px;display:flex;align-items:center;justify-content:space-between}
+.drawer-logo img{height:24px;object-fit:contain}
 /* Calendar */
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
 .cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
 .cal-dname{text-align:center;font-size:11px;font-weight:500;color:var(--fg3);padding:4px 0;text-transform:uppercase;letter-spacing:.04em}
-.cal-day{min-height:72px;background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--r);padding:6px;cursor:pointer;transition:border-color .12s}
+.cal-day{min-height:70px;background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--r);padding:6px;cursor:pointer;transition:border-color .12s}
 .cal-day:hover{border-color:var(--acc)}
 .cal-day.today{border-color:var(--acc);border-width:1.5px;background:var(--abg)}
 .cal-day.other-month{background:var(--s2);opacity:.55}
-.cal-day.selected{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 2px var(--abg)}
+.cal-day.selected{border-color:var(--acc);border-width:2px}
 .cal-dnum{font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:3px}
 .cal-day.today .cal-dnum{color:var(--acc);font-weight:700}
 .cal-dot{width:6px;height:6px;border-radius:50%;background:var(--acc);display:inline-block;margin:1px}
 .cal-dots{display:flex;flex-wrap:wrap;gap:2px;margin-top:3px}
 .cal-task-chip{font-size:10px;padding:1px 5px;border-radius:3px;background:var(--abg);color:var(--afg);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;display:block}
 .cal-task-chip.urgent{background:var(--erb);color:var(--er)}
-.cal-nav{display:flex;align-items:center;gap:8px}
+.cal-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .cal-nav button{background:none;border:0.5px solid var(--bd);border-radius:var(--r);padding:5px 10px;cursor:pointer;color:var(--fg);font-size:13px;transition:background .12s}
 .cal-nav button:hover{background:var(--s2)}
 .cal-month-title{font-size:15px;font-weight:500;color:var(--fg);min-width:160px;text-align:center}
 .cal-detail{background:var(--sur);border:0.5px solid var(--bd);border-radius:var(--rl);padding:0;margin-top:14px;overflow:hidden}
 .cal-detail-hdr{padding:12px 16px;border-bottom:0.5px solid var(--bd);display:flex;align-items:center;gap:8px;background:var(--abg)}
-.cal-detail-date{font-size:14px;font-weight:500;color:var(--afg)}
 .cal-task-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;padding:11px 16px;border-bottom:0.5px solid var(--bd);align-items:center;cursor:pointer}
 .cal-task-row:last-child{border-bottom:none}
 .cal-task-row:hover{background:var(--s2)}
 .cal-task-cell{font-size:13px;color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cal-col-hdr{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;padding:6px 16px;background:var(--s2);border-bottom:0.5px solid var(--bd)}
 .cal-col-hdr span{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:.04em}
-/* Loading overlay */
-.loading{position:fixed;inset:0;background:rgba(255,255,255,.8);z-index:200;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.loading-spinner{width:32px;height:32px;border:3px solid var(--bd);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-size:13px;color:var(--fg2)}
-/* Mobile topbar */
-.topbar{display:none;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--sur);border-bottom:0.5px solid var(--bd);position:sticky;top:0;z-index:40}
-.topbar-logo{font-size:15px;font-weight:600;color:var(--fg);display:flex;align-items:center;gap:7px}
-.topbar-logo i{color:var(--acc);font-size:18px}
-.hbtn{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--r);color:var(--fg);display:flex;align-items:center;justify-content:center}
-.hbtn:hover{background:var(--s2)}
-.hbtn i{font-size:22px}
-.drawer{position:fixed;inset:0;z-index:80;display:none}
-.drawer.open{display:block}
-.drawer-bg{position:absolute;inset:0;background:rgba(0,0,0,.4)}
-.drawer-panel{position:absolute;left:0;top:0;bottom:0;width:220px;background:var(--sur);padding:16px 8px;display:flex;flex-direction:column;gap:1px;transform:translateX(-100%);transition:transform .22s cubic-bezier(.4,0,.2,1)}
-.drawer.open .drawer-panel{transform:translateX(0)}
-.drawer-logo{padding:8px 10px 16px;font-size:16px;font-weight:600;color:var(--fg);display:flex;align-items:center;justify-content:space-between}
-.drawer-logo-left{display:flex;align-items:center;gap:8px}
-.drawer-logo-left i{color:var(--acc);font-size:20px}
-.db-projects-col{}
-#pg-clients,#pg-projects,#pg-tasks,#pg-timer,#pg-reports,#pg-dashboard,#pg-calendar{display:none}
+/* Dark mode logo filter */
+body.dark .logo-invert{filter:invert(1) brightness(2)}
+/* PDF */
+#pdf-preview{display:none}
+@media print{
+  body>*{display:none !important}
+  #pdf-preview{display:block !important;position:fixed;inset:0;background:#fff;z-index:9999}
+  .pdf-wrap{font-family:system-ui,sans-serif;font-size:12px;color:#1a1a18;padding:28px 32px;max-width:800px;margin:0 auto}
+  .pdf-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #5349b7}
+  .pdf-sender{font-size:11px;color:#6b6b65;line-height:1.6;text-align:right}
+  .pdf-title{font-size:20px;font-weight:700;color:#5349b7;margin-bottom:4px}
+  .pdf-subtitle{font-size:12px;color:#6b6b65;margin-bottom:16px}
+  .pdf-client-box{background:#f1efe8;border-radius:6px;padding:12px 16px;margin-bottom:20px}
+  .pdf-client-name{font-size:15px;font-weight:700}
+  .pdf-client-detail{font-size:11px;color:#6b6b65;margin-top:2px}
+  .pdf-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+  .pdf-stat{background:#f8f7f5;border:0.5px solid #e0ddd4;border-radius:6px;padding:10px 14px}
+  .pdf-stat-label{font-size:10px;color:#9a9a93;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+  .pdf-stat-val{font-size:18px;font-weight:600}
+  .pdf-section-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#5349b7;margin:20px 0 8px}
+  .pdf-proj-block{margin-bottom:14px;border:0.5px solid #e0ddd4;border-radius:6px;overflow:hidden}
+  .pdf-proj-hdr{background:#eeedfe;padding:8px 12px;display:flex;justify-content:space-between}
+  .pdf-proj-hdr-name{font-size:13px;font-weight:600;color:#3c3489}
+  .pdf-proj-hdr-stats{font-size:11px;color:#6b6b65}
+  .pdf-tbl{width:100%;border-collapse:collapse}
+  .pdf-tbl th{font-size:10px;color:#9a9a93;font-weight:500;text-align:left;padding:6px 10px;border-bottom:0.5px solid #e0ddd4;text-transform:uppercase;background:#f8f7f5}
+  .pdf-tbl td{font-size:11px;padding:6px 10px;border-bottom:0.5px solid #f1efe8;vertical-align:top}
+  .pdf-tbl tr:nth-child(even) td{background:#fafaf8}
+  .pdf-tbl tr:last-child td{border-bottom:none}
+  .pdf-footer{margin-top:28px;padding-top:12px;border-top:0.5px solid #e0ddd4;display:flex;justify-content:space-between;font-size:10px;color:#9a9a93}
+  .pdf-note{font-size:11px;color:#6b6b65;font-style:italic;margin-top:16px;text-align:center}
+  @page{margin:16mm 12mm;size:A4}
+}
+/* Pages hidden */
+#pg-clients,#pg-projects,#pg-tasks,#pg-timer,#pg-reports,#pg-dashboard,#pg-calendar,#pg-client-detail{display:none}
+/* Responsive */
 @media(max-width:640px){
   .app{flex-direction:column}
   .sb{display:none}
@@ -169,67 +263,57 @@ tr:hover td{background:var(--s2)}
   .ph{flex-direction:column;align-items:flex-start}
   table{display:block;overflow-x:auto}
   .frow{flex-wrap:wrap}
-  .frow select{flex:1;min-width:140px}
+  .frow select{flex:1;min-width:130px}
   .ttab{flex-wrap:wrap}
   .trow{flex-direction:column;align-items:stretch}
   .trow select,.trow input{width:100%}
   .db-projects-col{display:none}
-  .cal-day{min-height:44px;padding:4px}
+  .cal-day{min-height:40px;padding:4px}
   .cal-task-chip{display:none}
-  .cal-task-row{grid-template-columns:1fr;gap:3px;padding:10px 14px}
+  .cal-task-row{grid-template-columns:1fr;gap:3px}
   .cal-col-hdr{display:none}
 }
 </style>
 </head>
 <body>
-
-<!-- LOADING -->
-<div class="loading" id="loading">
-  <div class="loading-spinner"></div>
-  <div class="loading-text">Se încarcă...</div>
-</div>
-
+<div class="loading" id="loading"><div class="loading-spinner"></div><div class="loading-text">Se încarcă...</div></div>
 <!-- LOGIN -->
 <div class="login-wrap" id="login-wrap" style="display:none">
   <div class="login-box">
-    <div class="login-logo"><i class="ti ti-bolt"></i><span>FreelanceTrack</span></div>
+    <div class="login-logo"><img src="" class="logo-invert" alt="BD"></div>
+    <div class="login-app-name">Black Design Project Track</div>
     <div id="login-err" class="login-err"></div>
     <div id="login-ok" class="login-ok"></div>
     <div id="login-form">
       <p class="login-title">Autentificare</p>
-      <div class="fi"><label>Email</label><input id="l-email" type="email" placeholder="email@tau.ro" autocomplete="email"></div>
+      <div class="fi"><label>Email</label><input id="l-email" type="email" placeholder="email@blackdesign.ro" autocomplete="email"></div>
       <div class="fi"><label>Parolă</label><input id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
       <button class="btn btnp" style="width:100%;justify-content:center;margin-top:4px" onclick="doLogin()"><i class="ti ti-login"></i>Intră în cont</button>
-      <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--fg3)">
-        Nu ai cont? <a href="#" onclick="showRegister()" style="color:var(--acc)">Creează cont</a>
-      </div>
+      <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--fg3)">Nu ai cont? <a href="#" onclick="showRegister()" style="color:var(--acc)">Creează cont</a></div>
     </div>
     <div id="register-form" style="display:none">
       <p class="login-title">Cont nou</p>
-      <div class="fi"><label>Email</label><input id="r-email" type="email" placeholder="email@tau.ro"></div>
+      <div class="fi"><label>Email</label><input id="r-email" type="email" placeholder="email@blackdesign.ro"></div>
       <div class="fi"><label>Parolă</label><input id="r-pass" type="password" placeholder="minim 6 caractere"></div>
       <button class="btn btnp" style="width:100%;justify-content:center;margin-top:4px" onclick="doRegister()"><i class="ti ti-user-plus"></i>Creează cont</button>
-      <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--fg3)">
-        Ai deja cont? <a href="#" onclick="showLogin()" style="color:var(--acc)">Autentifică-te</a>
-      </div>
+      <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--fg3)">Ai deja cont? <a href="#" onclick="showLogin()" style="color:var(--acc)">Autentifică-te</a></div>
     </div>
   </div>
 </div>
-
 <!-- MOBILE TOPBAR -->
 <div class="topbar">
-  <div class="topbar-logo"><i class="ti ti-bolt"></i>FreelanceTrack</div>
-  <button class="hbtn" onclick="openDrawer()"><i class="ti ti-menu-2"></i></button>
+  <img src="" class="logo-invert topbar-logo" alt="BD" style="height:24px">
+  <span class="topbar-timer" id="topbar-timer">00:00:00</span>
+  <div style="display:flex;gap:4px;margin-left:auto">
+    <button class="hbtn" onclick="toggleDark()" title="Dark mode"><i class="ti ti-moon" id="dark-icon-m"></i></button>
+    <button class="hbtn" onclick="openDrawer()"><i class="ti ti-menu-2"></i></button>
+  </div>
 </div>
-
-<!-- MOBILE DRAWER -->
+<!-- DRAWER -->
 <div class="drawer" id="drawer">
   <div class="drawer-bg" onclick="closeDrawer()"></div>
   <div class="drawer-panel">
-    <div class="drawer-logo">
-      <div class="drawer-logo-left"><i class="ti ti-bolt"></i>FreelanceTrack</div>
-      <button class="hbtn" onclick="closeDrawer()"><i class="ti ti-x"></i></button>
-    </div>
+    <div class="drawer-logo"><img src="" class="logo-invert" alt="BD" style="height:22px"><button class="hbtn" onclick="closeDrawer()"><i class="ti ti-x"></i></button></div>
     <button class="nb" onclick="goM('dashboard')"><i class="ti ti-layout-dashboard"></i>Dashboard</button>
     <button class="nb" onclick="goM('clients')"><i class="ti ti-users"></i>Clienți</button>
     <button class="nb" onclick="goM('projects')"><i class="ti ti-folder"></i>Proiecte</button>
@@ -237,16 +321,27 @@ tr:hover td{background:var(--s2)}
     <button class="nb" onclick="goM('timer')"><i class="ti ti-clock"></i>Timer</button>
     <button class="nb" onclick="goM('reports')"><i class="ti ti-chart-bar"></i>Rapoarte</button>
     <button class="nb" onclick="goM('calendar')"><i class="ti ti-calendar"></i>Calendar</button>
-    <div style="margin-top:auto;padding-top:10px;border-top:0.5px solid var(--bd)">
+    <div style="margin-top:auto;padding-top:8px;border-top:0.5px solid var(--bd)">
       <button class="nb" onclick="doLogout()"><i class="ti ti-logout"></i>Ieși din cont</button>
     </div>
   </div>
 </div>
-
-<!-- MAIN APP -->
+<!-- APP -->
 <div class="app" id="main-app" style="display:none">
 <nav class="sb">
-  <div class="logo"><i class="ti ti-bolt"></i>FreelanceTrack</div>
+  <div class="logo-area"><img src="" class="logo-invert" alt="BD"><span>Black Design<br>Project Track</span></div>
+  <!-- Search -->
+  <div class="search-wrap" id="search-wrap">
+    <i class="ti ti-search"></i>
+    <input type="text" id="search-input" placeholder="Caută..." oninput="doSearch(this.value)" autocomplete="off">
+    <div class="search-results" id="search-results" style="display:none"></div>
+  </div>
+  <!-- Timer pill -->
+  <div class="timer-pill" id="timer-pill" onclick="go('timer')">
+    <i class="ti ti-player-play" style="font-size:13px;color:var(--afg)"></i>
+    <span class="timer-pill-time" id="timer-pill-time">00:00:00</span>
+    <button class="timer-pill-stop" onclick="event.stopPropagation();stopT()">Stop</button>
+  </div>
   <button class="nb" onclick="go('dashboard')"><i class="ti ti-layout-dashboard"></i>Dashboard</button>
   <button class="nb" onclick="go('clients')"><i class="ti ti-users"></i>Clienți</button>
   <button class="nb" onclick="go('projects')"><i class="ti ti-folder"></i>Proiecte</button>
@@ -256,62 +351,77 @@ tr:hover td{background:var(--s2)}
   <button class="nb" onclick="go('calendar')"><i class="ti ti-calendar"></i>Calendar</button>
   <div class="sb-bottom">
     <div class="sb-user" id="sb-user-email"></div>
+    <button class="nb" onclick="toggleDark()"><i class="ti ti-moon" id="dark-icon"></i>Dark mode</button>
     <button class="nb" onclick="doLogout()"><i class="ti ti-logout"></i>Ieși din cont</button>
   </div>
 </nav>
-<main class="main">
-
+<main class="main" id="main-content">
 <!-- DASHBOARD -->
 <div id="pg-dashboard">
-  <div class="ph"><h1 class="pt">Dashboard</h1></div>
-  <div class="g4" id="db-stats"></div>
+  <div class="ph"><h1 class="pt">Dashboard</h1><button class="btn btns" onclick="oM('goal')"><i class="ti ti-target"></i>Obiectiv lunar</button></div>
+  <div id="db-goal-bar"></div>
+  <div class="g4" id="db-stats" style="margin-top:12px"></div>
   <div class="frow">
     <select id="db-f-client" onchange="rDash()"><option value="">Toți clienții</option></select>
     <select id="db-f-project" onchange="rDash()"><option value="">Toate proiectele</option></select>
     <select id="db-f-status" onchange="rDash()">
       <option value="">Toate statusurile</option>
-      <option value="in discutii">În discuții</option>
-      <option value="initiat">Inițiat</option>
-      <option value="in lucru">În lucru</option>
-      <option value="finalizat">Finalizat</option>
-      <option value="de facturat">De facturat</option>
-      <option value="facturat">Facturat</option>
+      <option value="in discutii">În discuții</option><option value="initiat">Inițiat</option>
+      <option value="in lucru">În lucru</option><option value="finalizat">Finalizat</option>
+      <option value="de facturat">De facturat</option><option value="facturat">Facturat</option>
       <option value="incasat">Încasat</option>
     </select>
     <select id="db-f-sort" onchange="rDash()">
-      <option value="deadline">Sortare: Deadline</option>
-      <option value="client">Sortare: Client</option>
-      <option value="project">Sortare: Proiect</option>
-      <option value="status">Sortare: Status</option>
-      <option value="prio">Sortare: Prioritate</option>
+      <option value="deadline">Deadline</option><option value="client">Client</option>
+      <option value="project">Proiect</option><option value="status">Status</option><option value="prio">Prioritate</option>
     </select>
   </div>
   <div class="g2">
     <div>
-      <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:5px"><i class="ti ti-checkbox"></i>Taskuri active</div>
+      <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em"><i class="ti ti-checkbox"></i> Taskuri active</div>
       <div id="db-tasks"></div>
     </div>
     <div class="db-projects-col">
-      <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:5px"><i class="ti ti-folder"></i>Proiecte active</div>
+      <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em"><i class="ti ti-folder"></i> Proiecte active</div>
       <div id="db-projects"></div>
     </div>
   </div>
 </div>
-
 <!-- CLIENȚI -->
 <div id="pg-clients">
   <div class="ph"><h1 class="pt">Clienți</h1><button class="btn btnp" onclick="oM('client')"><i class="ti ti-plus"></i>Client nou</button></div>
   <div class="g4" id="sc-cl"></div>
   <div class="ct"><table><thead><tr><th style="width:18px"></th><th>Nume</th><th>Contact</th><th style="width:64px">Proj.</th><th style="width:90px">Ore</th><th style="width:72px">Status</th><th style="width:80px"></th></tr></thead><tbody id="tb-cl"></tbody></table></div>
 </div>
-
+<!-- CLIENT DETAIL -->
+<div id="pg-client-detail">
+  <div class="ph">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="btn btns" onclick="go('clients')"><i class="ti ti-arrow-left"></i>Înapoi</button>
+      <h1 class="pt" id="cd-name"></h1>
+    </div>
+    <button class="btn btnp" onclick="oM('pdf')"><i class="ti ti-file-type-pdf"></i>Raport PDF</button>
+  </div>
+  <div class="g4" id="cd-stats"></div>
+  <div class="g2">
+    <div>
+      <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em">Proiecte</div>
+      <div id="cd-projects"></div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em">Taskuri</div>
+      <div id="cd-tasks"></div>
+    </div>
+  </div>
+  <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Activitate recentă</div>
+  <div class="ct"><div id="cd-entries"></div></div>
+</div>
 <!-- PROIECTE -->
 <div id="pg-projects">
   <div class="ph"><h1 class="pt">Proiecte</h1><button class="btn btnp" onclick="oM('project')"><i class="ti ti-plus"></i>Proiect nou</button></div>
   <div class="g4" id="sc-pr"></div>
   <div class="ct"><table><thead><tr><th style="width:18px"></th><th>Client</th><th>Proiect</th><th style="width:130px">Ore / Buget</th><th style="width:72px">Status</th><th style="width:80px"></th></tr></thead><tbody id="tb-pr"></tbody></table></div>
 </div>
-
 <!-- TASKURI -->
 <div id="pg-tasks">
   <div class="ph"><h1 class="pt">Taskuri</h1><button class="btn btnp" onclick="oM('task')"><i class="ti ti-plus"></i>Task nou</button></div>
@@ -321,24 +431,18 @@ tr:hover td{background:var(--s2)}
     <select id="ftk-p" onchange="rTasks()"><option value="">Toate proiectele</option></select>
     <select id="ftk-s" onchange="rTasks()">
       <option value="">Toate statusurile</option>
-      <option value="in discutii">În discuții</option>
-      <option value="initiat">Inițiat</option>
-      <option value="in lucru">În lucru</option>
-      <option value="finalizat">Finalizat</option>
-      <option value="de facturat">De facturat</option>
-      <option value="facturat">Facturat</option>
+      <option value="in discutii">În discuții</option><option value="initiat">Inițiat</option>
+      <option value="in lucru">În lucru</option><option value="finalizat">Finalizat</option>
+      <option value="de facturat">De facturat</option><option value="facturat">Facturat</option>
       <option value="incasat">Încasat</option>
     </select>
     <select id="ftk-sort" onchange="rTasks()">
-      <option value="created">Sortare: Adăugat</option>
-      <option value="deadline">Sortare: Deadline</option>
-      <option value="prio">Sortare: Prioritate</option>
-      <option value="status">Sortare: Status</option>
+      <option value="created">Adăugat</option><option value="deadline">Deadline</option>
+      <option value="prio">Prioritate</option><option value="status">Status</option>
     </select>
   </div>
   <div class="ct"><div id="tk-list"></div></div>
 </div>
-
 <!-- TIMER -->
 <div id="pg-timer">
   <div class="ph"><h1 class="pt">Timer</h1></div>
@@ -360,37 +464,32 @@ tr:hover td{background:var(--s2)}
   </div>
   <div id="timer-manual" style="display:none">
     <div class="card">
-      <div class="fi"><label>Client</label><select id="me-cl" onchange="syncMePr()"><option value="">— Selectează client —</option></select></div>
-      <div class="fi"><label>Proiect *</label><select id="me-p" onchange="syncMeTk()"><option value="">— Selectează proiect —</option></select></div>
-      <div class="fi"><label>Task (opțional)</label><select id="me-tk"><option value="">— fără task —</option></select></div>
+      <div class="fi"><label>Client</label><select id="me-cl" onchange="syncMePr()"><option value="">— Client —</option></select></div>
+      <div class="fi"><label>Proiect *</label><select id="me-p" onchange="syncMeTk()"><option value="">— Proiect —</option></select></div>
+      <div class="fi"><label>Task</label><select id="me-tk"><option value="">— fără task —</option></select></div>
       <div class="fi-row">
         <div class="fi"><label>Data</label><input id="me-d" type="date"></div>
         <div class="fi"><label>Ora start</label><input id="me-ts" type="time" value="09:00"></div>
         <div class="fi"><label>Ora stop</label><input id="me-te" type="time" value="10:00"></div>
       </div>
       <div class="fi"><label>Descriere</label><input id="me-desc" placeholder="Opțional"></div>
-      <div style="display:flex;justify-content:flex-end;margin-top:4px">
-        <button class="btn btnp" onclick="savME()"><i class="ti ti-plus"></i>Adaugă intrare</button>
-      </div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btnp" onclick="savME()"><i class="ti ti-plus"></i>Adaugă intrare</button></div>
     </div>
   </div>
-  <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:8px;display:flex;align-items:center;gap:5px;text-transform:uppercase;letter-spacing:.04em"><i class="ti ti-history"></i>Intrări recente</div>
+  <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em"><i class="ti ti-history"></i> Intrări recente</div>
   <div class="ct"><div id="t-entries"></div></div>
 </div>
-
 <!-- RAPOARTE -->
 <div id="pg-reports">
   <div class="ph">
     <h1 class="pt">Rapoarte</h1>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <select id="r-per" onchange="rReports()" style="padding:6px 10px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--sur);color:var(--fg);font-size:13px;outline:none">
-        <option value="7">Ultima săptămână</option>
-        <option value="30" selected>Ultima lună</option>
-        <option value="90">Ultimele 3 luni</option>
-        <option value="365">Ultimul an</option>
-        <option value="0">Tot timpul</option>
+        <option value="7">Ultima săptămână</option><option value="30" selected>Ultima lună</option>
+        <option value="90">3 luni</option><option value="365">Ultimul an</option><option value="0">Tot timpul</option>
       </select>
       <button class="btn" onclick="expCSV()"><i class="ti ti-download"></i>Export CSV</button>
+      <button class="btn btnp" onclick="oM('pdf')"><i class="ti ti-file-type-pdf"></i>Raport PDF</button>
     </div>
   </div>
   <div class="g4" id="sc-rp"></div>
@@ -400,7 +499,6 @@ tr:hover td{background:var(--s2)}
   </div>
   <div class="ct"><table><thead><tr><th>Data</th><th>Client</th><th>Proiect</th><th>Task</th><th>Descriere</th><th style="width:90px">Durată</th></tr></thead><tbody id="tb-en"></tbody></table></div>
 </div>
-
 <!-- CALENDAR -->
 <div id="pg-calendar">
   <div class="ph">
@@ -409,56 +507,47 @@ tr:hover td{background:var(--s2)}
       <button onclick="calPrev()"><i class="ti ti-chevron-left"></i></button>
       <span class="cal-month-title" id="cal-title"></span>
       <button onclick="calNext()"><i class="ti ti-chevron-right"></i></button>
-      <button onclick="calToday()" style="margin-left:4px">Azi</button>
+      <button onclick="calToday()">Azi</button>
     </div>
   </div>
   <div class="cal-header" id="cal-hdr"></div>
   <div class="cal-grid" id="cal-grid"></div>
   <div class="cal-detail" id="cal-detail" style="display:none">
-    <div class="cal-detail-hdr">
-      <i class="ti ti-calendar-event" style="color:var(--afg)"></i>
-      <span class="cal-detail-date" id="cal-detail-date"></span>
-      <span id="cal-detail-count" style="font-size:12px;color:var(--afg);opacity:.75;margin-left:4px"></span>
-    </div>
+    <div class="cal-detail-hdr"><i class="ti ti-calendar-event" style="color:var(--afg)"></i><span style="font-size:14px;font-weight:500;color:var(--afg)" id="cal-detail-date"></span><span id="cal-detail-count" style="font-size:12px;color:var(--afg);opacity:.75;margin-left:4px"></span></div>
     <div class="cal-col-hdr"><span>Client</span><span>Proiect</span><span>Task</span><span>Status</span></div>
     <div id="cal-task-list"></div>
   </div>
   <div id="cal-empty" style="display:none;margin-top:16px" class="empty"><i class="ti ti-calendar-off"></i>Niciun task cu deadline în această zi</div>
 </div>
-
 </main>
 </div>
-
 <!-- MODALS -->
 <div id="m-client" class="ov"><div class="modal">
   <h3 id="mc-t">Client nou</h3>
-  <div class="fi"><label>Nume *</label><input id="c-n" placeholder="Ex: TaxiCornisa"></div>
-  <div class="fi-row">
-    <div class="fi"><label>Persoană contact</label><input id="c-c"></div>
-    <div class="fi"><label>Email</label><input id="c-e" type="email"></div>
-  </div>
-  <div class="fi-row">
-    <div class="fi"><label>Telefon</label><input id="c-p"></div>
-    <div class="fi"><label>Status</label><select id="c-s"><option value="activ">Activ</option><option value="inactiv">Inactiv</option><option value="lead">Lead</option></select></div>
-  </div>
+  <div class="fi"><label>Nume *</label><input id="c-n"></div>
+  <div class="fi-row"><div class="fi"><label>Persoană contact</label><input id="c-c"></div><div class="fi"><label>Email</label><input id="c-e" type="email"></div></div>
+  <div class="fi-row"><div class="fi"><label>Telefon</label><input id="c-p"></div><div class="fi"><label>Status</label><select id="c-s"><option value="activ">Activ</option><option value="inactiv">Inactiv</option><option value="lead">Lead</option></select></div></div>
   <div class="fi"><label>Note interne</label><textarea id="c-no" placeholder="Observații..."></textarea></div>
   <div class="ma"><button class="btn" onclick="cM('client')">Anulează</button><button class="btn btnp" onclick="savCl()">Salvează</button></div>
 </div></div>
-
-<div id="m-project" class="ov"><div class="modal">
+<div id="m-project" class="ov"><div class="modal" style="width:560px">
   <h3 id="mp-t">Proiect nou</h3>
   <div class="fi"><label>Nume *</label><input id="p-n"></div>
   <div class="fi"><label>Client</label><select id="p-c"></select></div>
-  <div class="fi-row">
-    <div class="fi"><label>Buget ore</label><input id="p-b" type="number" min="0" placeholder="Ex: 40"></div>
-    <div class="fi"><label>Rată orară (RON)</label><input id="p-r" type="number" min="0" placeholder="Ex: 150"></div>
-  </div>
+  <div class="fi-row"><div class="fi"><label>Buget ore</label><input id="p-b" type="number" min="0" placeholder="Ex: 40"></div><div class="fi"><label>Rată orară (RON)</label><input id="p-r" type="number" min="0" placeholder="Ex: 150"></div></div>
   <div class="fi"><label>Status</label><select id="p-s"><option value="activ">Activ</option><option value="pauza">Pauză</option><option value="finalizat">Finalizat</option></select></div>
   <div class="fi"><label>Descriere</label><textarea id="p-d"></textarea></div>
+  <div id="proj-notes-section" style="display:none">
+    <div style="font-size:12px;font-weight:500;color:var(--fg2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Notițe jurnal</div>
+    <div class="ct" id="proj-notes-list" style="max-height:160px;overflow-y:auto"></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input id="proj-note-input" placeholder="Adaugă notiță..." style="flex:1;padding:7px 10px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--sur);color:var(--fg);font-size:13px;outline:none">
+      <button class="btn btnp btns" onclick="addProjNote()"><i class="ti ti-plus"></i>Adaugă</button>
+    </div>
+  </div>
   <div class="ma"><button class="btn" onclick="cM('project')">Anulează</button><button class="btn btnp" onclick="savPr()">Salvează</button></div>
 </div></div>
-
-<div id="m-task" class="ov"><div class="modal">
+<div id="m-task" class="ov"><div class="modal" style="width:560px">
   <h3 id="mt-t">Task nou</h3>
   <div class="fi"><label>Titlu *</label><input id="tk-n"></div>
   <div class="fi"><label>Client</label><select id="tk-cl" onchange="syncTkPr()"><option value="">— Selectează client —</option></select></div>
@@ -477,168 +566,307 @@ tr:hover td{background:var(--s2)}
     <div class="fi"><label>Estimare ore</label><input id="tk-e" type="number" min="0" placeholder="Ex: 3"></div>
   </div>
   <div class="fi"><label>Note</label><textarea id="tk-no"></textarea></div>
+  <!-- Subtasks section (visible when editing) -->
+  <div id="subtask-section" style="display:none">
+    <div style="font-size:12px;font-weight:500;color:var(--fg2);margin:10px 0 6px;text-transform:uppercase;letter-spacing:.04em">Subtaskuri</div>
+    <div id="subtask-modal-list" style="margin-bottom:8px"></div>
+    <div style="display:flex;gap:8px">
+      <input id="subtask-input" placeholder="Adaugă subtask..." style="flex:1;padding:7px 10px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--sur);color:var(--fg);font-size:13px;outline:none" onkeydown="if(event.key==='Enter')addSubtask()">
+      <button class="btn btns btnp" onclick="addSubtask()"><i class="ti ti-plus"></i></button>
+    </div>
+  </div>
   <div class="ma"><button class="btn" onclick="cM('task')">Anulează</button><button class="btn btnp" onclick="savTk()">Salvează</button></div>
 </div></div>
-
+<div id="m-goal" class="ov"><div class="modal">
+  <h3>Obiectiv luna curentă</h3>
+  <div class="fi-row">
+    <div class="fi"><label>Target ore</label><input id="goal-h" type="number" min="0" placeholder="Ex: 160"></div>
+    <div class="fi"><label>Target RON</label><input id="goal-ron" type="number" min="0" placeholder="Ex: 10000"></div>
+  </div>
+  <div class="ma"><button class="btn" onclick="cM('goal')">Anulează</button><button class="btn btnp" onclick="savGoal()">Salvează</button></div>
+</div></div>
+<div id="m-pdf" class="ov"><div class="modal">
+  <h3><i class="ti ti-file-type-pdf" style="color:var(--er)"></i> Generează raport PDF</h3>
+  <div class="fi"><label>Client</label><select id="pdf-client"><option value="">— Toți clienții —</option></select></div>
+  <div class="fi-row"><div class="fi"><label>Data start</label><input id="pdf-start" type="date"></div><div class="fi"><label>Data stop</label><input id="pdf-stop" type="date"></div></div>
+  <div class="fi">
+    <label>Logo</label>
+    <input type="file" id="pdf-logo" accept="image/*" onchange="loadLogo(this)" style="padding:4px">
+    <div id="pdf-logo-preview" style="margin-top:6px;display:none">
+      <img id="pdf-logo-img" style="max-height:50px;max-width:180px;border-radius:4px;border:0.5px solid var(--bd);padding:3px">
+      <button class="btn btns btne" onclick="clearLogo()" style="margin-left:6px"><i class="ti ti-x"></i>Șterge</button>
+    </div>
+  </div>
+  <div class="fi"><label>Datele tale</label><textarea id="pdf-sender" placeholder="Nume PFA / SRL&#10;CUI: RO...&#10;Tel: 07...&#10;Email: ...@...ro" style="min-height:70px"></textarea></div>
+  <div class="fi"><label>Notă finală</label><input id="pdf-note" placeholder="Ex: Vă mulțumim pentru colaborare!"></div>
+  <div class="ma"><button class="btn" onclick="cM('pdf')">Anulează</button><button class="btn btnp" onclick="genPDF()"><i class="ti ti-file-type-pdf"></i>Generează PDF</button></div>
+</div></div>
+<div id="pdf-preview"></div>
 <script>
-// ── SUPABASE ──────────────────────────────────────────────────────────────────
-const SB_URL = 'https://syddjiwnwjhqqrrnsbfy.supabase.co';
-const SB_KEY = 'sb_publishable_GC2EUoA2PXBOKT_Oicd3xA_v3qqBYDP';
-const sb = supabase.createClient(SB_URL, SB_KEY);
+const SB_URL='https://syddjiwnwjhqqrrnsbfy.supabase.co';
+const SB_KEY='sb_publishable_GC2EUoA2PXBOKT_Oicd3xA_v3qqBYDP';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let currentUser=null;
+let D={clients:[],projects:[],tasks:[],entries:[],subtasks:[],notes:[],goals:[]};
+let EID={client:null,project:null,task:null};
+let TI={running:false,start:null,paused:0,iv:null,projId:null,taskId:null,desc:''};
+let currentClientDetail=null;
 
-let currentUser = null;
-let D = { clients:[], projects:[], tasks:[], entries:[] };
-let EID = { client:null, project:null, task:null };
-let TI = { running:false, start:null, paused:0, iv:null };
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+const C=['#5349b7','#1d9e75','#d85a30','#ba7517','#185fa5','#993556','#3b6d11','#854f0b'];
+const cc=id=>{const i=D.clients.findIndex(c=>c.id===id);return C[i>=0?i%C.length:0]};
+const fH=s=>{const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return h>0?`${h}h ${String(m).padStart(2,'0')}m`:`${m}m ${String(s%60).padStart(2,'0')}s`};
+const fHMS=s=>[Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(v=>String(v).padStart(2,'0')).join(':');
+const fD=ts=>new Date(ts).toLocaleDateString('ro-RO',{day:'2-digit',month:'2-digit',year:'numeric'});
+const pH=pid=>D.entries.filter(e=>e.project_id===pid).reduce((s,e)=>s+e.duration,0);
+const tkH=tid=>D.entries.filter(e=>e.task_id===tid).reduce((s,e)=>s+e.duration,0);
+const clH=cid=>{const pp=D.projects.filter(p=>p.client_id===cid).map(p=>p.id);return D.entries.filter(e=>pp.includes(e.project_id)).reduce((s,e)=>s+e.duration,0)};
+const clRON=cid=>{const pp=D.projects.filter(p=>p.client_id===cid);return D.entries.reduce((s,e)=>{const p=pp.find(x=>x.id===e.project_id);return s+(p&&p.rate?e.duration/3600*p.rate:0)},0)};
+const nowMonth=()=>new Date().toISOString().slice(0,7);
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-const uid = () => crypto.randomUUID();
-const C = ['#5349b7','#1d9e75','#d85a30','#ba7517','#185fa5','#993556','#3b6d11','#854f0b'];
-const cc = id => { const i = D.clients.findIndex(c => c.id === id); return C[i >= 0 ? i % C.length : 0]; };
-const fH = s => { const h=Math.floor(s/3600),m=Math.floor((s%3600)/60); return h>0?`${h}h ${String(m).padStart(2,'0')}m`:`${m}m ${String(s%60).padStart(2,'0')}s`; };
-const fHMS = s => [Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(v=>String(v).padStart(2,'0')).join(':');
-const fD = ts => new Date(ts).toLocaleDateString('ro-RO',{day:'2-digit',month:'2-digit',year:'numeric'});
-const pH = pid => D.entries.filter(e=>e.project_id===pid).reduce((s,e)=>s+e.duration,0);
-const tkH = tid => D.entries.filter(e=>e.task_id===tid).reduce((s,e)=>s+e.duration,0);
-const clH = cid => { const pp=D.projects.filter(p=>p.client_id===cid).map(p=>p.id); return D.entries.filter(e=>pp.includes(e.project_id)).reduce((s,e)=>s+e.duration,0); };
+const SL={'in discutii':'În discuții','initiat':'Inițiat','in lucru':'În lucru','finalizat':'Finalizat','de facturat':'De facturat','facturat':'Facturat','incasat':'Încasat'};
+const SC={'in discutii':'s-discutii','initiat':'s-initiat','in lucru':'s-lucru','finalizat':'s-finalizat','de facturat':'s-defacturat','facturat':'s-facturat','incasat':'s-incasat'};
+const PO={high:0,normal:1,low:2};
 
-const STATUS_LABELS = {'in discutii':'În discuții','initiat':'Inițiat','in lucru':'În lucru','finalizat':'Finalizat','de facturat':'De facturat','facturat':'Facturat','incasat':'Încasat'};
-const STATUS_CSS = {'in discutii':'s-discutii','initiat':'s-initiat','in lucru':'s-lucru','finalizat':'s-finalizat','de facturat':'s-defacturat','facturat':'s-facturat','incasat':'s-incasat'};
-const PRIO_ORDER = {high:0,normal:1,low:2};
-
-function deadlineInfo(dlStr) {
-  if (!dlStr) return null;
-  const dl = new Date(dlStr), now = new Date();
-  const diff = Math.ceil((dl - now) / 86400000);
-  if (diff < 0) return {label:`Expirat ${Math.abs(diff)}z`,cls:'deadline-warn',urgent:true};
-  if (diff === 0) return {label:'Azi!',cls:'deadline-warn',urgent:true};
-  if (diff <= 3) return {label:`${diff}z`,cls:'deadline-warn',urgent:true};
-  return {label:`${diff}z`,cls:'deadline-ok',urgent:false};
+function dlInfo(d){
+  if(!d)return null;
+  const diff=Math.ceil((new Date(d)-new Date())/86400000);
+  if(diff<0)return{label:`Exp. ${Math.abs(diff)}z`,cls:'deadline-warn',urgent:true};
+  if(diff===0)return{label:'Azi!',cls:'deadline-warn',urgent:true};
+  if(diff<=3)return{label:`${diff}z`,cls:'deadline-warn',urgent:true};
+  return{label:`${diff}z`,cls:'deadline-ok',urgent:false};
 }
+function showLoad(on){document.getElementById('loading').style.display=on?'flex':'none'}
+function showErr(msg){const e=document.getElementById('login-err');e.textContent=msg;e.style.display='block'}
+function hideErr(){document.getElementById('login-err').style.display='none';document.getElementById('login-ok').style.display='none'}
+function showOk(msg){const e=document.getElementById('login-ok');e.textContent=msg;e.style.display='block'}
 
-function showLoading(on) { document.getElementById('loading').style.display = on ? 'flex' : 'none'; }
-function showErr(msg) { const e=document.getElementById('login-err'); e.textContent=msg; e.style.display='block'; }
-function hideErr() { document.getElementById('login-err').style.display='none'; document.getElementById('login-ok').style.display='none'; }
-function showOk(msg) { const e=document.getElementById('login-ok'); e.textContent=msg; e.style.display='block'; }
+// ── DARK MODE ─────────────────────────────────────────────────────────────────
+function toggleDark(){
+  const isDark=document.body.classList.toggle('dark');
+  localStorage.setItem('ft_dark',isDark?'1':'0');
+  document.getElementById('dark-icon').className=isDark?'ti ti-sun':'ti ti-moon';
+  document.getElementById('dark-icon-m').className=isDark?'ti ti-sun':'ti ti-moon';
+}
+function initDark(){
+  const isDark=localStorage.getItem('ft_dark')==='1';
+  if(isDark){document.body.classList.add('dark');document.getElementById('dark-icon').className='ti ti-sun';document.getElementById('dark-icon-m').className='ti ti-sun';}
+}
 
 // ── AUTH ──────────────────────────────────────────────────────────────────────
-function showLogin() { document.getElementById('login-form').style.display='block'; document.getElementById('register-form').style.display='none'; hideErr(); }
-function showRegister() { document.getElementById('login-form').style.display='none'; document.getElementById('register-form').style.display='block'; hideErr(); }
-
-async function doLogin() {
+function showLogin(){document.getElementById('login-form').style.display='block';document.getElementById('register-form').style.display='none';hideErr()}
+function showRegister(){document.getElementById('login-form').style.display='none';document.getElementById('register-form').style.display='block';hideErr()}
+async function doLogin(){
   hideErr();
-  const email = document.getElementById('l-email').value.trim();
-  const pass = document.getElementById('l-pass').value;
-  if (!email || !pass) { showErr('Completează email și parolă'); return; }
-  showLoading(true);
-  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
-  showLoading(false);
-  if (error) { showErr(error.message); return; }
+  const email=document.getElementById('l-email').value.trim(),pass=document.getElementById('l-pass').value;
+  if(!email||!pass){showErr('Completează email și parolă');return}
+  showLoad(true);const{error}=await sb.auth.signInWithPassword({email,password:pass});showLoad(false);
+  if(error)showErr(error.message);
 }
-
-async function doRegister() {
+async function doRegister(){
   hideErr();
-  const email = document.getElementById('r-email').value.trim();
-  const pass = document.getElementById('r-pass').value;
-  if (!email || !pass) { showErr('Completează email și parolă'); return; }
-  if (pass.length < 6) { showErr('Parola trebuie să aibă minim 6 caractere'); return; }
-  showLoading(true);
-  const { error } = await sb.auth.signUp({ email, password: pass });
-  showLoading(false);
-  if (error) { showErr(error.message); return; }
-  showOk('Cont creat! Verifică emailul pentru confirmare, apoi loghează-te.');
-  showLogin();
+  const email=document.getElementById('r-email').value.trim(),pass=document.getElementById('r-pass').value;
+  if(!email||!pass){showErr('Completează email și parolă');return}
+  if(pass.length<6){showErr('Parola trebuie să aibă minim 6 caractere');return}
+  showLoad(true);const{error}=await sb.auth.signUp({email,password:pass});showLoad(false);
+  if(error){showErr(error.message);return}
+  showOk('Cont creat! Verifică emailul, apoi loghează-te.');showLogin();
+}
+async function doLogout(){
+  await sb.auth.signOut();D={clients:[],projects:[],tasks:[],entries:[],subtasks:[],notes:[],goals:[]};
+  currentUser=null;document.getElementById('main-app').style.display='none';document.getElementById('login-wrap').style.display='flex';
 }
 
-async function doLogout() {
-  await sb.auth.signOut();
-  D = {clients:[],projects:[],tasks:[],entries:[]};
-  currentUser = null;
-  document.getElementById('main-app').style.display = 'none';
-  document.getElementById('login-wrap').style.display = 'flex';
-}
-
-// ── DATA LOADING ──────────────────────────────────────────────────────────────
-async function loadAllData() {
-  showLoading(true);
-  const [cl, pr, tk, en] = await Promise.all([
+// ── DATA ──────────────────────────────────────────────────────────────────────
+async function loadAllData(){
+  showLoad(true);
+  const[cl,pr,tk,en,st,nt,gl]=await Promise.all([
     sb.from('clients').select('*').order('name'),
     sb.from('projects').select('*').order('name'),
     sb.from('tasks').select('*').order('created_at'),
-    sb.from('time_entries').select('*').order('start_time')
+    sb.from('time_entries').select('*').order('start_time'),
+    sb.from('subtasks').select('*').order('created_at'),
+    sb.from('project_notes').select('*').order('created_at',{ascending:false}),
+    sb.from('monthly_goals').select('*')
   ]);
-  D.clients = cl.data || [];
-  D.projects = pr.data || [];
-  D.tasks = tk.data || [];
-  D.entries = en.data || [];
-  showLoading(false);
+  D.clients=cl.data||[];D.projects=pr.data||[];D.tasks=tk.data||[];D.entries=en.data||[];
+  D.subtasks=st.data||[];D.notes=nt.data||[];D.goals=gl.data||[];
+  showLoad(false);
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-sb.auth.onAuthStateChange(async (event, session) => {
-  if (session) {
-    currentUser = session.user;
-    document.getElementById('login-wrap').style.display = 'none';
+sb.auth.onAuthStateChange(async(event,session)=>{
+  if(session){
+    currentUser=session.user;
+    document.getElementById('login-wrap').style.display='none';
     await loadAllData();
-    document.getElementById('main-app').style.display = 'flex';
-    document.getElementById('sb-user-email').textContent = currentUser.email;
-    go('dashboard');
-  } else {
-    showLoading(false);
-    document.getElementById('main-app').style.display = 'none';
-    document.getElementById('login-wrap').style.display = 'flex';
+    document.getElementById('main-app').style.display='flex';
+    document.getElementById('sb-user-email').textContent=currentUser.email;
+    initDark();go('dashboard');
+  }else{
+    showLoad(false);document.getElementById('main-app').style.display='none';
+    document.getElementById('login-wrap').style.display='flex';
   }
 });
 
 // ── NAVIGATION ────────────────────────────────────────────────────────────────
-function go(page) {
-  const pages = ['dashboard','clients','projects','tasks','timer','reports','calendar'];
-  pages.forEach(p => { document.getElementById('pg-'+p).style.display='none'; });
-  document.getElementById('pg-'+page).style.display = 'block';
-  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
-  const idx = pages.indexOf(page);
-  document.querySelectorAll('.nb')[idx].classList.add('on');
-  if (document.querySelectorAll('.nb')[idx + pages.length]) document.querySelectorAll('.nb')[idx + pages.length].classList.add('on');
-  ({dashboard:rDash,clients:rCl,projects:rPr,tasks:rTasks,timer:rTimer,reports:rReports,calendar:rCal})[page]();
+function go(page){
+  const pages=['dashboard','clients','projects','tasks','timer','reports','calendar','client-detail'];
+  pages.forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display='none'});
+  document.getElementById('pg-'+page).style.display='block';
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  const idx=['dashboard','clients','projects','tasks','timer','reports','calendar'].indexOf(page);
+  if(idx>=0){
+    document.querySelectorAll('.nb')[idx].classList.add('on');
+    const drawerBtns=document.querySelectorAll('.drawer-panel .nb');
+    if(drawerBtns[idx])drawerBtns[idx].classList.add('on');
+  }
+  const fns={dashboard:rDash,clients:rCl,projects:rPr,tasks:rTasks,timer:rTimer,reports:rReports,calendar:rCal,'client-detail':()=>{}};
+  if(fns[page])fns[page]();
+  document.getElementById('search-results').style.display='none';
+  document.getElementById('search-input').value='';
 }
-function openDrawer() { document.getElementById('drawer').classList.add('open'); }
-function closeDrawer() { document.getElementById('drawer').classList.remove('open'); }
-function goM(page) { closeDrawer(); go(page); }
+function openDrawer(){document.getElementById('drawer').classList.add('open')}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open')}
+function goM(page){closeDrawer();go(page)}
 
-function oM(type) {
-  if (type === 'client') {
-    EID.client=null; document.getElementById('mc-t').textContent='Client nou';
+function oM(type){
+  if(type==='client'){
+    EID.client=null;document.getElementById('mc-t').textContent='Client nou';
     ['c-n','c-c','c-e','c-p','c-no'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('c-s').value='activ';
   }
-  if (type === 'project') {
-    EID.project=null; document.getElementById('mp-t').textContent='Proiect nou';
+  if(type==='project'){
+    EID.project=null;document.getElementById('mp-t').textContent='Proiect nou';
     ['p-n','p-b','p-r','p-d'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('p-s').value='activ';
+    document.getElementById('proj-notes-section').style.display='none';
     const s=document.getElementById('p-c');
     s.innerHTML='<option value="">— fără client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
   }
-  if (type === 'task') {
-    EID.task=null; document.getElementById('mt-t').textContent='Task nou';
+  if(type==='task'){
+    EID.task=null;document.getElementById('mt-t').textContent='Task nou';
     ['tk-n','tk-e','tk-no','tk-dl'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('tk-pr').value='normal'; document.getElementById('tk-st').value='in discutii';
+    document.getElementById('tk-pr').value='normal';document.getElementById('tk-st').value='in discutii';
+    document.getElementById('subtask-section').style.display='none';
     const scl=document.getElementById('tk-cl');
     scl.innerHTML='<option value="">— Selectează client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
     document.getElementById('tk-p').innerHTML='<option value="">— Selectează proiect —</option>';
   }
+  if(type==='goal'){
+    const g=D.goals.find(x=>x.month===nowMonth());
+    document.getElementById('goal-h').value=g?g.target_hours||'':'';
+    document.getElementById('goal-ron').value=g?g.target_ron||'':'';
+  }
+  if(type==='pdf'){
+    const s=document.getElementById('pdf-client');
+    s.innerHTML='<option value="">— Toți clienții —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+    const now=new Date();
+    document.getElementById('pdf-start').value=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
+    document.getElementById('pdf-stop').value=now.toISOString().split('T')[0];
+    if(pdfLogoData){document.getElementById('pdf-logo-img').src=pdfLogoData;document.getElementById('pdf-logo-preview').style.display='block'}
+    document.getElementById('pdf-sender').value=localStorage.getItem('ft_sender')||'';
+    document.getElementById('pdf-note').value=localStorage.getItem('ft_note')||'';
+    // pre-select client if in client detail
+    if(currentClientDetail)document.getElementById('pdf-client').value=currentClientDetail;
+  }
   document.getElementById('m-'+type).classList.add('show');
 }
-function cM(type) { document.getElementById('m-'+type).classList.remove('show'); }
-function syncTkPr() {
+function cM(type){document.getElementById('m-'+type).classList.remove('show')}
+function syncTkPr(){
   const cid=document.getElementById('tk-cl').value;
   const sp=document.getElementById('tk-p');
   const projs=cid?D.projects.filter(p=>p.client_id===cid):D.projects;
   sp.innerHTML='<option value="">— Selectează proiect —</option>'+projs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
 }
 
+// ── SEARCH ────────────────────────────────────────────────────────────────────
+function doSearch(q){
+  const res=document.getElementById('search-results');
+  if(!q||q.length<2){res.style.display='none';return}
+  q=q.toLowerCase();
+  let items=[];
+  D.clients.filter(c=>c.name.toLowerCase().includes(q)).slice(0,3).forEach(c=>{
+    items.push(`<div class="sr-item" onclick="openClient('${c.id}')"><span class="sr-type">Client</span><span class="sr-name">${c.name}</span></div>`);
+  });
+  D.projects.filter(p=>p.name.toLowerCase().includes(q)).slice(0,3).forEach(p=>{
+    const c=D.clients.find(x=>x.id===p.client_id);
+    items.push(`<div class="sr-item" onclick="go('projects')"><span class="sr-type">Proiect</span><span class="sr-name">${p.name}<span class="sr-sub">${c?' · '+c.name:''}</span></span></div>`);
+  });
+  D.tasks.filter(t=>t.name.toLowerCase().includes(q)).slice(0,4).forEach(t=>{
+    const p=D.projects.find(x=>x.id===t.project_id);
+    const c=p?D.clients.find(x=>x.id===p.client_id):null;
+    items.push(`<div class="sr-item" onclick="edTk('${t.id}')"><span class="sr-type">Task</span><span class="sr-name">${t.name}<span class="sr-sub">${c?' · '+c.name:''}</span></span></div>`);
+  });
+  if(!items.length){res.innerHTML='<div style="padding:12px;text-align:center;color:var(--fg3);font-size:13px">Niciun rezultat</div>';}
+  else res.innerHTML=items.join('');
+  res.style.display='block';
+}
+function openClient(id){
+  currentClientDetail=id;
+  document.getElementById('search-results').style.display='none';
+  document.getElementById('search-input').value='';
+  showClientDetail(id);
+}
+document.addEventListener('click',e=>{
+  if(!document.getElementById('search-wrap').contains(e.target))
+    document.getElementById('search-results').style.display='none';
+});
+
+// ── CLIENT DETAIL ─────────────────────────────────────────────────────────────
+function showClientDetail(id){
+  const c=D.clients.find(x=>x.id===id);if(!c)return;
+  currentClientDetail=id;
+  go('client-detail');
+  document.getElementById('cd-name').textContent=c.name;
+  const h=clH(id),hh=h/3600;
+  const ron=clRON(id);
+  const invoiced=D.tasks.filter(t=>{const p=D.projects.find(x=>x.id===t.project_id);return p&&p.client_id===id&&(t.status==='facturat'||t.status==='incasat')}).length;
+  const collected=D.tasks.filter(t=>{const p=D.projects.find(x=>x.id===t.project_id);return p&&p.client_id===id&&t.status==='incasat'}).length;
+  document.getElementById('cd-stats').innerHTML=`
+    <div class="sc"><div class="sl">Ore totale</div><div class="sv">${Math.floor(hh)}<span>h ${Math.floor((h%3600)/60)}m</span></div></div>
+    <div class="sc"><div class="sl">Valoare totală</div><div class="sv">${Math.round(ron).toLocaleString()}<span> RON</span></div></div>
+    <div class="sc"><div class="sl">Facturate</div><div class="sv">${invoiced}</div></div>
+    <div class="sc"><div class="sl">Încasate</div><div class="sv">${collected}</div></div>`;
+  // Projects
+  const projs=D.projects.filter(p=>p.client_id===id);
+  const cdp=document.getElementById('cd-projects');
+  if(!projs.length){cdp.innerHTML='<div class="empty"><i class="ti ti-folder"></i>Niciun proiect</div>';}
+  else cdp.innerHTML=projs.map(p=>{
+    const ph2=pH(p.id),phh=ph2/3600;
+    const pct=p.budget?Math.min(100,Math.round(phh/p.budget*100)):null;
+    const b=p.status==='activ'?'bok':p.status==='pauza'?'bwa':'bac';
+    return`<div class="client-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <strong>${p.name}</strong><span class="badge ${b}">${p.status}</span>
+      </div>
+      <div style="font-size:12px;color:var(--fg2)">${Math.floor(phh)}h ${Math.floor((ph2%3600)/60)}m${p.rate?` · ${Math.round(phh*p.rate).toLocaleString()} RON`:''}${p.budget?` · buget ${p.budget}h`:''}</div>
+      ${pct!==null?`<div class="pb"><div class="pf" style="width:${pct}%"></div></div>`:''}</div>`;
+  }).join('');
+  // Tasks
+  const tasks=D.tasks.filter(t=>{const p=D.projects.find(x=>x.id===t.project_id);return p&&p.client_id===id});
+  const cdt=document.getElementById('cd-tasks');
+  if(!tasks.length){cdt.innerHTML='<div class="empty"><i class="ti ti-checkbox"></i>Niciun task</div>';}
+  else cdt.innerHTML=tasks.map(t=>{
+    const scls=SC[t.status]||'bgr';
+    return`<div class="dash-task" onclick="edTk('${t.id}')">
+      <div style="flex:1"><div style="font-size:13px;font-weight:500">${t.name}</div></div>
+      <span class="badge ${scls}">${SL[t.status]||t.status}</span>
+    </div>`;
+  }).join('');
+  // Entries
+  const entries=D.entries.filter(e=>{const p=D.projects.find(x=>x.id===e.project_id);return p&&p.client_id===id}).reverse().slice(0,15);
+  const cde=document.getElementById('cd-entries');
+  if(!entries.length){cde.innerHTML='<div class="empty"><i class="ti ti-clock"></i>Nicio activitate</div>';}
+  else cde.innerHTML=entries.map(e=>{
+    const p=D.projects.find(x=>x.id===e.project_id);
+    const t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
+    return`<div class="erow"><div class="et">${fH(e.duration)}</div><div class="em"><strong>${p?p.name:'?'}</strong>${t?' · '+t.name:''}${e.description?' · '+e.description:''}</div><div class="ed">${fD(e.start_time)}</div></div>`;
+  }).join('');
+}
+
 // ── CLIENTS ───────────────────────────────────────────────────────────────────
-function rCl() {
-  const tot=D.clients.length, act=D.clients.filter(c=>c.status==='activ').length;
+function rCl(){
+  const tot=D.clients.length,act=D.clients.filter(c=>c.status==='activ').length;
   const totH=D.clients.reduce((s,c)=>s+clH(c.id),0);
   document.getElementById('sc-cl').innerHTML=`
     <div class="sc"><div class="sl">Total clienți</div><div class="sv">${tot}</div></div>
@@ -646,14 +874,13 @@ function rCl() {
     <div class="sc"><div class="sl">Ore totale</div><div class="sv">${Math.floor(totH/3600)}<span>h</span></div></div>
     <div class="sc"><div class="sl">Proiecte</div><div class="sv">${D.projects.length}</div></div>`;
   const tb=document.getElementById('tb-cl');
-  if (!D.clients.length) { tb.innerHTML=`<tr><td colspan="7"><div class="empty"><i class="ti ti-users"></i>Niciun client. Adaugă primul!</div></td></tr>`; return; }
+  if(!D.clients.length){tb.innerHTML=`<tr><td colspan="7"><div class="empty"><i class="ti ti-users"></i>Niciun client!</div></td></tr>`;return}
   tb.innerHTML=D.clients.map(c=>{
-    const pc=D.projects.filter(p=>p.client_id===c.id).length;
-    const h=clH(c.id);
+    const pc=D.projects.filter(p=>p.client_id===c.id).length,h=clH(c.id);
     const b=c.status==='activ'?'bok':c.status==='lead'?'bwa':'bgr';
     return`<tr>
       <td style="padding:9px 8px"><span class="dot" style="background:${cc(c.id)}"></span></td>
-      <td><strong>${c.name}</strong>${c.notes?`<br><span style="color:var(--fg3);font-size:11px;white-space:normal">${c.notes.slice(0,55)}</span>`:''}</td>
+      <td><strong style="cursor:pointer;color:var(--acc)" onclick="openClient('${c.id}')">${c.name}</strong>${c.notes?`<br><span style="color:var(--fg3);font-size:11px;white-space:normal">${c.notes.slice(0,50)}</span>`:''}</td>
       <td>${c.contact||''}${c.email?`<br><span style="color:var(--fg3);font-size:11px">${c.email}</span>`:''}</td>
       <td>${pc}</td><td>${Math.floor(h/3600)}h ${Math.floor((h%3600)/60)}m</td>
       <td><span class="badge ${b}">${c.status}</span></td>
@@ -663,30 +890,26 @@ function rCl() {
       </td></tr>`;
   }).join('');
 }
-async function savCl() {
-  const n=document.getElementById('c-n').value.trim(); if(!n){alert('Numele e obligatoriu');return;}
+async function savCl(){
+  const n=document.getElementById('c-n').value.trim();if(!n){alert('Numele e obligatoriu');return}
   const d={name:n,contact:document.getElementById('c-c').value.trim(),email:document.getElementById('c-e').value.trim(),phone:document.getElementById('c-p').value.trim(),status:document.getElementById('c-s').value,notes:document.getElementById('c-no').value.trim(),user_id:currentUser.id};
-  showLoading(true);
-  if (EID.client) { await sb.from('clients').update(d).eq('id',EID.client); }
-  else { await sb.from('clients').insert(d); }
-  await loadAllData(); showLoading(false); cM('client'); rCl();
+  showLoad(true);
+  if(EID.client)await sb.from('clients').update(d).eq('id',EID.client);
+  else await sb.from('clients').insert(d);
+  await loadAllData();showLoad(false);cM('client');rCl();
 }
-function edCl(id) {
-  const c=D.clients.find(x=>x.id===id); if(!c)return;
-  EID.client=id; document.getElementById('mc-t').textContent='Editează client';
-  document.getElementById('c-n').value=c.name; document.getElementById('c-c').value=c.contact||'';
-  document.getElementById('c-e').value=c.email||''; document.getElementById('c-p').value=c.phone||'';
-  document.getElementById('c-s').value=c.status; document.getElementById('c-no').value=c.notes||'';
+function edCl(id){
+  const c=D.clients.find(x=>x.id===id);if(!c)return;
+  EID.client=id;document.getElementById('mc-t').textContent='Editează client';
+  document.getElementById('c-n').value=c.name;document.getElementById('c-c').value=c.contact||'';
+  document.getElementById('c-e').value=c.email||'';document.getElementById('c-p').value=c.phone||'';
+  document.getElementById('c-s').value=c.status;document.getElementById('c-no').value=c.notes||'';
   document.getElementById('m-client').classList.add('show');
 }
-async function delCl(id) {
-  if(!confirm('Ștergi clientul?'))return;
-  showLoading(true); await sb.from('clients').delete().eq('id',id);
-  await loadAllData(); showLoading(false); rCl();
-}
+async function delCl(id){if(!confirm('Ștergi clientul?'))return;showLoad(true);await sb.from('clients').delete().eq('id',id);await loadAllData();showLoad(false);rCl()}
 
 // ── PROJECTS ──────────────────────────────────────────────────────────────────
-function rPr() {
+function rPr(){
   const tot=D.projects.length,act=D.projects.filter(p=>p.status==='activ').length;
   const totH=D.projects.reduce((s,p)=>s+pH(p.id),0);
   document.getElementById('sc-pr').innerHTML=`
@@ -695,17 +918,17 @@ function rPr() {
     <div class="sc"><div class="sl">Ore totale</div><div class="sv">${Math.floor(totH/3600)}<span>h</span></div></div>
     <div class="sc"><div class="sl">Finalizate</div><div class="sv">${D.projects.filter(p=>p.status==='finalizat').length}</div></div>`;
   const tb=document.getElementById('tb-pr');
-  if (!D.projects.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><i class="ti ti-folder"></i>Niciun proiect!</div></td></tr>`;return;}
+  if(!D.projects.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><i class="ti ti-folder"></i>Niciun proiect!</div></td></tr>`;return}
   tb.innerHTML=D.projects.map(p=>{
-    const cl=D.clients.find(c=>c.id===p.client_id);
-    const h=pH(p.id),hh=h/3600;
+    const cl=D.clients.find(c=>c.id===p.client_id),h=pH(p.id),hh=h/3600;
     const pct=p.budget?Math.min(100,Math.round(hh/p.budget*100)):null;
     const tc=D.tasks.filter(t=>t.project_id===p.id).length;
     const b=p.status==='activ'?'bok':p.status==='pauza'?'bwa':'bac';
+    const noteCnt=D.notes.filter(n=>n.project_id===p.id).length;
     return`<tr>
       <td style="padding:9px 8px"><span class="dot" style="background:${cc(p.client_id)}"></span></td>
-      <td>${cl?`<span style="color:${cc(p.client_id)};font-weight:500">${cl.name}</span>`:'—'}</td>
-      <td><strong>${p.name}</strong><br><span style="color:var(--fg3);font-size:11px">${tc} task${tc!==1?'uri':''}</span></td>
+      <td>${cl?`<span style="color:${cc(p.client_id)};font-weight:500;cursor:pointer" onclick="openClient('${cl.id}')">${cl.name}</span>`:'—'}</td>
+      <td><strong>${p.name}</strong><br><span style="color:var(--fg3);font-size:11px">${tc} task${tc!==1?'uri':''}${noteCnt?` · ${noteCnt} notițe`:''}</span></td>
       <td>${Math.floor(hh)}h ${Math.floor((h%3600)/60)}m${p.budget?`<div class="pb"><div class="pf" style="width:${pct}%"></div></div><span style="font-size:11px;color:var(--fg3)">${pct}% din ${p.budget}h</span>`:''}${p.rate?`<br><span style="font-size:11px;color:var(--ok)">${Math.round(hh*p.rate).toLocaleString()} RON</span>`:''}</td>
       <td><span class="badge ${b}">${p.status}</span></td>
       <td style="text-align:right;white-space:nowrap">
@@ -714,74 +937,81 @@ function rPr() {
       </td></tr>`;
   }).join('');
 }
-async function savPr() {
-  const n=document.getElementById('p-n').value.trim(); if(!n){alert('Numele e obligatoriu');return;}
+async function savPr(){
+  const n=document.getElementById('p-n').value.trim();if(!n){alert('Numele e obligatoriu');return}
   const d={name:n,client_id:document.getElementById('p-c').value||null,budget:parseFloat(document.getElementById('p-b').value)||null,rate:parseFloat(document.getElementById('p-r').value)||null,status:document.getElementById('p-s').value,description:document.getElementById('p-d').value.trim(),user_id:currentUser.id};
-  showLoading(true);
-  if(EID.project){await sb.from('projects').update(d).eq('id',EID.project);}
-  else{await sb.from('projects').insert(d);}
-  await loadAllData(); showLoading(false); cM('project'); rPr();
+  showLoad(true);
+  if(EID.project)await sb.from('projects').update(d).eq('id',EID.project);
+  else await sb.from('projects').insert(d);
+  await loadAllData();showLoad(false);cM('project');rPr();
 }
-function edPr(id) {
-  const p=D.projects.find(x=>x.id===id); if(!p)return;
-  EID.project=id; document.getElementById('mp-t').textContent='Editează proiect';
-  document.getElementById('p-n').value=p.name; document.getElementById('p-b').value=p.budget||'';
-  document.getElementById('p-r').value=p.rate||''; document.getElementById('p-d').value=p.description||'';
+function edPr(id){
+  const p=D.projects.find(x=>x.id===id);if(!p)return;
+  EID.project=id;document.getElementById('mp-t').textContent='Editează proiect';
+  document.getElementById('p-n').value=p.name;document.getElementById('p-b').value=p.budget||'';
+  document.getElementById('p-r').value=p.rate||'';document.getElementById('p-d').value=p.description||'';
   document.getElementById('p-s').value=p.status;
   const s=document.getElementById('p-c');
   s.innerHTML='<option value="">— fără client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
   s.value=p.client_id||'';
+  // Show notes section
+  document.getElementById('proj-notes-section').style.display='block';
+  const notes=D.notes.filter(n=>n.project_id===id);
+  document.getElementById('proj-notes-list').innerHTML=notes.length?notes.map(n=>`
+    <div class="note-item">
+      <div class="note-ts">${new Date(n.created_at).toLocaleString('ro-RO')}</div>
+      <div>${n.content}</div>
+    </div>`).join(''):'<div class="empty" style="padding:12px">Nicio notiță</div>';
   document.getElementById('m-project').classList.add('show');
 }
-async function delPr(id) {
-  if(!confirm('Ștergi proiectul?'))return;
-  showLoading(true); await sb.from('projects').delete().eq('id',id);
-  await loadAllData(); showLoading(false); rPr();
+async function addProjNote(){
+  const txt=document.getElementById('proj-note-input').value.trim();if(!txt||!EID.project)return;
+  showLoad(true);await sb.from('project_notes').insert({project_id:EID.project,content:txt,user_id:currentUser.id});
+  await loadAllData();showLoad(false);
+  document.getElementById('proj-note-input').value='';
+  const notes=D.notes.filter(n=>n.project_id===EID.project);
+  document.getElementById('proj-notes-list').innerHTML=notes.map(n=>`
+    <div class="note-item"><div class="note-ts">${new Date(n.created_at).toLocaleString('ro-RO')}</div><div>${n.content}</div></div>`).join('');
 }
+async function delPr(id){if(!confirm('Ștergi proiectul?'))return;showLoad(true);await sb.from('projects').delete().eq('id',id);await loadAllData();showLoad(false);rPr()}
 
 // ── TASKS ─────────────────────────────────────────────────────────────────────
-function filterTaskClient() {
+let expandedTasks={};
+function filterTaskClient(){
   const cid=document.getElementById('ftk-c').value;
   const sp=document.getElementById('ftk-p');
   const projs=cid?D.projects.filter(p=>p.client_id===cid):D.projects;
   sp.innerHTML='<option value="">Toate proiectele</option>'+projs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
   rTasks();
 }
-function rTasks() {
-  const selC=document.getElementById('ftk-c');
-  const curC=selC.value;
+function rTasks(){
+  const selC=document.getElementById('ftk-c'),curC=selC.value;
   selC.innerHTML='<option value="">Toți clienții</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
   selC.value=curC;
-  const fc=document.getElementById('ftk-c').value;
-  const fp=document.getElementById('ftk-p').value;
-  const fs=document.getElementById('ftk-s').value;
-  const sort=document.getElementById('ftk-sort').value;
+  const fc=document.getElementById('ftk-c').value,fp=document.getElementById('ftk-p').value;
+  const fs=document.getElementById('ftk-s').value,sort=document.getElementById('ftk-sort').value;
   let tks=[...D.tasks];
-  if(fc) tks=tks.filter(t=>{const p=D.projects.find(x=>x.id===t.project_id);return p&&p.client_id===fc;});
-  if(fp) tks=tks.filter(t=>t.project_id===fp);
-  if(fs) tks=tks.filter(t=>t.status===fs);
+  if(fc)tks=tks.filter(t=>{const p=D.projects.find(x=>x.id===t.project_id);return p&&p.client_id===fc});
+  if(fp)tks=tks.filter(t=>t.project_id===fp);
+  if(fs)tks=tks.filter(t=>t.status===fs);
   tks.sort((a,b)=>{
-    if(sort==='deadline'){if(!a.deadline&&!b.deadline)return 0;if(!a.deadline)return 1;if(!b.deadline)return -1;return new Date(a.deadline)-new Date(b.deadline);}
-    if(sort==='prio')return(PRIO_ORDER[a.priority]||1)-(PRIO_ORDER[b.priority]||1);
+    if(sort==='deadline'){if(!a.deadline&&!b.deadline)return 0;if(!a.deadline)return 1;if(!b.deadline)return -1;return new Date(a.deadline)-new Date(b.deadline)}
+    if(sort==='prio')return(PO[a.priority]||1)-(PO[b.priority]||1);
     if(sort==='status')return(a.status||'').localeCompare(b.status||'');
     return 0;
   });
-  const tot=D.tasks.length;
-  const byStatus={};
-  D.tasks.forEach(t=>{byStatus[t.status]=(byStatus[t.status]||0)+1;});
+  const byS={};D.tasks.forEach(t=>{byS[t.status]=(byS[t.status]||0)+1});
   document.getElementById('sc-tk').innerHTML=`
-    <div class="sc"><div class="sl">Total taskuri</div><div class="sv">${tot}</div></div>
-    <div class="sc"><div class="sl">În lucru</div><div class="sv">${byStatus['in lucru']||0}</div></div>
-    <div class="sc"><div class="sl">De facturat</div><div class="sv" style="${(byStatus['de facturat']||0)>0?'color:var(--er)':''}">${byStatus['de facturat']||0}</div></div>
-    <div class="sc"><div class="sl">Încasate</div><div class="sv">${byStatus['incasat']||0}</div></div>`;
+    <div class="sc"><div class="sl">Total</div><div class="sv">${D.tasks.length}</div></div>
+    <div class="sc"><div class="sl">În lucru</div><div class="sv">${byS['in lucru']||0}</div></div>
+    <div class="sc"><div class="sl">De facturat</div><div class="sv" style="${(byS['de facturat']||0)>0?'color:var(--er)':''}">${byS['de facturat']||0}</div></div>
+    <div class="sc"><div class="sl">Încasate</div><div class="sv">${byS['incasat']||0}</div></div>`;
   const el=document.getElementById('tk-list');
-  if(!tks.length){el.innerHTML=`<div class="empty"><i class="ti ti-checkbox"></i>Niciun task${fc||fp||fs?' pentru acest filtru':'. Adaugă primul!'}</div>`;return;}
+  if(!tks.length){el.innerHTML=`<div class="empty"><i class="ti ti-checkbox"></i>Niciun task${fc||fp||fs?' pentru acest filtru':'. Adaugă primul!'}</div>`;return}
   const grouped={};
   tks.forEach(t=>{
-    const p=D.projects.find(x=>x.id===t.project_id);
-    const cl=p?D.clients.find(c=>c.id===p.client_id):null;
-    const cKey=cl?cl.id:'__no_client__';
-    const pKey=p?p.id:'__no_project__';
+    const p=D.projects.find(x=>x.id===t.project_id),cl=p?D.clients.find(c=>c.id===p.client_id):null;
+    const cKey=cl?cl.id:'__nc__',pKey=p?p.id:'__np__';
     if(!grouped[cKey])grouped[cKey]={cl,projects:{}};
     if(!grouped[cKey].projects[pKey])grouped[cKey].projects[pKey]={p,tasks:[]};
     grouped[cKey].projects[pKey].tasks.push(t);
@@ -790,426 +1020,470 @@ function rTasks() {
   Object.values(grouped).forEach(({cl,projects})=>{
     const clColor=cl?cc(cl.id):'var(--fg3)';
     const clName=cl?cl.name.toUpperCase():'FĂRĂ CLIENT';
-    html+=`<div style="padding:14px 14px 6px;border-bottom:0.5px solid var(--bd);display:flex;align-items:center;gap:8px;background:var(--s2)">
+    html+=`<div style="padding:12px 14px 6px;border-bottom:0.5px solid var(--bd);display:flex;align-items:center;gap:8px;background:var(--s2)">
       <span class="dot" style="background:${clColor};width:10px;height:10px"></span>
-      <span style="font-size:13px;font-weight:700;color:${clColor};letter-spacing:.06em">${clName}</span>
+      <span style="font-size:13px;font-weight:700;color:${clColor};letter-spacing:.06em;cursor:pointer" onclick="${cl?`openClient('${cl.id}')`:'void(0)'}">${clName}</span>
     </div>`;
     Object.values(projects).forEach(({p,tasks})=>{
-      const pName=p?p.name:'Fără proiect';
-      html+=`<div style="padding:9px 14px 6px 28px;background:var(--sur);border-bottom:0.5px solid var(--bd);display:flex;align-items:center;gap:6px">
-        <i class="ti ti-folder" style="font-size:13px;color:var(--fg3)"></i>
+      html+=`<div style="padding:8px 14px 5px 28px;background:var(--sur);border-bottom:0.5px solid var(--bd);display:flex;align-items:center;gap:6px">
+        <i class="ti ti-folder" style="font-size:12px;color:var(--fg3)"></i>
         <span style="font-size:11px;color:var(--fg3)">Proiect:</span>
-        <span style="font-size:13px;font-weight:500;color:var(--fg2)">${pName}</span>
-        <span style="font-size:11px;color:var(--fg3);margin-left:4px">${tasks.length} task${tasks.length!==1?'uri':''}</span>
+        <span style="font-size:13px;font-weight:500;color:var(--fg2)">${p?p.name:'Fără proiect'}</span>
+        <span style="font-size:11px;color:var(--fg3)">${tasks.length} task${tasks.length!==1?'uri':''}</span>
       </div>`;
       tasks.forEach(t=>{
-        const h=tkH(t.id);
-        const pb=t.priority==='high'?'ber':t.priority==='low'?'bgr':'bac';
-        const scls=STATUS_CSS[t.status]||'bgr';
-        const dl=deadlineInfo(t.deadline);
-        html+=`<div class="tkrow" style="padding-left:42px">
+        const h=tkH(t.id),pb=t.priority==='high'?'ber':t.priority==='low'?'bgr':'bac';
+        const scls=SC[t.status]||'bgr',dl=dlInfo(t.deadline);
+        const stks=D.subtasks.filter(s=>s.task_id===t.id);
+        const doneStks=stks.filter(s=>s.done).length;
+        const isExpanded=expandedTasks[t.id];
+        html+=`<div class="tkrow" style="padding-left:42px;cursor:pointer" onclick="toggleTaskExpand('${t.id}')">
           <div style="flex:1;min-width:0">
             <div style="font-size:13px;font-weight:700;color:var(--fg)"><span style="font-size:11px;font-weight:400;color:var(--fg3)">Task:</span> ${t.name}</div>
             <div style="font-size:11px;color:var(--fg3);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-              ${t.notes?`<span>${t.notes.slice(0,50)}</span>`:''}
+              ${t.notes?`<span>${t.notes.slice(0,40)}</span>`:''}
               ${h?`<span>· ${fH(h)}</span>`:''}
-              ${t.estimated_hours?`<span>/ ${t.estimated_hours}h est.</span>`:''}
+              ${t.estimated_hours?`<span>/ ${t.estimated_hours}h</span>`:''}
+              ${stks.length?`<span>· ✓ ${doneStks}/${stks.length}</span>`:''}
             </div>
           </div>
           ${dl?`<span class="${dl.cls}" style="white-space:nowrap;font-size:11px;margin-right:6px"><i class="ti ti-calendar-event"></i> ${dl.label}</span>`:''}
-          <span class="badge ${scls}" style="margin-right:4px">${STATUS_LABELS[t.status]||t.status}</span>
+          <span class="badge ${scls}" style="margin-right:4px;position:relative" onclick="event.stopPropagation();toggleStatusDD(event,'${t.id}')">${SL[t.status]||t.status} <i class="ti ti-chevron-down" style="font-size:9px;margin-left:2px"></i>
+            <div class="status-dd" id="sdd-${t.id}">${Object.entries(SL).map(([v,l])=>`<div class="status-dd-item" onclick="event.stopPropagation();quickStatus('${t.id}','${v}')">${l}</div>`).join('')}</div>
+          </span>
           <span class="badge ${pb}" style="margin-right:4px">${t.priority==='high'?'urgent':t.priority==='low'?'low':'normal'}</span>
-          <div style="display:flex;gap:4px">
+          <div style="display:flex;gap:4px" onclick="event.stopPropagation()">
             <button class="btn btns" onclick="goTimer('${t.id}')" title="Start timer"><i class="ti ti-player-play"></i></button>
             <button class="btn btns" onclick="edTk('${t.id}')"><i class="ti ti-edit"></i></button>
             <button class="btn btns btne" onclick="delTk('${t.id}')"><i class="ti ti-trash"></i></button>
           </div>
         </div>`;
+        // Subtasks expandable
+        if(isExpanded){
+          html+=`<div class="subtask-list">`;
+          stks.forEach(s=>{
+            html+=`<div class="subtask-item">
+              <div class="stck${s.done?' done':''}" onclick="toggleStk('${s.id}',${!s.done})">${s.done?'<i class="ti ti-check" style="font-size:10px"></i>':''}</div>
+              <span style="flex:1;font-size:12px;color:var(--fg);${s.done?'text-decoration:line-through;color:var(--fg3)':''}">${s.name}</span>
+              <button class="btn btns btne" onclick="delStk('${s.id}','${t.id}')"><i class="ti ti-x" style="font-size:11px"></i></button>
+            </div>`;
+          });
+          html+=`<div style="display:flex;gap:6px;margin-top:6px">
+            <input id="stk-inp-${t.id}" placeholder="Subtask nou..." style="flex:1;padding:5px 8px;border:0.5px solid var(--bd);border-radius:var(--r);background:var(--sur);color:var(--fg);font-size:12px;outline:none" onkeydown="if(event.key==='Enter')addStkInline('${t.id}')">
+            <button class="btn btns btnp" onclick="addStkInline('${t.id}')"><i class="ti ti-plus"></i></button>
+          </div></div>`;
+        }
       });
     });
   });
   el.innerHTML=html;
 }
-async function savTk() {
-  const n=document.getElementById('tk-n').value.trim(); if(!n){alert('Titlul e obligatoriu');return;}
-  const d={name:n,project_id:document.getElementById('tk-p').value||null,client_id:document.getElementById('tk-cl').value||null,status:document.getElementById('tk-st').value,estimated_hours:parseFloat(document.getElementById('tk-e').value)||null,priority:document.getElementById('tk-pr').value,deadline:document.getElementById('tk-dl').value||null,notes:document.getElementById('tk-no').value.trim(),user_id:currentUser.id};
-  showLoading(true);
-  if(EID.task){await sb.from('tasks').update(d).eq('id',EID.task);}
-  else{await sb.from('tasks').insert(d);}
-  await loadAllData(); showLoading(false); cM('task'); rTasks();
+function toggleTaskExpand(id){expandedTasks[id]=!expandedTasks[id];rTasks()}
+function toggleStatusDD(e,tid){
+  document.querySelectorAll('.status-dd').forEach(d=>{if(d.id!=='sdd-'+tid)d.classList.remove('open')});
+  document.getElementById('sdd-'+tid).classList.toggle('open');
 }
-function edTk(id) {
-  const t=D.tasks.find(x=>x.id===id); if(!t)return;
-  EID.task=id; document.getElementById('mt-t').textContent='Editează task';
-  document.getElementById('tk-n').value=t.name;
-  document.getElementById('tk-e').value=t.estimated_hours||'';
-  document.getElementById('tk-pr').value=t.priority||'normal';
-  document.getElementById('tk-no').value=t.notes||'';
-  document.getElementById('tk-dl').value=t.deadline||'';
-  document.getElementById('tk-st').value=t.status||'in discutii';
+async function quickStatus(tid,status){
+  document.querySelectorAll('.status-dd').forEach(d=>d.classList.remove('open'));
+  showLoad(true);await sb.from('tasks').update({status}).eq('id',tid);
+  await loadAllData();showLoad(false);rTasks();
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.badge'))document.querySelectorAll('.status-dd').forEach(d=>d.classList.remove('open'));
+});
+async function addStkInline(tid){
+  const inp=document.getElementById('stk-inp-'+tid);if(!inp)return;
+  const name=inp.value.trim();if(!name)return;
+  showLoad(true);await sb.from('subtasks').insert({task_id:tid,name,user_id:currentUser.id,done:false});
+  await loadAllData();showLoad(false);expandedTasks[tid]=true;rTasks();
+}
+async function toggleStk(id,done){
+  showLoad(true);await sb.from('subtasks').update({done}).eq('id',id);
+  await loadAllData();showLoad(false);rTasks();
+}
+async function delStk(id,tid){
+  showLoad(true);await sb.from('subtasks').delete().eq('id',id);
+  await loadAllData();showLoad(false);expandedTasks[tid]=true;rTasks();
+}
+async function savTk(){
+  const n=document.getElementById('tk-n').value.trim();if(!n){alert('Titlul e obligatoriu');return}
+  const d={name:n,project_id:document.getElementById('tk-p').value||null,client_id:document.getElementById('tk-cl').value||null,status:document.getElementById('tk-st').value,estimated_hours:parseFloat(document.getElementById('tk-e').value)||null,priority:document.getElementById('tk-pr').value,deadline:document.getElementById('tk-dl').value||null,notes:document.getElementById('tk-no').value.trim(),user_id:currentUser.id};
+  showLoad(true);
+  if(EID.task)await sb.from('tasks').update(d).eq('id',EID.task);
+  else await sb.from('tasks').insert(d);
+  await loadAllData();showLoad(false);cM('task');rTasks();
+}
+function edTk(id){
+  const t=D.tasks.find(x=>x.id===id);if(!t)return;
+  EID.task=id;document.getElementById('mt-t').textContent='Editează task';
+  document.getElementById('tk-n').value=t.name;document.getElementById('tk-e').value=t.estimated_hours||'';
+  document.getElementById('tk-pr').value=t.priority||'normal';document.getElementById('tk-no').value=t.notes||'';
+  document.getElementById('tk-dl').value=t.deadline||'';document.getElementById('tk-st').value=t.status||'in discutii';
   const scl=document.getElementById('tk-cl');
   scl.innerHTML='<option value="">— Selectează client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
   const proj=D.projects.find(p=>p.id===t.project_id);
-  const cid=t.client_id||(proj?proj.client_id:'');
-  scl.value=cid;
-  syncTkPr();
-  setTimeout(()=>{document.getElementById('tk-p').value=t.project_id||'';},50);
+  scl.value=t.client_id||(proj?proj.client_id:'')||'';
+  syncTkPr();setTimeout(()=>{document.getElementById('tk-p').value=t.project_id||''},50);
+  // Show subtasks in modal
+  document.getElementById('subtask-section').style.display='block';
+  renderSubtaskModal(id);
   document.getElementById('m-task').classList.add('show');
 }
-function editTaskDirect(id){edTk(id);}
-async function delTk(id) {
-  if(!confirm('Ștergi taskul?'))return;
-  showLoading(true); await sb.from('tasks').delete().eq('id',id);
-  await loadAllData(); showLoading(false); rTasks();
+function renderSubtaskModal(tid){
+  const stks=D.subtasks.filter(s=>s.task_id===tid);
+  document.getElementById('subtask-modal-list').innerHTML=stks.map(s=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--bd)">
+      <div class="stck${s.done?' done':''}" onclick="toggleStkModal('${s.id}',${!s.done},'${tid}')">${s.done?'<i class="ti ti-check" style="font-size:10px"></i>':''}</div>
+      <span style="flex:1;font-size:13px;${s.done?'text-decoration:line-through;color:var(--fg3)':''}">${s.name}</span>
+      <button class="btn btns btne" onclick="delStkModal('${s.id}','${tid}')"><i class="ti ti-trash"></i></button>
+    </div>`).join('');
 }
-function goTimer(tid) {
-  const t=D.tasks.find(x=>x.id===tid); if(!t)return;
-  go('timer');
-  setTimeout(()=>{
-    switchTimerTab('live');
-    if(t.project_id){document.getElementById('t-proj').value=t.project_id;syncTkSel();}
-    setTimeout(()=>{document.getElementById('t-task').value=tid;},60);
-  },100);
+async function toggleStkModal(id,done,tid){
+  showLoad(true);await sb.from('subtasks').update({done}).eq('id',id);
+  await loadAllData();showLoad(false);renderSubtaskModal(tid);
+}
+async function delStkModal(id,tid){
+  showLoad(true);await sb.from('subtasks').delete().eq('id',id);
+  await loadAllData();showLoad(false);renderSubtaskModal(tid);
+}
+async function addSubtask(){
+  const inp=document.getElementById('subtask-input');const name=inp.value.trim();
+  if(!name||!EID.task)return;
+  showLoad(true);await sb.from('subtasks').insert({task_id:EID.task,name,user_id:currentUser.id,done:false});
+  await loadAllData();showLoad(false);inp.value='';renderSubtaskModal(EID.task);
+}
+function editTaskDirect(id){edTk(id)}
+async function delTk(id){if(!confirm('Ștergi taskul?'))return;showLoad(true);await sb.from('tasks').delete().eq('id',id);await loadAllData();showLoad(false);rTasks()}
+function goTimer(tid){
+  const t=D.tasks.find(x=>x.id===tid);if(!t)return;
+  go('timer');setTimeout(()=>{switchTimerTab('live');if(t.project_id){document.getElementById('t-proj').value=t.project_id;syncTkSel()}setTimeout(()=>{document.getElementById('t-task').value=tid},60)},100);
+}
+
+// ── GOALS ─────────────────────────────────────────────────────────────────────
+async function savGoal(){
+  const th=parseFloat(document.getElementById('goal-h').value)||null;
+  const tr=parseFloat(document.getElementById('goal-ron').value)||null;
+  const month=nowMonth();
+  showLoad(true);
+  await sb.from('monthly_goals').upsert({user_id:currentUser.id,month,target_hours:th,target_ron:tr},{onConflict:'user_id,month'});
+  await loadAllData();showLoad(false);cM('goal');rDash();
 }
 
 // ── TIMER ─────────────────────────────────────────────────────────────────────
-function switchTimerTab(tab) {
+function switchTimerTab(tab){
   document.getElementById('timer-live').style.display=tab==='live'?'block':'none';
   document.getElementById('timer-manual').style.display=tab==='manual'?'block':'none';
   document.getElementById('tab-live').classList.toggle('on',tab==='live');
   document.getElementById('tab-manual').classList.toggle('on',tab==='manual');
 }
-function rTimer() {
+function rTimer(){
   const s=document.getElementById('t-proj'),cur=s.value;
   s.innerHTML='<option value="">— Proiect —</option>'+D.projects.filter(p=>p.status==='activ').map(p=>{
     const c=D.clients.find(x=>x.id===p.client_id);
     return`<option value="${p.id}">${p.name}${c?' ('+c.name+')':''}</option>`;
   }).join('');
-  if(cur)s.value=cur;
-  syncTkSel();
+  if(cur)s.value=cur;syncTkSel();
   const scl=document.getElementById('me-cl');
-  scl.innerHTML='<option value="">— Selectează client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-  syncMePr();
-  document.getElementById('me-d').value=new Date().toISOString().split('T')[0];
+  scl.innerHTML='<option value="">— Client —</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  syncMePr();document.getElementById('me-d').value=new Date().toISOString().split('T')[0];
+  // Restore timer display if running
+  if(TI.running){
+    const p=D.projects.find(x=>x.id===TI.projId),t=D.tasks.find(x=>x.id===TI.taskId);
+    document.getElementById('t-meta').textContent='Tracking: '+(p?p.name:'')+(t?' → '+t.name:'');
+    document.getElementById('t-proj').value=TI.projId||'';syncTkSel();
+    if(TI.taskId)setTimeout(()=>{document.getElementById('t-task').value=TI.taskId},50);
+    document.getElementById('t-desc').value=TI.desc||'';
+    document.getElementById('t-ctrl').innerHTML=`<button class="tbtn tpa" onclick="pauseT()"><i class="ti ti-player-pause"></i>Pauză</button><button class="tbtn tsp" onclick="stopT()"><i class="ti ti-player-stop"></i>Stop & Salvează</button>`;
+  }
   rEntries();
 }
-function syncTkSel() {
+function syncTkSel(){
   const pid=document.getElementById('t-proj').value;
   const s=document.getElementById('t-task');
   s.innerHTML='<option value="">— Task (opțional) —</option>'+D.tasks.filter(t=>t.project_id===pid).map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
 }
-function syncMePr() {
+function syncMePr(){
   const cid=document.getElementById('me-cl').value;
   const sp=document.getElementById('me-p');
   const projs=cid?D.projects.filter(p=>p.client_id===cid):D.projects;
-  sp.innerHTML='<option value="">— Selectează proiect —</option>'+projs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  sp.innerHTML='<option value="">— Proiect —</option>'+projs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
   syncMeTk();
 }
-function syncMeTk() {
+function syncMeTk(){
   const pid=document.getElementById('me-p').value;
   const s=document.getElementById('me-tk');
   s.innerHTML='<option value="">— fără task —</option>'+D.tasks.filter(t=>t.project_id===pid).map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
 }
-function rEntries() {
+function rEntries(){
   const el=document.getElementById('t-entries');
   const rc=[...D.entries].reverse().slice(0,20);
-  if(!rc.length){el.innerHTML=`<div class="empty" style="padding:20px"><i class="ti ti-clock"></i>Nicio intrare</div>`;return;}
+  if(!rc.length){el.innerHTML=`<div class="empty" style="padding:20px"><i class="ti ti-clock"></i>Nicio intrare</div>`;return}
   el.innerHTML=rc.map(e=>{
-    const p=D.projects.find(x=>x.id===e.project_id);
-    const c=p?D.clients.find(x=>x.id===p.client_id):null;
-    const t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
-    return`<div class="erow">
-      <div class="et">${fH(e.duration)}</div>
-      <div class="em"><strong>${p?p.name:'?'}</strong>${c?' · '+c.name:''}${t?' · '+t.name:''}${e.description?' · '+e.description:''}</div>
-      <div class="ed">${fD(e.start_time)}${e.manual?' <span class="badge bgr" style="font-size:10px">manual</span>':''}</div>
-      <button class="btn btns btne" onclick="delEn('${e.id}')"><i class="ti ti-trash"></i></button>
-    </div>`;
+    const p=D.projects.find(x=>x.id===e.project_id),c=p?D.clients.find(x=>x.id===p.client_id):null,t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
+    return`<div class="erow"><div class="et">${fH(e.duration)}</div><div class="em"><strong>${p?p.name:'?'}</strong>${c?' · '+c.name:''}${t?' · '+t.name:''}${e.description?' · '+e.description:''}</div><div class="ed">${fD(e.start_time)}${e.manual?' <span class="badge bgr" style="font-size:10px">m</span>':''}</div><button class="btn btns btne" onclick="delEn('${e.id}')"><i class="ti ti-trash"></i></button></div>`;
   }).join('');
 }
-function startT() {
-  const pid=document.getElementById('t-proj').value; if(!pid){alert('Selectează un proiect!');return;}
+function updateTimerUI(){
+  if(!TI.running)return;
+  const s=Math.floor((Date.now()-TI.start)/1000);
+  const txt=fHMS(s);
+  const disp=document.getElementById('t-disp');if(disp)disp.textContent=txt;
+  document.getElementById('timer-pill-time').textContent=txt;
+  document.getElementById('topbar-timer').textContent=txt;
+}
+function startT(){
+  const pid=document.getElementById('t-proj').value;if(!pid){alert('Selectează un proiect!');return}
   if(TI.iv)clearInterval(TI.iv);
-  TI.running=true; TI.start=Date.now()-TI.paused;
-  const p=D.projects.find(x=>x.id===pid);
-  const t=D.tasks.find(x=>x.id===document.getElementById('t-task').value);
+  TI.running=true;TI.start=Date.now()-TI.paused;
+  TI.projId=pid;TI.taskId=document.getElementById('t-task').value||null;TI.desc=document.getElementById('t-desc').value;
+  const p=D.projects.find(x=>x.id===pid),t=D.tasks.find(x=>x.id===TI.taskId);
   document.getElementById('t-meta').textContent='Tracking: '+(p?p.name:'')+(t?' → '+t.name:'');
   document.getElementById('t-ctrl').innerHTML=`<button class="tbtn tpa" onclick="pauseT()"><i class="ti ti-player-pause"></i>Pauză</button><button class="tbtn tsp" onclick="stopT()"><i class="ti ti-player-stop"></i>Stop & Salvează</button>`;
-  TI.iv=setInterval(()=>{document.getElementById('t-disp').textContent=fHMS(Math.floor((Date.now()-TI.start)/1000));},1000);
+  document.getElementById('timer-pill').classList.add('running');
+  document.getElementById('topbar-timer').classList.add('running');
+  TI.iv=setInterval(updateTimerUI,1000);
 }
-function pauseT() {
-  clearInterval(TI.iv); TI.paused=Date.now()-TI.start; TI.running=false;
+function pauseT(){
+  clearInterval(TI.iv);TI.paused=Date.now()-TI.start;TI.running=false;
   document.getElementById('t-ctrl').innerHTML=`<button class="tbtn tst" onclick="startT()"><i class="ti ti-player-play"></i>Continuă</button><button class="tbtn tsp" onclick="stopT()"><i class="ti ti-player-stop"></i>Stop & Salvează</button>`;
+  document.getElementById('timer-pill').classList.remove('running');
+  document.getElementById('topbar-timer').classList.remove('running');
 }
-async function stopT() {
+async function stopT(){
   clearInterval(TI.iv);
   const dur=Math.floor((Date.now()-TI.start)/1000);
   if(dur>=5){
-    showLoading(true);
-    await sb.from('time_entries').insert({project_id:document.getElementById('t-proj').value,task_id:document.getElementById('t-task').value||null,start_time:new Date(TI.start).toISOString(),duration:dur,description:document.getElementById('t-desc').value.trim(),manual:false,user_id:currentUser.id});
-    await loadAllData(); showLoading(false);
+    showLoad(true);
+    await sb.from('time_entries').insert({project_id:TI.projId,task_id:TI.taskId||null,start_time:new Date(TI.start).toISOString(),duration:dur,description:TI.desc,manual:false,user_id:currentUser.id});
+    await loadAllData();showLoad(false);
   }
-  TI={running:false,start:null,paused:0,iv:null};
-  document.getElementById('t-disp').textContent='00:00:00';
-  document.getElementById('t-meta').textContent='Selectează proiect și apasă Start';
-  document.getElementById('t-ctrl').innerHTML=`<button class="tbtn tst" onclick="startT()"><i class="ti ti-player-play"></i>Start</button>`;
-  document.getElementById('t-desc').value='';
-  rEntries();
+  TI={running:false,start:null,paused:0,iv:null,projId:null,taskId:null,desc:''};
+  const disp=document.getElementById('t-disp');if(disp)disp.textContent='00:00:00';
+  document.getElementById('timer-pill').classList.remove('running');
+  document.getElementById('topbar-timer').classList.remove('running');
+  const meta=document.getElementById('t-meta');if(meta)meta.textContent='Selectează proiect și apasă Start';
+  const ctrl=document.getElementById('t-ctrl');if(ctrl)ctrl.innerHTML=`<button class="tbtn tst" onclick="startT()"><i class="ti ti-player-play"></i>Start</button>`;
+  document.getElementById('t-desc').value='';rEntries();
 }
-async function delEn(id) {
-  showLoading(true); await sb.from('time_entries').delete().eq('id',id);
-  await loadAllData(); showLoading(false); rEntries();
-}
-async function savME() {
-  const pid=document.getElementById('me-p').value; if(!pid){alert('Selectează un proiect!');return;}
-  const ds=document.getElementById('me-d').value; if(!ds){alert('Selectează o dată!');return;}
-  const ts=document.getElementById('me-ts').value, te=document.getElementById('me-te').value;
-  if(!ts||!te){alert('Completează ora start și stop!');return;}
-  const startDt=new Date(ds+'T'+ts), endDt=new Date(ds+'T'+te);
-  const dur=Math.floor((endDt-startDt)/1000);
-  if(dur<=0){alert('Ora stop trebuie să fie după ora start!');return;}
-  showLoading(true);
+async function delEn(id){showLoad(true);await sb.from('time_entries').delete().eq('id',id);await loadAllData();showLoad(false);rEntries()}
+async function savME(){
+  const pid=document.getElementById('me-p').value;if(!pid){alert('Selectează un proiect!');return}
+  const ds=document.getElementById('me-d').value;if(!ds){alert('Selectează o dată!');return}
+  const ts=document.getElementById('me-ts').value,te=document.getElementById('me-te').value;
+  if(!ts||!te){alert('Completează ora start și stop!');return}
+  const startDt=new Date(ds+'T'+ts),endDt=new Date(ds+'T'+te);
+  const dur=Math.floor((endDt-startDt)/1000);if(dur<=0){alert('Ora stop trebuie să fie după ora start!');return}
+  showLoad(true);
   await sb.from('time_entries').insert({project_id:pid,task_id:document.getElementById('me-tk').value||null,start_time:startDt.toISOString(),duration:dur,description:document.getElementById('me-desc').value.trim(),manual:true,user_id:currentUser.id});
-  await loadAllData(); showLoading(false);
-  document.getElementById('me-desc').value='';
-  document.getElementById('me-ts').value='09:00';
-  document.getElementById('me-te').value='10:00';
-  rEntries();
-  alert('Intrare adăugată!');
+  await loadAllData();showLoad(false);
+  document.getElementById('me-desc').value='';document.getElementById('me-ts').value='09:00';document.getElementById('me-te').value='10:00';
+  rEntries();alert('Intrare adăugată!');
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
-function rDash() {
-  const fc=document.getElementById('db-f-client').value;
-  const fp=document.getElementById('db-f-project').value;
-  const fs=document.getElementById('db-f-status').value;
-  const sort=document.getElementById('db-f-sort').value;
-  const selCl=document.getElementById('db-f-client'); const curCl=selCl.value;
-  selCl.innerHTML='<option value="">Toți clienții</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-  selCl.value=curCl;
-  const selPr=document.getElementById('db-f-project'); const curPr=selPr.value;
+function rDash(){
+  // Goal bar
+  const g=D.goals.find(x=>x.month===nowMonth());
+  const now=new Date(),monthStart=new Date(now.getFullYear(),now.getMonth(),1);
+  const monthEntries=D.entries.filter(e=>new Date(e.start_time)>=monthStart);
+  const monthH=monthEntries.reduce((s,e)=>s+e.duration,0)/3600;
+  const monthRON=monthEntries.reduce((s,e)=>{const p=D.projects.find(x=>x.id===e.project_id);return s+(p&&p.rate?e.duration/3600*p.rate:0)},0);
+  const goalEl=document.getElementById('db-goal-bar');
+  if(g&&(g.target_hours||g.target_ron)){
+    let bars='';
+    if(g.target_hours){const pct=Math.min(100,Math.round(monthH/g.target_hours*100));bars+=`
+      <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--fg2)">Ore luna curentă</span><span style="color:var(--fg)">${Math.round(monthH)}h / ${g.target_hours}h <strong>(${pct}%)</strong></span></div><div class="goal-bar-wrap"><div class="goal-bar" style="width:${pct}%;background:${pct>=100?'var(--ok)':'var(--acc)'}"></div></div></div>`}
+    if(g.target_ron){const pct2=Math.min(100,Math.round(monthRON/g.target_ron*100));bars+=`
+      <div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--fg2)">Venit luna curentă</span><span style="color:var(--fg)">${Math.round(monthRON).toLocaleString()} RON / ${g.target_ron.toLocaleString()} RON <strong>(${pct2}%)</strong></span></div><div class="goal-bar-wrap"><div class="goal-bar" style="width:${pct2}%;background:${pct2>=100?'var(--ok)':'var(--wa)'}"></div></div></div>`}
+    goalEl.innerHTML=`<div class="card" style="margin-bottom:0">${bars}</div>`;
+  } else goalEl.innerHTML='';
+
+  const fc=document.getElementById('db-f-client').value,fp=document.getElementById('db-f-project').value;
+  const fs=document.getElementById('db-f-status').value,sort=document.getElementById('db-f-sort').value;
+  const selCl=document.getElementById('db-f-client'),curCl=selCl.value;
+  selCl.innerHTML='<option value="">Toți clienții</option>'+D.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');selCl.value=curCl;
+  const selPr=document.getElementById('db-f-project'),curPr=selPr.value;
   const prList=fc?D.projects.filter(p=>p.client_id===fc):D.projects;
-  selPr.innerHTML='<option value="">Toate proiectele</option>'+prList.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-  selPr.value=curPr;
-  const totH=D.entries.reduce((s,e)=>s+e.duration,0);
-  const activePr=D.projects.filter(p=>p.status==='activ').length;
-  const activeTk=D.tasks.filter(t=>t.status!=='incasat'&&t.status!=='finalizat').length;
-  const urgentTk=D.tasks.filter(t=>{if(!t.deadline)return false;const diff=Math.ceil((new Date(t.deadline)-new Date())/86400000);return diff<=3&&t.status!=='incasat'&&t.status!=='finalizat';}).length;
+  selPr.innerHTML='<option value="">Toate proiectele</option>'+prList.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');selPr.value=curPr;
+  const urgentTk=D.tasks.filter(t=>{if(!t.deadline)return false;const diff=Math.ceil((new Date(t.deadline)-new Date())/86400000);return diff<=3&&t.status!=='incasat'&&t.status!=='finalizat'}).length;
   document.getElementById('db-stats').innerHTML=`
     <div class="sc"><div class="sl">Clienți activi</div><div class="sv">${D.clients.filter(c=>c.status==='activ').length}</div></div>
-    <div class="sc"><div class="sl">Proiecte active</div><div class="sv">${activePr}</div></div>
-    <div class="sc"><div class="sl">Taskuri active</div><div class="sv">${activeTk}</div></div>
+    <div class="sc"><div class="sl">Proiecte active</div><div class="sv">${D.projects.filter(p=>p.status==='activ').length}</div></div>
+    <div class="sc"><div class="sl">Taskuri active</div><div class="sv">${D.tasks.filter(t=>t.status!=='incasat'&&t.status!=='finalizat').length}</div></div>
     <div class="sc" style="${urgentTk>0?'background:var(--erb)':''}"><div class="sl">Deadline urgent</div><div class="sv" style="${urgentTk>0?'color:var(--er)':''}">${urgentTk}</div></div>`;
   let tasks=[...D.tasks];
-  if(fc)tasks=tasks.filter(t=>{const p=D.projects.find(x=>x.id===t.project_id);return p&&p.client_id===fc;});
-  if(fp)tasks=tasks.filter(t=>t.project_id===fp);
-  if(fs)tasks=tasks.filter(t=>t.status===fs);
+  if(fc)tasks=tasks.filter(t=>{const p=D.projects.find(x=>x.id===t.project_id);return p&&p.client_id===fc});
+  if(fp)tasks=tasks.filter(t=>t.project_id===fp);if(fs)tasks=tasks.filter(t=>t.status===fs);
   tasks.sort((a,b)=>{
-    if(sort==='deadline'){if(!a.deadline&&!b.deadline)return 0;if(!a.deadline)return 1;if(!b.deadline)return -1;return new Date(a.deadline)-new Date(b.deadline);}
-    if(sort==='prio')return(PRIO_ORDER[a.priority]||1)-(PRIO_ORDER[b.priority]||1);
+    if(sort==='deadline'){if(!a.deadline&&!b.deadline)return 0;if(!a.deadline)return 1;if(!b.deadline)return -1;return new Date(a.deadline)-new Date(b.deadline)}
+    if(sort==='prio')return(PO[a.priority]||1)-(PO[b.priority]||1);
     if(sort==='status')return(a.status||'').localeCompare(b.status||'');
-    if(sort==='client'){const pa=D.projects.find(x=>x.id===a.project_id),pb2=D.projects.find(x=>x.id===b.project_id);const ca=pa?D.clients.find(x=>x.id===pa.client_id):null;const cb=pb2?D.clients.find(x=>x.id===pb2.client_id):null;return(ca?ca.name:'').localeCompare(cb?cb.name:'');}
-    if(sort==='project'){const pa=D.projects.find(x=>x.id===a.project_id),pb2=D.projects.find(x=>x.id===b.project_id);return(pa?pa.name:'').localeCompare(pb2?pb2.name:'');}
+    if(sort==='client'){const pa=D.projects.find(x=>x.id===a.project_id),pb2=D.projects.find(x=>x.id===b.project_id);const ca=pa?D.clients.find(x=>x.id===pa.client_id):null,cb=pb2?D.clients.find(x=>x.id===pb2.client_id):null;return(ca?ca.name:'').localeCompare(cb?cb.name:'')}
+    if(sort==='project'){const pa=D.projects.find(x=>x.id===a.project_id),pb2=D.projects.find(x=>x.id===b.project_id);return(pa?pa.name:'').localeCompare(pb2?pb2.name:'')}
     return 0;
   });
   const tkEl=document.getElementById('db-tasks');
   const activeTasks=tasks.filter(t=>t.status!=='incasat'&&t.status!=='finalizat');
-  if(!activeTasks.length){tkEl.innerHTML=`<div class="empty"><i class="ti ti-checkbox"></i>Niciun task activ</div>`;}
+  if(!activeTasks.length){tkEl.innerHTML=`<div class="empty"><i class="ti ti-checkbox"></i>Niciun task activ</div>`}
   else{
     const grouped={};
-    activeTasks.forEach(t=>{
-      const p=D.projects.find(x=>x.id===t.project_id);
-      const cl=p?D.clients.find(x=>x.id===p.client_id):null;
-      const cKey=cl?cl.id:'__no_client__';
-      const pKey=p?p.id:'__no_project__';
-      if(!grouped[cKey])grouped[cKey]={cl,p_map:{}};
-      if(!grouped[cKey].p_map[pKey])grouped[cKey].p_map[pKey]={p,tasks:[]};
-      grouped[cKey].p_map[pKey].tasks.push(t);
-    });
-    let dbHtml='';
+    activeTasks.forEach(t=>{const p=D.projects.find(x=>x.id===t.project_id),cl=p?D.clients.find(x=>x.id===p.client_id):null;const cK=cl?cl.id:'__nc__',pK=p?p.id:'__np__';if(!grouped[cK])grouped[cK]={cl,p_map:{}};if(!grouped[cK].p_map[pK])grouped[cK].p_map[pK]={p,tasks:[]};grouped[cK].p_map[pK].tasks.push(t)});
+    let h='';
     Object.values(grouped).forEach(({cl,p_map})=>{
-      const clColor=cl?cc(cl.id):'var(--fg3)';
-      const clName=cl?cl.name.toUpperCase():'FĂRĂ CLIENT';
-      dbHtml+=`<div style="padding:10px 14px 5px;background:var(--s2);border:0.5px solid var(--bd);border-radius:var(--r) var(--r) 0 0;margin-top:10px;display:flex;align-items:center;gap:7px">
-        <span class="dot" style="background:${clColor}"></span>
-        <span style="font-size:12px;font-weight:700;color:${clColor};letter-spacing:.06em">${clName}</span>
-      </div>`;
-      Object.values(p_map).forEach(({p,tasks:ptasks})=>{
-        const pName=p?p.name:'Fără proiect';
-        dbHtml+=`<div style="padding:6px 14px 4px 26px;background:var(--sur);border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);display:flex;align-items:center;gap:5px">
-          <i class="ti ti-folder" style="font-size:12px;color:var(--fg3)"></i>
-          <span style="font-size:11px;color:var(--fg3)">Proiect:</span>
-          <span style="font-size:12px;font-weight:500;color:var(--fg2)">${pName}</span>
-        </div>`;
-        ptasks.forEach(t=>{
-          const dl=deadlineInfo(t.deadline);
-          const scls=STATUS_CSS[t.status]||'bgr';
-          dbHtml+=`<div class="dash-task" style="border-radius:0;border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);border-top:none;margin-bottom:0;padding-left:38px" onclick="editTaskDirect('${t.id}')">
-            <div style="flex:1;min-width:0"><div style="font-size:13px;color:var(--fg)"><span style="font-size:11px;font-weight:400;color:var(--fg3)">Task:</span> <strong>${t.name}</strong></div></div>
+      const clColor=cl?cc(cl.id):'var(--fg3)',clName=cl?cl.name.toUpperCase():'FĂRĂ CLIENT';
+      h+=`<div style="padding:9px 14px 4px;background:var(--s2);border:0.5px solid var(--bd);border-radius:var(--r) var(--r) 0 0;margin-top:10px;display:flex;align-items:center;gap:7px"><span class="dot" style="background:${clColor}"></span><span style="font-size:12px;font-weight:700;color:${clColor};letter-spacing:.06em;cursor:pointer" onclick="${cl?`openClient('${cl.id}')`:'void(0)'}">${clName}</span></div>`;
+      Object.values(p_map).forEach(({p,tasks:pt})=>{
+        h+=`<div style="padding:5px 14px 4px 26px;background:var(--sur);border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);display:flex;align-items:center;gap:5px"><i class="ti ti-folder" style="font-size:12px;color:var(--fg3)"></i><span style="font-size:11px;color:var(--fg3)">Proiect:</span><span style="font-size:12px;font-weight:500;color:var(--fg2)">${p?p.name:'—'}</span></div>`;
+        pt.forEach(t=>{
+          const dl=dlInfo(t.deadline),scls=SC[t.status]||'bgr';
+          h+=`<div class="dash-task" style="border-radius:0;border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);border-top:none;margin-bottom:0;padding-left:38px" onclick="editTaskDirect('${t.id}')">
+            <div style="flex:1;min-width:0"><div style="font-size:13px;color:var(--fg)"><span style="font-size:11px;color:var(--fg3)">Task:</span> <strong>${t.name}</strong></div></div>
             ${dl?`<span class="${dl.cls}" style="white-space:nowrap;font-size:11px;margin-right:6px"><i class="ti ti-calendar-event"></i> Deadline: ${new Date(t.deadline).toLocaleDateString('ro-RO',{day:'2-digit',month:'2-digit',year:'numeric'})}${dl.urgent?' ('+dl.label+')':''}</span>`:''}
-            <span class="badge ${scls}">${STATUS_LABELS[t.status]||t.status}</span>
-          </div>`;
+            <span class="badge ${scls}">${SL[t.status]||t.status}</span></div>`;
         });
       });
-      dbHtml+=`<div style="height:0;border-bottom:0.5px solid var(--bd);border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);border-radius:0 0 var(--r) var(--r);margin-bottom:4px"></div>`;
+      h+=`<div style="height:0;border-bottom:0.5px solid var(--bd);border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);border-radius:0 0 var(--r) var(--r);margin-bottom:4px"></div>`;
     });
-    tkEl.innerHTML=dbHtml;
+    tkEl.innerHTML=h;
   }
   let projs=D.projects.filter(p=>p.status==='activ');
-  if(fc)projs=projs.filter(p=>p.client_id===fc);
-  if(fp)projs=projs.filter(p=>p.id===fp);
+  if(fc)projs=projs.filter(p=>p.client_id===fc);if(fp)projs=projs.filter(p=>p.id===fp);
   const prEl=document.getElementById('db-projects');
-  if(!projs.length){prEl.innerHTML=`<div class="empty"><i class="ti ti-folder"></i>Niciun proiect activ</div>`;}
+  if(!projs.length){prEl.innerHTML=`<div class="empty"><i class="ti ti-folder"></i>Niciun proiect activ</div>`}
   else prEl.innerHTML=projs.map(p=>{
-    const cl=D.clients.find(x=>x.id===p.client_id);
-    const h=pH(p.id),hh=h/3600;
+    const cl=D.clients.find(x=>x.id===p.client_id),h2=pH(p.id),hh=h2/3600;
     const pct=p.budget?Math.min(100,Math.round(hh/p.budget*100)):null;
     const tks=D.tasks.filter(t=>t.project_id===p.id);
-    const doneTks=tks.filter(t=>t.status==='finalizat'||t.status==='incasat').length;
-    return`<div class="dash-task">
-      <span class="dot" style="background:${cc(p.client_id)};margin-top:4px"></span>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:500;color:var(--fg)">${p.name}</div>
-        <div style="font-size:11px;color:var(--fg3);margin-top:2px">${cl?cl.name:''} · ${tks.length} taskuri (${doneTks} gata)${p.rate?` · <span style="color:var(--ok)">${Math.round(hh*p.rate).toLocaleString()} RON</span>`:''}</div>
-        ${pct!==null?`<div class="pb" style="margin-top:6px"><div class="pf" style="width:${pct}%"></div></div><span style="font-size:11px;color:var(--fg3)">${Math.floor(hh)}h din ${p.budget}h (${pct}%)</span>`:`<div style="font-size:11px;color:var(--fg3);margin-top:2px">${Math.floor(hh)}h ${Math.floor((h%3600)/60)}m logate</div>`}
-      </div>
-    </div>`;
+    return`<div class="dash-task"><span class="dot" style="background:${cc(p.client_id)};margin-top:4px"></span>
+      <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500">${p.name}</div>
+      <div style="font-size:11px;color:var(--fg3);margin-top:2px">${cl?cl.name:''} · ${tks.length} taskuri${p.rate?` · <span style="color:var(--ok)">${Math.round(hh*p.rate).toLocaleString()} RON</span>`:''}</div>
+      ${pct!==null?`<div class="pb" style="margin-top:5px"><div class="pf" style="width:${pct}%"></div></div><span style="font-size:11px;color:var(--fg3)">${Math.floor(hh)}h/${p.budget}h (${pct}%)</span>`:`<div style="font-size:11px;color:var(--fg3)">${Math.floor(hh)}h logged</div>`}</div></div>`;
   }).join('');
 }
 
 // ── REPORTS ───────────────────────────────────────────────────────────────────
-function rReports() {
+function rReports(){
   const days=parseInt(document.getElementById('r-per').value);
   const cut=days>0?Date.now()-days*86400000:0;
   const fl=D.entries.filter(e=>new Date(e.start_time).getTime()>=cut);
   const totS=fl.reduce((s,e)=>s+e.duration,0);
   const aD=new Set(fl.map(e=>fD(e.start_time))).size;
-  const ven=fl.reduce((s,e)=>{const p=D.projects.find(x=>x.id===e.project_id);return s+(p&&p.rate?e.duration/3600*p.rate:0);},0);
+  const ven=fl.reduce((s,e)=>{const p=D.projects.find(x=>x.id===e.project_id);return s+(p&&p.rate?e.duration/3600*p.rate:0)},0);
   document.getElementById('sc-rp').innerHTML=`
     <div class="sc"><div class="sl">Ore totale</div><div class="sv">${Math.floor(totS/3600)}<span>h ${Math.floor((totS%3600)/60)}m</span></div></div>
     <div class="sc"><div class="sl">Intrări</div><div class="sv">${fl.length}</div></div>
     <div class="sc"><div class="sl">Zile active</div><div class="sv">${aD}</div></div>
     <div class="sc"><div class="sl">Venit estimat</div><div class="sv">${Math.round(ven).toLocaleString()}<span> RON</span></div></div>`;
   const bC={},bP={};
-  fl.forEach(e=>{
-    const p=D.projects.find(x=>x.id===e.project_id);if(!p)return;
-    const c=D.clients.find(x=>x.id===p.client_id);
-    const cn=c?c.name:'Fără client';
-    bC[cn]=(bC[cn]||0)+e.duration; bP[p.name]=(bP[p.name]||0)+e.duration;
-  });
-  rBar('ch-cl',bC); rBar('ch-pr',bP);
+  fl.forEach(e=>{const p=D.projects.find(x=>x.id===e.project_id);if(!p)return;const c=D.clients.find(x=>x.id===p.client_id);bC[c?c.name:'?']=(bC[c?c.name:'?']||0)+e.duration;bP[p.name]=(bP[p.name]||0)+e.duration});
+  rBar('ch-cl',bC);rBar('ch-pr',bP);
   const tb=document.getElementById('tb-en');
-  if(!fl.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty">Nicio intrare</div></td></tr>`;return;}
+  if(!fl.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty">Nicio intrare</div></td></tr>`;return}
   tb.innerHTML=[...fl].reverse().map(e=>{
-    const p=D.projects.find(x=>x.id===e.project_id);
-    const c=p?D.clients.find(x=>x.id===p.client_id):null;
-    const t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
+    const p=D.projects.find(x=>x.id===e.project_id),c=p?D.clients.find(x=>x.id===p.client_id):null,t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
     return`<tr><td>${fD(e.start_time)}</td><td>${c?c.name:'—'}</td><td>${p?p.name:'—'}</td><td>${t?t.name:'—'}</td><td style="color:var(--fg2)">${e.description||'—'}</td><td><strong>${fH(e.duration)}</strong>${e.manual?' <span class="badge bgr" style="font-size:10px">m</span>':''}</td></tr>`;
   }).join('');
 }
-function rBar(id,data) {
+function rBar(id,data){
   const el=document.getElementById(id);
   const en=Object.entries(data).sort((a,b)=>b[1]-a[1]).slice(0,7);
-  if(!en.length){el.innerHTML=`<div style="color:var(--fg3);font-size:13px;padding:4px 0">Nicio dată</div>`;return;}
+  if(!en.length){el.innerHTML=`<div style="color:var(--fg3);font-size:13px;padding:4px 0">Nicio dată</div>`;return}
   const mx=en[0][1];
-  el.innerHTML=en.map(([n,s],i)=>{
-    const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);
-    return`<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:62%">${n}</span><span style="font-variant-numeric:tabular-nums;flex-shrink:0;color:var(--fg2)">${h}h ${String(m).padStart(2,'0')}m</span></div><div style="height:5px;background:var(--s2);border-radius:100px;overflow:hidden"><div style="height:100%;width:${Math.round(s/mx*100)}%;background:${C[i%C.length]};border-radius:100px"></div></div></div>`;
-  }).join('');
+  el.innerHTML=en.map(([n,s],i)=>{const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return`<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:62%">${n}</span><span style="font-variant-numeric:tabular-nums;flex-shrink:0;color:var(--fg2)">${h}h ${String(m).padStart(2,'0')}m</span></div><div style="height:5px;background:var(--s2);border-radius:100px;overflow:hidden"><div style="height:100%;width:${Math.round(s/mx*100)}%;background:${C[i%C.length]};border-radius:100px"></div></div></div>`}).join('');
 }
-function expCSV() {
-  const days=parseInt(document.getElementById('r-per').value);
-  const cut=days>0?Date.now()-days*86400000:0;
+function expCSV(){
+  const days=parseInt(document.getElementById('r-per').value),cut=days>0?Date.now()-days*86400000:0;
   const fl=D.entries.filter(e=>new Date(e.start_time).getTime()>=cut);
   const rows=[['Client','Proiect','Task','Descriere','Data','Ore','Minute','Valoare_RON']];
-  fl.forEach(e=>{
-    const p=D.projects.find(x=>x.id===e.project_id);
-    const c=p?D.clients.find(x=>x.id===p.client_id):null;
-    const t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
-    rows.push([c?c.name:'',p?p.name:'',t?t.name:'',e.description||'',fD(e.start_time),Math.floor(e.duration/3600),Math.floor((e.duration%3600)/60),p&&p.rate?Math.round(e.duration/3600*p.rate):0]);
-  });
+  fl.forEach(e=>{const p=D.projects.find(x=>x.id===e.project_id),c=p?D.clients.find(x=>x.id===p.client_id):null,t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;rows.push([c?c.name:'',p?p.name:'',t?t.name:'',e.description||'',fD(e.start_time),Math.floor(e.duration/3600),Math.floor((e.duration%3600)/60),p&&p.rate?Math.round(e.duration/3600*p.rate):0])});
   const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
-  a.download=`freelancetrack_${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download=`bdtrack_${new Date().toISOString().split('T')[0]}.csv`;a.click();
 }
 
 // ── CALENDAR ──────────────────────────────────────────────────────────────────
-let calDate=new Date(), calSelected=null;
+let calDate=new Date(),calSelected=null;
 const CAL_DAYS=['Lun','Mar','Mie','Joi','Vin','Sâm','Dum'];
 const CAL_MONTHS=['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie'];
-function calDStr(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
-function calTasksForDay(dStr){
-  return D.tasks.filter(t=>t.deadline===dStr).sort((a,b)=>{
-    const pa=D.projects.find(x=>x.id===a.project_id),pb2=D.projects.find(x=>x.id===b.project_id);
-    const ca=pa?D.clients.find(x=>x.id===pa.client_id):null;
-    const cb=pb2?D.clients.find(x=>x.id===pb2.client_id):null;
-    return(ca?ca.name:'').localeCompare(cb?cb.name:'');
-  });
-}
-function rCal() {
-  const today=new Date();
-  const todayStr=calDStr(today.getFullYear(),today.getMonth(),today.getDate());
+const calDStr=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+const calTasks=dStr=>D.tasks.filter(t=>t.deadline===dStr).sort((a,b)=>{const pa=D.projects.find(x=>x.id===a.project_id),pb2=D.projects.find(x=>x.id===b.project_id),ca=pa?D.clients.find(x=>x.id===pa.client_id):null,cb=pb2?D.clients.find(x=>x.id===pb2.client_id):null;return(ca?ca.name:'').localeCompare(cb?cb.name:'')});
+function rCal(){
+  const today=new Date(),todayStr=calDStr(today.getFullYear(),today.getMonth(),today.getDate());
   if(!calSelected)calSelected=todayStr;
   const y=calDate.getFullYear(),m=calDate.getMonth();
   document.getElementById('cal-title').textContent=`${CAL_MONTHS[m]} ${y}`;
   document.getElementById('cal-hdr').innerHTML=CAL_DAYS.map(d=>`<div class="cal-dname">${d}</div>`).join('');
-  const firstDow=(new Date(y,m,1).getDay()+6)%7;
-  const daysInMonth=new Date(y,m+1,0).getDate();
-  const daysInPrev=new Date(y,m,0).getDate();
-  let cells='';
-  const totalCells=Math.ceil((firstDow+daysInMonth)/7)*7;
-  for(let i=0;i<totalCells;i++){
-    let dayNum,dayMonth,dayYear,otherMonth=false;
-    if(i<firstDow){dayNum=daysInPrev-firstDow+i+1;dayMonth=m-1;dayYear=y;if(dayMonth<0){dayMonth=11;dayYear=y-1;}otherMonth=true;}
-    else if(i>=firstDow+daysInMonth){dayNum=i-firstDow-daysInMonth+1;dayMonth=m+1;dayYear=y;if(dayMonth>11){dayMonth=0;dayYear=y+1;}otherMonth=true;}
-    else{dayNum=i-firstDow+1;dayMonth=m;dayYear=y;}
-    const dStr=calDStr(dayYear,dayMonth,dayNum);
-    const isToday=dStr===todayStr, isSel=dStr===calSelected;
-    const tasks=calTasksForDay(dStr);
-    let cls='cal-day';
-    if(otherMonth)cls+=' other-month';
-    if(isToday)cls+=' today';
-    if(isSel)cls+=' selected';
-    const chips=tasks.slice(0,2).map(t=>{const dl=deadlineInfo(t.deadline);return`<span class="cal-task-chip${dl&&dl.urgent?' urgent':''}">${t.name}</span>`;}).join('');
-    const dots=tasks.length>0?`<div class="cal-dots">${tasks.slice(0,5).map(()=>`<span class="cal-dot"></span>`).join('')}</div>`:'';
-    cells+=`<div class="${cls}" onclick="calSelectDay('${dStr}')"><div class="cal-dnum">${dayNum}</div>${chips}${dots}</div>`;
+  const firstDow=(new Date(y,m,1).getDay()+6)%7,dIM=new Date(y,m+1,0).getDate(),dIP=new Date(y,m,0).getDate();
+  let cells='';const total=Math.ceil((firstDow+dIM)/7)*7;
+  for(let i=0;i<total;i++){
+    let dn,dm,dy,om=false;
+    if(i<firstDow){dn=dIP-firstDow+i+1;dm=m-1;dy=y;if(dm<0){dm=11;dy=y-1}om=true}
+    else if(i>=firstDow+dIM){dn=i-firstDow-dIM+1;dm=m+1;dy=y;if(dm>11){dm=0;dy=y+1}om=true}
+    else{dn=i-firstDow+1;dm=m;dy=y}
+    const dStr=calDStr(dy,dm,dn),isToday=dStr===todayStr,isSel=dStr===calSelected;
+    const tks=calTasks(dStr);let cls='cal-day';if(om)cls+=' other-month';if(isToday)cls+=' today';if(isSel)cls+=' selected';
+    const chips=tks.slice(0,2).map(t=>{const dl=dlInfo(t.deadline);return`<span class="cal-task-chip${dl&&dl.urgent?' urgent':''}">${t.name}</span>`}).join('');
+    const dots=tks.length?`<div class="cal-dots">${tks.slice(0,5).map(()=>`<span class="cal-dot"></span>`).join('')}</div>`:'';
+    cells+=`<div class="${cls}" onclick="calSelectDay('${dStr}')"><div class="cal-dnum">${dn}</div>${chips}${dots}</div>`;
   }
-  document.getElementById('cal-grid').innerHTML=cells;
-  calShowDetail(calSelected);
+  document.getElementById('cal-grid').innerHTML=cells;calShowDetail(calSelected);
 }
-function calSelectDay(dStr){calSelected=dStr;rCal();}
-function calShowDetail(dStr) {
+function calSelectDay(d){calSelected=d;rCal()}
+function calShowDetail(dStr){
   if(!dStr)return;
-  const tasks=calTasksForDay(dStr);
-  const detailEl=document.getElementById('cal-detail');
-  const emptyEl=document.getElementById('cal-empty');
-  const [y,mo,d]=dStr.split('-');
-  const dateObj=new Date(parseInt(y),parseInt(mo)-1,parseInt(d));
-  const dateLabel=dateObj.toLocaleDateString('ro-RO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('cal-detail-date').textContent=dateLabel.charAt(0).toUpperCase()+dateLabel.slice(1);
-  document.getElementById('cal-detail-count').textContent=tasks.length>0?`(${tasks.length} task${tasks.length!==1?'uri':''})`: '';
-  if(!tasks.length){detailEl.style.display='none';emptyEl.style.display='block';return;}
-  detailEl.style.display='block'; emptyEl.style.display='none';
+  const tasks=calTasks(dStr),detailEl=document.getElementById('cal-detail'),emptyEl=document.getElementById('cal-empty');
+  const[y,mo,d]=dStr.split('-'),dateObj=new Date(parseInt(y),parseInt(mo)-1,parseInt(d));
+  const lbl=dateObj.toLocaleDateString('ro-RO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('cal-detail-date').textContent=lbl.charAt(0).toUpperCase()+lbl.slice(1);
+  document.getElementById('cal-detail-count').textContent=tasks.length?`(${tasks.length} task${tasks.length!==1?'uri':''})`: '';
+  if(!tasks.length){detailEl.style.display='none';emptyEl.style.display='block';return}
+  detailEl.style.display='block';emptyEl.style.display='none';
   document.getElementById('cal-task-list').innerHTML=tasks.map(t=>{
-    const p=D.projects.find(x=>x.id===t.project_id);
-    const cl=p?D.clients.find(x=>x.id===p.client_id):null;
-    const scls=STATUS_CSS[t.status]||'bgr';
-    const clColor=cl?cc(cl.id):'var(--fg3)';
-    return`<div class="cal-task-row" onclick="edTk('${t.id}')">
-      <div class="cal-task-cell" style="font-weight:600;color:${clColor}">${cl?cl.name:'—'}</div>
-      <div class="cal-task-cell">${p?p.name:'—'}</div>
-      <div class="cal-task-cell" style="font-weight:600">${t.name}</div>
-      <div><span class="badge ${scls}">${STATUS_LABELS[t.status]||t.status}</span></div>
-    </div>`;
+    const p=D.projects.find(x=>x.id===t.project_id),cl=p?D.clients.find(x=>x.id===p.client_id):null,scls=SC[t.status]||'bgr',clColor=cl?cc(cl.id):'var(--fg3)';
+    return`<div class="cal-task-row" onclick="edTk('${t.id}')"><div class="cal-task-cell" style="font-weight:600;color:${clColor}">${cl?cl.name:'—'}</div><div class="cal-task-cell">${p?p.name:'—'}</div><div class="cal-task-cell" style="font-weight:600">${t.name}</div><div><span class="badge ${scls}">${SL[t.status]||t.status}</span></div></div>`;
   }).join('');
 }
-function calPrev(){calDate=new Date(calDate.getFullYear(),calDate.getMonth()-1,1);rCal();}
-function calNext(){calDate=new Date(calDate.getFullYear(),calDate.getMonth()+1,1);rCal();}
-function calToday(){const today=new Date();calDate=new Date(today.getFullYear(),today.getMonth(),1);calSelected=calDStr(today.getFullYear(),today.getMonth(),today.getDate());rCal();}
+function calPrev(){calDate=new Date(calDate.getFullYear(),calDate.getMonth()-1,1);rCal()}
+function calNext(){calDate=new Date(calDate.getFullYear(),calDate.getMonth()+1,1);rCal()}
+function calToday(){const t=new Date();calDate=new Date(t.getFullYear(),t.getMonth(),1);calSelected=calDStr(t.getFullYear(),t.getMonth(),t.getDate());rCal()}
 
-document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
-document.addEventListener('keydown',e=>{if(e.key==='Enter'){const lf=document.getElementById('login-form');if(lf&&lf.style.display!=='none')doLogin();}});
+// ── PDF ───────────────────────────────────────────────────────────────────────
+let pdfLogoData=localStorage.getItem('ft_logo')||null;
+function loadLogo(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{pdfLogoData=e.target.result;localStorage.setItem('ft_logo',pdfLogoData);document.getElementById('pdf-logo-img').src=pdfLogoData;document.getElementById('pdf-logo-preview').style.display='block'};r.readAsDataURL(file)}
+function clearLogo(){pdfLogoData=null;localStorage.removeItem('ft_logo');document.getElementById('pdf-logo-preview').style.display='none';document.getElementById('pdf-logo').value=''}
+function genPDF(){
+  const clientId=document.getElementById('pdf-client').value,startStr=document.getElementById('pdf-start').value,stopStr=document.getElementById('pdf-stop').value;
+  const senderText=document.getElementById('pdf-sender').value.trim(),noteText=document.getElementById('pdf-note').value.trim();
+  localStorage.setItem('ft_sender',senderText);localStorage.setItem('ft_note',noteText);
+  if(!startStr||!stopStr){alert('Selectează perioada!');return}
+  const startTs=new Date(startStr).getTime(),stopTs=new Date(stopStr+'T23:59:59').getTime();
+  let entries=D.entries.filter(e=>{const ts=new Date(e.start_time).getTime();return ts>=startTs&&ts<=stopTs});
+  if(clientId){const cpids=D.projects.filter(p=>p.client_id===clientId).map(p=>p.id);entries=entries.filter(e=>cpids.includes(e.project_id))}
+  if(!entries.length){alert('Nicio intrare în perioada selectată!');return}
+  const totS=entries.reduce((s,e)=>s+e.duration,0),totRON=entries.reduce((s,e)=>{const p=D.projects.find(x=>x.id===e.project_id);return s+(p&&p.rate?e.duration/3600*p.rate:0)},0);
+  const byP={};entries.forEach(e=>{const pid=e.project_id||'__';if(!byP[pid])byP[pid]=[];byP[pid].push(e)});
+  const client=clientId?D.clients.find(c=>c.id===clientId):null;
+  let projHTML='';
+  Object.entries(byP).forEach(([pid,ents])=>{
+    const p=D.projects.find(x=>x.id===pid),pName=p?p.name:'Fără proiect';
+    const pS=ents.reduce((s,e)=>s+e.duration,0),pRON=ents.reduce((s,e)=>{return s+(p&&p.rate?e.duration/3600*p.rate:0)},0);
+    const rows=[...ents].sort((a,b)=>new Date(a.start_time)-new Date(b.start_time)).map(e=>{
+      const t=e.task_id?D.tasks.find(x=>x.id===e.task_id):null;
+      const val=p&&p.rate?Math.round(e.duration/3600*p.rate):0;
+      return`<tr><td>${fD(e.start_time)}</td><td>${t?t.name:'—'}</td><td>${e.description||'—'}</td><td style="text-align:right">${Math.floor(e.duration/3600)}h ${String(Math.floor((e.duration%3600)/60)).padStart(2,'0')}m</td><td style="text-align:right">${val>0?val.toLocaleString()+' RON':'—'}</td></tr>`;
+    }).join('');
+    projHTML+=`<div class="pdf-proj-block"><div class="pdf-proj-hdr"><span class="pdf-proj-hdr-name">${pName}</span><span class="pdf-proj-hdr-stats">${Math.floor(pS/3600)}h ${String(Math.floor((pS%3600)/60)).padStart(2,'0')}m${pRON>0?' · '+Math.round(pRON).toLocaleString()+' RON':''}</span></div><table class="pdf-tbl"><thead><tr><th>Data</th><th>Task</th><th>Descriere</th><th style="text-align:right">Durată</th><th style="text-align:right">Valoare</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  });
+  const period=`${new Date(startStr).toLocaleDateString('ro-RO',{day:'2-digit',month:'long',year:'numeric'})} – ${new Date(stopStr).toLocaleDateString('ro-RO',{day:'2-digit',month:'long',year:'numeric'})}`;
+  const genDate=new Date().toLocaleDateString('ro-RO',{day:'2-digit',month:'long',year:'numeric'});
+  const sLines=senderText?senderText.split('\n').map(l=>`<div>${l}</div>`).join(''):'';
+  const logoEl=pdfLogoData?`<img src="${pdfLogoData}" style="max-height:55px;max-width:160px;object-fit:contain">`:'<strong style="font-size:16px;color:#5349b7">Black Design</strong>';
+  document.getElementById('pdf-preview').innerHTML=`<div class="pdf-wrap"><div class="pdf-hdr"><div>${logoEl}</div><div class="pdf-sender">${sLines}</div></div><div class="pdf-title">Raport de activitate</div><div class="pdf-subtitle">Perioada: ${period} · Generat: ${genDate}</div>${client?`<div class="pdf-client-box"><div style="font-size:10px;color:#9a9a93;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Client</div><div class="pdf-client-name">${client.name}</div>${client.contact?`<div class="pdf-client-detail">Contact: ${client.contact}</div>`:''} ${client.email?`<div class="pdf-client-detail">Email: ${client.email}</div>`:''}</div>`:''}<div class="pdf-summary"><div class="pdf-stat"><div class="pdf-stat-label">Total ore</div><div class="pdf-stat-val">${Math.floor(totS/3600)}h ${String(Math.floor((totS%3600)/60)).padStart(2,'0')}m</div></div><div class="pdf-stat"><div class="pdf-stat-label">Valoare totală</div><div class="pdf-stat-val">${totRON>0?Math.round(totRON).toLocaleString()+' RON':'—'}</div></div><div class="pdf-stat"><div class="pdf-stat-label">Înregistrări</div><div class="pdf-stat-val">${entries.length}</div></div></div><div class="pdf-section-title">Detalii pe proiecte</div>${projHTML}${noteText?`<div class="pdf-note">${noteText}</div>`:''}<div class="pdf-footer"><span>Black Design Project Track</span><span>${genDate}</span></div></div>`;
+  cM('pdf');setTimeout(()=>{window.print();setTimeout(()=>{document.getElementById('pdf-preview').innerHTML=''},500)},100);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show')}));
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){const lf=document.getElementById('login-form');if(lf&&lf.style.display!=='none')doLogin()}});
 </script>
 </body>
 </html>
